@@ -1,0 +1,170 @@
+<idea-plugin>
+  <id>com.github.cucumber.jetbrains.plugin</id>
+  <name>Cucumber</name>
+  <version>${project.version}</version>
+  <vendor>Cucumber</vendor>
+
+  <description><![CDATA[
+    <p>Cucumber support for any JetBrains IDE, with no other plugins required.</p>
+    <ul>
+      <li>Highlighting, formatting, folding and structure view for <code>.feature</code> files, in any spoken language</li>
+      <li>Ctrl+click from steps to step definitions and back, with usage counts in the gutter</li>
+      <li>Undefined and ambiguous step checks, with quick fixes to create step definitions</li>
+      <li>Run and debug features or scenarios, with results in the test tree</li>
+      <li>A Cucumber tool window to browse and filter features by text or tag expression</li>
+    </ul>
+    <p>Step definitions are detected for Java, Kotlin, Groovy, Scala, JavaScript/TypeScript, Python,
+    Ruby, Go, Rust, C# and C++.</p>
+  ]]></description>
+
+  <idea-version since-build="262" />
+
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.lang</depends>
+  <!-- feature: run -->
+  <depends>intellij.testRunner.plugin</depends>
+  <depends optional="true" config-file="cucumber-java-debug.xml">com.intellij.java</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <toolWindow
+        id="Cucumber"
+        anchor="right"
+        icon="/icons/cucumber.svg"
+        factoryClass="com.github.cucumber.jetbrains.plugin.ide.CucumberToolWindowFactory" />
+    <fileType
+        name="Cucumber Feature"
+        language="Cucumber Feature"
+        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureFileType"
+        fieldName="INSTANCE"
+        extensions="feature" />
+    <lang.parserDefinition
+        language="Cucumber Feature"
+        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureParserDefinition" />
+    <lang.syntaxHighlighterFactory
+        language="Cucumber Feature"
+        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureSyntaxHighlighterFactory" />
+    <colorSettingsPage
+        implementation="com.github.cucumber.jetbrains.plugin.feature.FeatureColorSettingsPage" />
+    <completion.contributor
+        language="Cucumber Feature"
+        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureCompletionContributor" />
+    <gotoDeclarationHandler
+        implementation="com.github.cucumber.jetbrains.plugin.feature.FeatureGotoDeclarationHandler" />
+    <codeInsight.lineMarkerProvider
+        language="Cucumber Feature"
+        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureStepLineMarkerProvider" />
+    <localInspection
+        language="Cucumber Feature"
+        shortName="CucumberStepResolution"
+        displayName="Cucumber step resolution"
+        groupName="Cucumber"
+        enabledByDefault="true"
+        level="WARNING"
+        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureStepInspection" />
+    <applicationService serviceImplementation="com.github.cucumber.jetbrains.plugin.ide.CucumberSettings" />
+    <applicationConfigurable
+        parentId="tools"
+        id="cucumber.jetbrains.plugin"
+        displayName="Cucumber"
+        instance="com.github.cucumber.jetbrains.plugin.ide.CucumberConfigurable" />
+    <!-- feature: editor -->
+    <formattingService
+        implementation="com.github.cucumber.jetbrains.plugin.feature.FeatureFormattingService" />
+    <lang.psiStructureViewFactory
+        language="Cucumber Feature"
+        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureStructureViewFactory" />
+    <lang.foldingBuilder
+        language="Cucumber Feature"
+        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureFoldingBuilder" />
+    <lang.commenter
+        language="Cucumber Feature"
+        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureCommenter" />
+    <!-- feature: outline -->
+    <localInspection
+        language="Cucumber Feature"
+        shortName="CucumberScenarioOutline"
+        displayName="Cucumber Scenario Outline parameters"
+        groupName="Cucumber"
+        enabledByDefault="true"
+        level="WARNING"
+        implementationClass="com.github.cucumber.jetbrains.plugin.feature.OutlineInspection" />
+    <gotoDeclarationHandler
+        order="first"
+        implementation="com.github.cucumber.jetbrains.plugin.feature.OutlineGotoDeclarationHandler" />
+    <highlightUsagesHandlerFactory
+        implementation="com.github.cucumber.jetbrains.plugin.feature.OutlineHighlightUsagesHandlerFactory" />
+    <completion.contributor
+        language="Cucumber Feature"
+        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureTagCompletionContributor" />
+    <typedHandler implementation="com.github.cucumber.jetbrains.plugin.feature.FeatureTagTypedHandler" />
+    <lang.documentationProvider
+        language="Cucumber Feature"
+        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureStepDocumentationProvider" />
+    <!-- feature: stepdefs -->
+    <postStartupActivity implementation="com.github.cucumber.jetbrains.plugin.ide.StepIndexWarmUp" />
+    <gotoDeclarationHandler
+        order="first"
+        implementation="com.github.cucumber.jetbrains.plugin.ide.StepDefinitionGotoDeclarationHandler" />
+    <codeInsight.lineMarkerProvider
+        language=""
+        implementationClass="com.github.cucumber.jetbrains.plugin.ide.StepDefinitionLineMarkerProvider" />
+    <intentionAction>
+      <language>Cucumber Feature</language>
+      <className>com.github.cucumber.jetbrains.plugin.ide.RenameStepIntention</className>
+      <category>Cucumber</category>
+    </intentionAction>
+    <intentionAction>
+      <language>Cucumber Feature</language>
+      <className>com.github.cucumber.jetbrains.plugin.ide.CreateAllUndefinedStepsIntention</className>
+      <category>Cucumber</category>
+    </intentionAction>
+    <notificationGroup id="Cucumber Step Definitions" displayType="BALLOON" />
+    <!-- feature: run -->
+    <notificationGroup id="Cucumber Run" displayType="BALLOON" />
+    <configurationType implementation="com.github.cucumber.jetbrains.plugin.ide.CucumberRunConfigurationType" />
+    <runConfigurationProducer implementation="com.github.cucumber.jetbrains.plugin.ide.CucumberRunConfigurationProducer" />
+    <runLineMarkerContributor
+        language="Cucumber Feature"
+        implementationClass="com.github.cucumber.jetbrains.plugin.ide.CucumberRunLineMarkerContributor" />
+    <!-- feature: ctrlhover -->
+    <psi.implicitReferenceProvider
+        implementation="com.github.cucumber.jetbrains.plugin.ide.StepDefinitionImplicitReferenceProvider" />
+    <!-- feature: results -->
+    <codeInsight.lineMarkerProvider
+        language="Cucumber Feature"
+        implementationClass="com.github.cucumber.jetbrains.plugin.ide.CucumberStepResultLineMarkerProvider" />
+  </extensions>
+  <!-- feature: stepdefs -->
+  <actions>
+    <action
+        id="Cucumber.FindStepUsages"
+        class="com.github.cucumber.jetbrains.plugin.ide.FindStepUsagesAction"
+        text="Find Step Usages"
+        description="Show the feature steps using the Cucumber step definition at the caret">
+      <add-to-group group-id="EditorPopupMenu" anchor="last" />
+    </action>
+    <action
+        id="Cucumber.RenameStep"
+        class="com.github.cucumber.jetbrains.plugin.ide.RenameStepAction"
+        text="Rename Step..."
+        description="Rename the Cucumber step at the caret in all feature files and its step definition">
+      <add-to-group group-id="EditorPopupMenu" anchor="last" />
+    </action>
+  </actions>
+  <!-- feature: unused -->
+  <actions>
+    <action
+        id="Cucumber.FindUnusedStepDefinitions"
+        class="com.github.cucumber.jetbrains.plugin.ide.FindUnusedStepDefinitionsAction"
+        text="Find Unused Step Definitions"
+        description="List the Cucumber step definitions no feature step uses">
+      <add-to-group group-id="ToolsMenu" anchor="last" />
+    </action>
+    <action
+        id="Cucumber.DeleteUnusedStepDefinition"
+        class="com.github.cucumber.jetbrains.plugin.ide.DeleteUnusedStepDefinitionAction"
+        text="Delete Unused Step Definition"
+        description="Delete the Cucumber step definition at the caret if no feature step uses it">
+      <add-to-group group-id="EditorPopupMenu" anchor="last" />
+    </action>
+  </actions>
+</idea-plugin>
