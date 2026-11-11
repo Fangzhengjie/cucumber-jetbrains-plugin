@@ -2,7 +2,7 @@
   <id>com.github.cucumber.jetbrains.plugin</id>
   <name>Cucumber</name>
   <version>${project.version}</version>
-  <vendor>Cucumber</vendor>
+  <vendor>Fangzhengjie</vendor>
 
   <description><![CDATA[
     <p>Cucumber support for any JetBrains IDE, with no other plugins required.</p>
