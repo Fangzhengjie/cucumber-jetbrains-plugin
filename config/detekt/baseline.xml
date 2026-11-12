@@ -1,0 +1,472 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ComplexCondition:CucumberMessages.kt$CucumberMessages.Json.Reader$c == '.' || c == 'e' || c == 'E' || c == '+' || c == '-'</ID>
+    <ID>ComplexCondition:JvmAdapter.kt$JvmAdapter$forcedRegex || slashy || pattern.startsWith("^") || pattern.endsWith("\$")</ID>
+    <ID>ComplexCondition:Literals.kt$Literals$(text[i] == 'r' || text.startsWith("br", i)) &amp;&amp; (i == 0 || !Character.isLetterOrDigit(text[i - 1]))</ID>
+    <ID>ComplexCondition:Patterns.kt$Patterns$(c == '{' || c == '}') &amp;&amp; i + 1 &lt; format.length &amp;&amp; format[i + 1] == c</ID>
+    <ID>ComplexCondition:RunResults.kt$RunResults.Collector$pickleStepId == null &amp;&amp; status != Status.FAILED &amp;&amp; status != Status.AMBIGUOUS &amp;&amp; status != Status.UNDEFINED</ID>
+    <ID>ComplexCondition:StepArguments.kt$StepArguments$(c == '{' || c == '}') &amp;&amp; i + 1 &lt; pattern.length &amp;&amp; pattern[i + 1] == c</ID>
+    <ID>ComplexCondition:StepDefinitionBlocks.kt$StepDefinitionBlocks.Scanner$language == Language.RUST &amp;&amp; c == 'r' &amp;&amp; (next == '"' || next == '#') &amp;&amp; (i == 0 || !isWord(text, i - 1))</ID>
+    <ID>ComplexCondition:StepRename.kt$StepRename$!matcher.find() || matcher.start() != 0 || matcher.end() != stepText.length || matcher.groupCount() != parameters</ID>
+    <ID>ComplexCondition:StepRename.kt$StepRename$reparsed.pattern.replace("\\/", "/") != plan.newPattern.replace("\\/", "/") || reparsed.kind != definition.kind || !reparsed.matches(newMatchText) || reparsed.matches(matchText)</ID>
+    <ID>ComplexCondition:StepRename.kt$StepRename$value.indexOf(quote) >= 0 || value.contains("\\\\") || value.endsWith("\\") || value.contains('\n')</ID>
+    <ID>ComplexCondition:StepRenamer.kt$StepRenamer$file != null &amp;&amp; document != null &amp;&amp; edit != null &amp;&amp; rewritten != null &amp;&amp; stranded == 0</ID>
+    <ID>ComplexCondition:StepTextTemplates.kt$StepTextTemplates$(c == '{' || c == '}') &amp;&amp; i + 1 &lt; format.length &amp;&amp; format[i + 1] == c</ID>
+    <ID>ComplexCondition:StepTextTemplates.kt$StepTextTemplates$end - 2 >= start &amp;&amp; (pattern.endsWith("\\z") || pattern.endsWith("\\Z")) &amp;&amp; !escaped(pattern, end - 2)</ID>
+    <ID>CyclomaticComplexMethod:CucumberCommands.kt$CucumberCommands$@Throws(CommandException::class) fun build(request: Request): RunCommand</ID>
+    <ID>CyclomaticComplexMethod:CucumberMessages.kt$CucumberMessages.Converter$fun accept(line: String): List&lt;Event></ID>
+    <ID>CyclomaticComplexMethod:CucumberMessages.kt$CucumberMessages.Converter$private fun testStepFinished(body: Map&lt;*, *>, events: MutableList&lt;Event>)</ID>
+    <ID>CyclomaticComplexMethod:CucumberMessages.kt$CucumberMessages.Json.Reader$private fun string(): String</ID>
+    <ID>CyclomaticComplexMethod:CucumberModificationTrackers.kt$CucumberModificationTrackers$private fun changesFileSet(event: VFileEvent): Boolean</ID>
+    <ID>CyclomaticComplexMethod:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$private fun parse( file: VirtualFile, index: StepIndex.Index, fallback: Language? ): FeatureEntry</ID>
+    <ID>CyclomaticComplexMethod:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$private fun rebuildTree()</ID>
+    <ID>CyclomaticComplexMethod:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer$override fun customizeCellRenderer( tree: JTree, value: Any?, selected: Boolean, expanded: Boolean, leaf: Boolean, row: Int, hasFocus: Boolean, )</ID>
+    <ID>CyclomaticComplexMethod:FeatureOutline.kt$FeatureOutline$fun parse(text: String): Outline</ID>
+    <ID>CyclomaticComplexMethod:FeatureStepCompletion.kt$FeatureStepCompletion$fun addCompletions(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>CyclomaticComplexMethod:GherkinOutline.kt$GherkinOutline$@JvmStatic fun parse(text: CharSequence): Outline</ID>
+    <ID>CyclomaticComplexMethod:JvmAdapter.kt$JvmAdapter$override fun snippet( request: Snippets.Request, fileText: String, fileName: String ): Snippets.Snippet</ID>
+    <ID>CyclomaticComplexMethod:JvmAdapter.kt$JvmAdapter$private fun step(text: String, keyword: String, start: Int): StepDefinitionInfo?</ID>
+    <ID>CyclomaticComplexMethod:JvmCommand.kt$JvmCommand$internal fun build( base: String, featureList: List&lt;String>, options: Options, windows: Boolean, ): RunCommand</ID>
+    <ID>CyclomaticComplexMethod:Literals.kt$Literals$@JvmStatic fun cSharp(text: String, position: Int): Literal?</ID>
+    <ID>CyclomaticComplexMethod:Literals.kt$Literals$@JvmStatic fun inComment( text: String, offset: Int, lineMarker: String, blockComments: Boolean, nestedBlocks: Boolean, regexLiterals: Boolean, ): Boolean</ID>
+    <ID>CyclomaticComplexMethod:Literals.kt$Literals$@JvmStatic fun rubyPercentRegex(text: String, position: Int): Literal?</ID>
+    <ID>CyclomaticComplexMethod:Outlines.kt$Outlines$@JvmStatic fun row(text: CharSequence, from: Int, to: Int): List&lt;Cell></ID>
+    <ID>CyclomaticComplexMethod:Outlines.kt$Outlines$@JvmStatic fun scenarios(text: CharSequence): List&lt;Scenario></ID>
+    <ID>CyclomaticComplexMethod:RunResults.kt$RunResults.Collector$private fun testStepFinished(body: Map&lt;*, *>)</ID>
+    <ID>CyclomaticComplexMethod:SelfTest.kt$SelfTest$private fun stepDefinitionBlocks(args: Array&lt;String>)</ID>
+    <ID>CyclomaticComplexMethod:SelfTest.kt$SelfTest$private fun stepWordsCoverAdapters(args: Array&lt;String>)</ID>
+    <ID>CyclomaticComplexMethod:StepArguments.kt$StepArguments$private fun parameters(info: StepDefinitionInfo): List&lt;Parameter></ID>
+    <ID>CyclomaticComplexMethod:StepDefinitionBlocks.kt$StepDefinitionBlocks$@JvmStatic fun find(language: Language, text: String, offset: Int): Block?</ID>
+    <ID>CyclomaticComplexMethod:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun annotated( scanner: Scanner, start: Int, literalEnd: Int, depth: Int, definitions: List&lt;StepDefinitionInfo>, offset: Int, ): Pair&lt;Int, Int>?</ID>
+    <ID>CyclomaticComplexMethod:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun annotationAt(scanner: Scanner, position: Int): Int</ID>
+    <ID>CyclomaticComplexMethod:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun block(text: String, start: Int, end: Int): Block</ID>
+    <ID>CyclomaticComplexMethod:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun braceBodyEnd(scanner: Scanner, position: Int): Int</ID>
+    <ID>CyclomaticComplexMethod:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun call(scanner: Scanner, start: Int, literalEnd: Int, depth: Int): Pair&lt;Int, Int>?</ID>
+    <ID>CyclomaticComplexMethod:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun pythonDefEnd(scanner: Scanner, position: Int): Int</ID>
+    <ID>CyclomaticComplexMethod:StepDefinitionBlocks.kt$StepDefinitionBlocks.Scanner$fun skip(i: Int): Int</ID>
+    <ID>CyclomaticComplexMethod:StepDefinitionGotoDeclarationHandler.kt$StepDefinitionGotoDeclarationHandler$override fun getGotoDeclarationTargets( sourceElement: PsiElement?, offset: Int, editor: Editor?, ): Array&lt;PsiElement>?</ID>
+    <ID>CyclomaticComplexMethod:StepDefinitionLineMarkerProvider.kt$StepDefinitionLineMarkerProvider$override fun collectSlowLineMarkers( elements: MutableList&lt;out PsiElement>, result: MutableCollection&lt;in LineMarkerInfo&lt;*>>, )</ID>
+    <ID>CyclomaticComplexMethod:StepFileTemplates.kt$StepFileTemplates$@JvmStatic fun create( language: Language, referenceFileName: String, referenceText: String, name: String, keywords: Collection&lt;String>, ): Template?</ID>
+    <ID>CyclomaticComplexMethod:StepRename.kt$StepRename$@JvmStatic fun encodeLiteral(language: Language, original: String, value: String): String?</ID>
+    <ID>CyclomaticComplexMethod:StepRename.kt$StepRename$@JvmStatic fun plan( kind: PatternKind, pattern: String, regex: String, oldText: String, newText: String ): Plan?</ID>
+    <ID>CyclomaticComplexMethod:StepRename.kt$StepRename$@JvmStatic fun renameDefinition( sourceText: String, definition: StepDefinitionInfo, oldText: String, newText: String, matchText: String = oldText, ): DefinitionEdit?</ID>
+    <ID>CyclomaticComplexMethod:StepRenamer.kt$StepRenamer$private fun plan( project: Project, oldText: String, newText: String, hint: StepIndex.Definition?, matchText: String, ): Plan</ID>
+    <ID>CyclomaticComplexMethod:StepTextTemplates.kt$StepTextTemplates$private fun cucumberExpression(expression: String): List&lt;Piece>?</ID>
+    <ID>CyclomaticComplexMethod:StepTextTemplates.kt$StepTextTemplates$private fun parseFormat(format: String): List&lt;Piece></ID>
+    <ID>CyclomaticComplexMethod:StepTextTemplates.kt$StepTextTemplates.RegexParser$private fun group(pieces: MutableList&lt;Piece>): Boolean</ID>
+    <ID>CyclomaticComplexMethod:StepTextTemplates.kt$StepTextTemplates.RegexParser$private fun sequence(): List&lt;Piece>?</ID>
+    <ID>CyclomaticComplexMethod:Tags.kt$Tags$@JvmStatic fun find(text: CharSequence): List&lt;Tag></ID>
+    <ID>EmptyFunctionBlock:CucumberModificationTrackers.kt$CucumberModificationTrackers${}</ID>
+    <ID>InstanceOfCheckForException:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$e is ControlFlowException</ID>
+    <ID>InstanceOfCheckForException:StepIndex.kt$StepIndex$e is CancellationException</ID>
+    <ID>InstanceOfCheckForException:StepIndex.kt$StepIndex$e is ControlFlowException</ID>
+    <ID>LargeClass:CucumberToolWindowFactory.kt$CucumberToolWindowFactory$CucumberPanel</ID>
+    <ID>LargeClass:SelfTest.kt$SelfTest</ID>
+    <ID>LongMethod:CucumberCommands.kt$CucumberCommands$@Throws(CommandException::class) fun build(request: Request): RunCommand</ID>
+    <ID>LongMethod:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$private fun parse( file: VirtualFile, index: StepIndex.Index, fallback: Language? ): FeatureEntry</ID>
+    <ID>LongMethod:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$private fun rebuildTree()</ID>
+    <ID>LongMethod:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$private fun setUpLayout()</ID>
+    <ID>LongMethod:FeatureOutline.kt$FeatureOutline$fun parse(text: String): Outline</ID>
+    <ID>LongMethod:FeatureStepCompletion.kt$FeatureStepCompletion$fun addCompletions(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>LongMethod:FeatureStepDocumentationProvider.kt$FeatureStepDocumentationProvider$override fun generateDoc(element: PsiElement?, originalElement: PsiElement?): String?</ID>
+    <ID>LongMethod:JvmAdapter.kt$JvmAdapter$override fun snippet( request: Snippets.Request, fileText: String, fileName: String ): Snippets.Snippet</ID>
+    <ID>LongMethod:JvmCommand.kt$JvmCommand$internal fun build( base: String, featureList: List&lt;String>, options: Options, windows: Boolean, ): RunCommand</ID>
+    <ID>LongMethod:Literals.kt$Literals$@JvmStatic fun inComment( text: String, offset: Int, lineMarker: String, blockComments: Boolean, nestedBlocks: Boolean, regexLiterals: Boolean, ): Boolean</ID>
+    <ID>LongMethod:Outlines.kt$Outlines$@JvmStatic fun scenarios(text: CharSequence): List&lt;Scenario></ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun cucumberMessages()</ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun editorFormatterAndOutline(args: Array&lt;String>)</ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun featureOutline()</ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun gherkinDialects()</ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun localizedStructure()</ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun runCommands()</ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun stepArguments()</ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun stepDefinitionBlocks(args: Array&lt;String>)</ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun stepTextTemplates(args: Array&lt;String>)</ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun stepWordsCoverAdapters(args: Array&lt;String>)</ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun stepdefsNewStepFiles()</ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun stepdefsRename()</ID>
+    <ID>LongMethod:SelfTest.kt$SelfTest$private fun stepdefsRenameLiterals()</ID>
+    <ID>LongMethod:StepDefinitionBlocks.kt$StepDefinitionBlocks.Scanner$fun skip(i: Int): Int</ID>
+    <ID>LongMethod:StepFileTemplates.kt$StepFileTemplates$@JvmStatic fun create( language: Language, referenceFileName: String, referenceText: String, name: String, keywords: Collection&lt;String>, ): Template?</ID>
+    <ID>LongMethod:StepRename.kt$StepRename$@JvmStatic fun encodeLiteral(language: Language, original: String, value: String): String?</ID>
+    <ID>LongMethod:StepRenamer.kt$StepRenamer$private fun plan( project: Project, oldText: String, newText: String, hint: StepIndex.Definition?, matchText: String, ): Plan</ID>
+    <ID>LongMethod:StepTextTemplates.kt$StepTextTemplates.RegexParser$private fun group(pieces: MutableList&lt;Piece>): Boolean</ID>
+    <ID>LongParameterList:CucumberCommands.kt$CucumberCommands.Request$( val base: String, val language: Language?, val features: List&lt;String>, val tags: String? = null, val extraArgs: List&lt;String> = listOf(), val messagesFile: String? = null, val debugPort: Int? = null, val gradleInitScript: String? = null, val windows: Boolean = isWindows(), )</ID>
+    <ID>LongParameterList:CucumberLauncher.kt$CucumberLauncher$( project: Project, path: String?, line: Int, name: String, language: Language?, tags: String?, executor: Executor = DefaultRunExecutor.getRunExecutorInstance(), )</ID>
+    <ID>LongParameterList:Literals.kt$Literals$( text: String, offset: Int, lineMarker: String, blockComments: Boolean, nestedBlocks: Boolean, regexLiterals: Boolean, )</ID>
+    <ID>LongParameterList:StepDefinitionBlocks.kt$StepDefinitionBlocks$( scanner: Scanner, start: Int, literalEnd: Int, depth: Int, definitions: List&lt;StepDefinitionInfo>, offset: Int, )</ID>
+    <ID>LongParameterList:StepDefinitionInfo.kt$StepDefinitionInfo.Companion$( language: Language, keyword: String, kind: PatternKind, pattern: String, regex: String, offset: Int, )</ID>
+    <ID>LoopWithTooManyJumpStatements:CSharpAdapter.kt$CSharpAdapter$for</ID>
+    <ID>LoopWithTooManyJumpStatements:CppAdapter.kt$CppAdapter$for</ID>
+    <ID>LoopWithTooManyJumpStatements:CucumberMessages.kt$CucumberMessages.Converter$for</ID>
+    <ID>LoopWithTooManyJumpStatements:CucumberRunResults.kt$CucumberRunResults$for</ID>
+    <ID>LoopWithTooManyJumpStatements:CucumberRunState.kt$CucumberRerunFailedTestsAction$for</ID>
+    <ID>LoopWithTooManyJumpStatements:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$for</ID>
+    <ID>LoopWithTooManyJumpStatements:FeatureOutline.kt$FeatureOutline$for</ID>
+    <ID>LoopWithTooManyJumpStatements:FeatureStepCompletion.kt$FeatureStepCompletion$for</ID>
+    <ID>LoopWithTooManyJumpStatements:GherkinDialects.kt$Dialect$for</ID>
+    <ID>LoopWithTooManyJumpStatements:JavaScriptAdapter.kt$JavaScriptAdapter$for</ID>
+    <ID>LoopWithTooManyJumpStatements:OutlineGotoDeclarationHandler.kt$OutlineGotoDeclarationHandler.Companion$for</ID>
+    <ID>LoopWithTooManyJumpStatements:Outlines.kt$Outlines$for</ID>
+    <ID>LoopWithTooManyJumpStatements:PythonAdapter.kt$PythonAdapter$for</ID>
+    <ID>LoopWithTooManyJumpStatements:RubyAdapter.kt$RubyAdapter$for</ID>
+    <ID>LoopWithTooManyJumpStatements:RunResults.kt$RunResults.Collector$for</ID>
+    <ID>LoopWithTooManyJumpStatements:SelfTest.kt$SelfTest$for</ID>
+    <ID>LoopWithTooManyJumpStatements:StepDefinitionBlocks.kt$StepDefinitionBlocks$while</ID>
+    <ID>LoopWithTooManyJumpStatements:StepDefinitionLineMarkerProvider.kt$StepDefinitionLineMarkerProvider$for</ID>
+    <ID>LoopWithTooManyJumpStatements:StepFileTemplates.kt$StepFileTemplates$for</ID>
+    <ID>LoopWithTooManyJumpStatements:StepUsageIndex.kt$StepUsageIndex$for</ID>
+    <ID>LoopWithTooManyJumpStatements:Tags.kt$Tags$while</ID>
+    <ID>LoopWithTooManyJumpStatements:UnusedStepDefinitions.kt$UnusedStepDefinitions$for</ID>
+    <ID>MagicNumber:CucumberConfigurable.kt$CucumberConfigurable$8</ID>
+    <ID>MagicNumber:CucumberMessages.kt$CucumberMessages$8</ID>
+    <ID>MagicNumber:CucumberMessages.kt$CucumberMessages.Converter$1000</ID>
+    <ID>MagicNumber:CucumberMessages.kt$CucumberMessages.Converter$1_000_000</ID>
+    <ID>MagicNumber:CucumberMessages.kt$CucumberMessages.FileFollower$1024</ID>
+    <ID>MagicNumber:CucumberMessages.kt$CucumberMessages.FileFollower$64</ID>
+    <ID>MagicNumber:CucumberMessages.kt$CucumberMessages.Json.Reader$16</ID>
+    <ID>MagicNumber:CucumberMessages.kt$CucumberMessages.Json.Reader$4</ID>
+    <ID>MagicNumber:CucumberRunConfigurationProducer.kt$CucumberRunConfigurationProducer.&lt;no name provided>$8</ID>
+    <ID>MagicNumber:CucumberRunResults.kt$CucumberRunResults.Companion$10_000</ID>
+    <ID>MagicNumber:CucumberRunResults.kt$CucumberRunResults.Feed$1000</ID>
+    <ID>MagicNumber:CucumberRunState.kt$CucumberEventsConverter$200</ID>
+    <ID>MagicNumber:CucumberRunState.kt$CucumberEventsConverter$250</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$3</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$4</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$400</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$6</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0.75f</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0.86f</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x00838F</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x00ADD8</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x178600</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x2B2D30</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x3572A5</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x4298B8</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x6FA8DC</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x6FB8D6</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x7BC67B</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x7F52FF</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x8C7A00</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x8D4B2A</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0x9C2C5C</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0xA91401</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0xA97BFF</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0xB07219</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0xC22D40</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0xDEA584</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0xE06070</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0xE06666</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0xE0A040</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0xF1E05A</ID>
+    <ID>MagicNumber:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.Renderer.Companion$0xF34B7D</ID>
+    <ID>MagicNumber:FeatureFoldingBuilder.kt$FeatureFoldingBuilder$3</ID>
+    <ID>MagicNumber:FeatureOutline.kt$FeatureOutline$3</ID>
+    <ID>MagicNumber:GherkinDialects.kt$GherkinDialects$3</ID>
+    <ID>MagicNumber:GherkinFormatter.kt$GherkinFormatter.Normalizer$3</ID>
+    <ID>MagicNumber:GherkinOutline.kt$GherkinOutline.Kind.EXAMPLES$3</ID>
+    <ID>MagicNumber:GherkinOutline.kt$GherkinOutline.Kind.STEP$4</ID>
+    <ID>MagicNumber:GherkinSyntax.kt$GherkinSyntax$3</ID>
+    <ID>MagicNumber:JvmCommand.kt$JvmCommand$3</ID>
+    <ID>MagicNumber:JvmCommand.kt$JvmCommand$30</ID>
+    <ID>MagicNumber:LetterIcon.kt$LetterIcon$10</ID>
+    <ID>MagicNumber:LetterIcon.kt$LetterIcon$16</ID>
+    <ID>MagicNumber:LetterIcon.kt$LetterIcon$5</ID>
+    <ID>MagicNumber:Literals.kt$Literals$3</ID>
+    <ID>MagicNumber:Outlines.kt$Outlines$3</ID>
+    <ID>MagicNumber:Snippets.kt$Snippets$8</ID>
+    <ID>MagicNumber:StepDefinitionBlocks.kt$StepDefinitionBlocks$3</ID>
+    <ID>MagicNumber:StepDefinitionBlocks.kt$StepDefinitionBlocks.Scanner$10</ID>
+    <ID>MagicNumber:StepDefinitionBlocks.kt$StepDefinitionBlocks.Scanner$3</ID>
+    <ID>MagicNumber:StepIndex.kt$StepIndex$1_000_000</ID>
+    <ID>MagicNumber:StepIndex.kt$StepIndex$3</ID>
+    <ID>MagicNumber:StepRename.kt$StepRename$3</ID>
+    <ID>MagicNumber:StepTextTemplates.kt$StepTextTemplates.RegexParser$16</ID>
+    <ID>MagicNumber:StepTextTemplates.kt$StepTextTemplates.RegexParser$4</ID>
+    <ID>MagicNumber:Tags.kt$Tags$3</ID>
+    <ID>MaxLineLength:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$"Select a feature or scenario in the Cucumber tool window (or open a .feature file), then press Run Selected."</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("af", "Afrikaans", "Afrikaans", "Funksie|Besigheid Behoefte|Vermoë", "Agtergrond", "Reël|Reel", "Voorbeeld|Situasie", "Situasie Uiteensetting", "Voorbeelde", "Gegewe ", "Wanneer ", "Dan ", "En ", "Maar ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("am", "Armenian", "հայերեն", "Ֆունկցիոնալություն|Հատկություն", "Կոնտեքստ", "Rule", "Օրինակ|Սցենար", "Սցենարի կառուցվացքը", "Օրինակներ", "Դիցուք ", "Եթե |Երբ ", "Ապա ", "Եվ ", "Բայց ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("amh", "Amharic", "አማርኛ", "ስራ|የተፈለገው ስራ|የሚፈለገው ድርጊት", "ቅድመ ሁኔታ|መነሻ|መነሻ ሀሳብ", "ህግ", "ምሳሌ|ሁናቴ", "ሁናቴ ዝርዝር|ሁናቴ አብነት", "ምሳሌዎች|ሁናቴዎች", "የተሰጠ ", "መቼ ", "ከዚያ ", "እና ", "ግን ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("an", "Aragonese", "Aragonés", "Caracteristica", "Antecedents", "Rule", "Eixemplo|Caso", "Esquema del caso", "Eixemplos", "Dau |Dada |Daus |Dadas ", "Cuan ", "Alavez |Allora |Antonces ", "Y |E ", "Pero ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ar", "Arabic", "العربية", "خاصية", "الخلفية", "Rule", "مثال|سيناريو", "سيناريو مخطط", "امثلة", "بفرض ", "متى |عندما ", "اذاً |ثم ", "و ", "لكن ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ast", "Asturian", "asturianu", "Carauterística", "Antecedentes", "Rule", "Exemplo|Casu", "Esbozu del casu", "Exemplos", "Dáu |Dada |Daos |Daes ", "Cuando ", "Entós ", "Y |Ya ", "Peru ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("az", "Azerbaijani", "Azərbaycanca", "Özəllik", "Keçmiş|Kontekst", "Rule", "Nümunə|Ssenari", "Ssenarinin strukturu", "Nümunələr", "Tutaq ki |Verilir ", "Əgər |Nə vaxt ki ", "O halda ", "Və |Həm ", "Amma |Ancaq ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("be", "Belarusian", "Беларуская", "Функцыянальнасць|Фіча", "Кантэкст", "Правілы", "Сцэнарый|Cцэнар", "Шаблон сцэнарыя|Узор сцэнара", "Прыклады", "Няхай |Дадзена ", "Калі ", "Тады ", "I |Ды |Таксама ", "Але |Інакш ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("bg", "Bulgarian", "български", "Функционалност", "Предистория", "Правило", "Пример|Сценарий", "Рамка на сценарий", "Примери", "Дадено ", "Когато ", "То ", "И ", "Но ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("bm", "Malay", "Bahasa Melayu", "Fungsi", "Latar Belakang", "Rule", "Senario|Situasi|Keadaan", "Kerangka Senario|Kerangka Situasi|Kerangka Keadaan|Garis Panduan Senario", "Contoh", "Diberi |Bagi ", "Apabila ", "Maka |Kemudian ", "Dan ", "Tetapi |Tapi ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("bs", "Bosnian", "Bosanski", "Karakteristika", "Pozadina", "Rule", "Primjer|Scenariju|Scenario", "Scenariju-obris|Scenario-outline", "Primjeri", "Dato ", "Kada ", "Zatim ", "I |A ", "Ali ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ca", "Catalan", "català", "Característica|Funcionalitat", "Rerefons|Antecedents", "Rule", "Exemple|Escenari", "Esquema de l'escenari", "Exemples", "Donat |Donada |Atès |Atesa ", "Quan ", "Aleshores |Cal ", "I ", "Però ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("cs", "Czech", "Česky", "Požadavek", "Pozadí|Kontext", "Pravidlo", "Příklad|Scénář", "Náčrt Scénáře|Osnova scénáře", "Příklady", "Pokud |Za předpokladu ", "Když ", "Pak ", "A také |A ", "Ale ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("cy-GB", "Welsh", "Cymraeg", "Arwedd", "Cefndir", "Rule", "Enghraifft|Scenario", "Scenario Amlinellol", "Enghreifftiau", "Anrhegedig a ", "Pryd ", "Yna ", "A ", "Ond ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("da", "Danish", "dansk", "Egenskab", "Baggrund", "Regel", "Eksempel|Scenarie", "Abstrakt Scenario", "Eksempler", "Givet ", "Når ", "Så ", "Og ", "Men ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("de", "German", "Deutsch", "Funktionalität|Funktion", "Grundlage|Hintergrund|Voraussetzungen|Vorbedingungen", "Rule|Regel", "Beispiel|Szenario", "Szenariogrundriss|Szenarien", "Beispiele", "Angenommen |Gegeben sei |Gegeben seien ", "Wenn ", "Dann ", "Und ", "Aber ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("el", "Greek", "Ελληνικά", "Δυνατότητα|Λειτουργία", "Υπόβαθρο", "Rule", "Παράδειγμα|Σενάριο", "Περιγραφή Σεναρίου|Περίγραμμα Σεναρίου", "Παραδείγματα|Σενάρια", "Δεδομένου ", "Όταν ", "Τότε ", "Και ", "Αλλά ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("en", "English", "English", "Feature|Business Need|Ability", "Background", "Rule", "Example|Scenario", "Scenario Outline|Scenario Template", "Examples|Scenarios", "Given ", "When ", "Then ", "And ", "But ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("en-Scouse", "Scouse", "Scouse", "Feature", "Dis is what went down", "Rule", "The thing of it is", "Wharrimean is", "Examples", "Givun |Youse know when youse got ", "Wun |Youse know like when ", "Dun |Den youse gotta ", "An ", "Buh ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("en-au", "Australian", "Australian", "Pretty much", "First off", "Rule", "Awww, look mate", "Reckon it's like", "You'll wanna", "Y'know ", "It's just unbelievable ", "But at the end of the day I reckon ", "Too right ", "Yeah nah ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("en-lol", "LOLCAT", "LOLCAT", "OH HAI", "B4", "Rule", "MISHUN", "MISHUN SRSLY", "EXAMPLZ", "I CAN HAZ ", "WEN ", "DEN ", "AN ", "BUT ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("en-old", "Old English", "Englisc", "Hwaet|Hwæt", "Aer|Ær", "Rule", "Swa", "Swa hwaer swa|Swa hwær swa", "Se the|Se þe|Se ðe", "Thurh |Þurh |Ðurh ", "Bæþsealf |Bæþsealfa |Bæþsealfe |Ciricæw |Ciricæwe |Ciricæwa ", "Tha |Þa |Ða |Tha the |Þa þe |Ða ðe ", "Ond |7 ", "Ac ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("en-pirate", "Pirate", "Pirate", "Ahoy matey!", "Yo-ho-ho", "Rule", "Heave to", "Shiver me timbers", "Dead men tell no tales", "Gangway! ", "Blimey! ", "Let go and haul ", "Aye ", "Avast! ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("en-tx", "Texas", "Texas", "This ain’t my first rodeo|All gussied up", "Lemme tell y'all a story", "Rule", "All hat and no cattle", "Serious as a snake bite|Busy as a hound in flea season", "Now that's a story longer than a cattle drive in July", "Fixin' to |All git out ", "Quick out of the chute ", "There’s no tree but bears some fruit ", "Come hell or high water ", "Well now hold on, I'll you what ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("eo", "Esperanto", "Esperanto", "Trajto", "Fono", "Regulo", "Ekzemplo|Scenaro|Kazo", "Konturo de la scenaro|Skizo|Kazo-skizo", "Ekzemploj", "Donitaĵo |Komence ", "Se ", "Do ", "Kaj ", "Sed ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("es", "Spanish", "español", "Característica|Necesidad del negocio|Requisito", "Antecedentes", "Regla|Regla de negocio", "Ejemplo|Escenario", "Esquema del escenario", "Ejemplos", "Dado |Dada |Dados |Dadas ", "Cuando ", "Entonces ", "Y |E ", "Pero ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("et", "Estonian", "eesti keel", "Omadus", "Taust", "Reegel", "Juhtum|Stsenaarium", "Raamjuhtum|Raamstsenaarium", "Juhtumid", "Eeldades ", "Kui ", "Siis ", "Ja ", "Kuid ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("fa", "Persian", "فارسی", "ویژگی|قابلیت", "زمینه|پیش زمینه|مقدمات", "قانون", "مثال|سناریو", "الگوی سناریو", "نمونه ها", "با فرض |فرض کنید |با در نظر گرفتن ", "هنگامی |وقتی ", "آنگاه |سپس |انتظار می رود ", "و ", "اما ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("fi", "Finnish", "suomi", "Ominaisuus", "Tausta", "Rule", "Tapaus", "Tapausaihio", "Tapaukset", "Oletetaan ", "Kun ", "Niin ", "Ja ", "Mutta ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("fr", "French", "français", "Fonctionnalité", "Contexte", "Règle", "Exemple|Scénario", "Plan du scénario|Plan du Scénario", "Exemples", "Soit |Sachant que |Sachant qu'|Sachant |Etant donné que |Etant donné qu'|Etant donné |Etant donnée |Etant donnés |Etant données |Étant donné que |Étant donné qu'|Étant donné |Étant donnée |Étant donnés |Étant données ", "Quand |Lorsque |Lorsqu'", "Alors |Donc ", "Et que |Et qu'|Et ", "Mais que |Mais qu'|Mais ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ga", "Irish", "Gaeilge", "Gné", "Cúlra", "Riail", "Sampla|Cás", "Cás Achomair", "Samplaí", "Cuir i gcás go |Cuir i gcás nach |Cuir i gcás gur |Cuir i gcás nár ", "Nuair a |Nuair nach |Nuair ba |Nuair nár ", "Ansin ", "Agus ", "Ach ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("gj", "Gujarati", "ગુજરાતી", "લક્ષણ|વ્યાપાર જરૂર|ક્ષમતા", "બેકગ્રાઉન્ડ", "નિયમ", "ઉદાહરણ|સ્થિતિ", "પરિદ્દશ્ય રૂપરેખા|પરિદ્દશ્ય ઢાંચો", "ઉદાહરણો", "આપેલ છે ", "ક્યારે ", "પછી ", "અને ", "પણ ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("gl", "Galician", "galego", "Característica", "Contexto", "Rule", "Exemplo|Escenario", "Esbozo do escenario", "Exemplos", "Dado |Dada |Dados |Dadas ", "Cando ", "Entón |Logo ", "E ", "Mais |Pero ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("he", "Hebrew", "עברית", "תכונה", "רקע", "כלל", "דוגמא|תרחיש", "תבנית תרחיש", "דוגמאות", "בהינתן ", "כאשר ", "אז |אזי ", "וגם ", "אבל ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("hi", "Hindi", "हिंदी", "रूप लेख", "पृष्ठभूमि", "नियम", "परिदृश्य", "परिदृश्य रूपरेखा", "उदाहरण", "अगर |यदि |चूंकि ", "जब |कदा ", "तब |तदा ", "और |तथा ", "पर |परन्तु |किन्तु ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("hr", "Croatian", "hrvatski", "Osobina|Mogućnost|Mogucnost", "Pozadina", "Rule", "Primjer|Scenarij", "Skica|Koncept", "Primjeri|Scenariji", "Zadan |Zadani |Zadano |Ukoliko ", "Kada |Kad ", "Onda ", "I ", "Ali ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ht", "Creole", "kreyòl", "Karakteristik|Mak|Fonksyonalite", "Kontèks|Istorik", "Rule", "Senaryo", "Plan senaryo|Plan Senaryo|Senaryo deskripsyon|Senaryo Deskripsyon|Dyagram senaryo|Dyagram Senaryo", "Egzanp", "Sipoze |Sipoze ke |Sipoze Ke ", "Lè |Le ", "Lè sa a |Le sa a ", "Ak |Epi |E ", "Men ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("hu", "Hungarian", "magyar", "Jellemző", "Háttér", "Szabály", "Példa|Forgatókönyv", "Forgatókönyv vázlat", "Példák", "Amennyiben |Adott ", "Majd |Ha |Amikor ", "Akkor ", "És ", "De ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("id", "Indonesian", "Bahasa Indonesia", "Fitur", "Dasar|Latar Belakang", "Rule|Aturan", "Skenario", "Skenario konsep|Garis-Besar Skenario", "Contoh|Misal", "Dengan |Diketahui |Diasumsikan |Bila |Jika ", "Ketika ", "Maka |Kemudian ", "Dan ", "Tapi |Tetapi ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("is", "Icelandic", "Íslenska", "Eiginleiki", "Bakgrunnur", "Rule", "Atburðarás", "Lýsing Atburðarásar|Lýsing Dæma", "Dæmi|Atburðarásir", "Ef ", "Þegar ", "Þá ", "Og ", "En ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("it", "Italian", "italiano", "Funzionalità|Esigenza di Business|Abilità", "Contesto", "Regola", "Esempio|Scenario", "Schema dello scenario", "Esempi", "Dato |Data |Dati |Date ", "Quando ", "Allora ", "E |Ed ", "Ma ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ja", "Japanese", "日本語", "フィーチャ|機能", "背景", "ルール", "シナリオ", "シナリオアウトライン|シナリオテンプレート|テンプレ|シナリオテンプレ", "例|サンプル", "前提", "もし", "ならば", "且つ|かつ", "然し|しかし|但し|ただし")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("jv", "Javanese", "Basa Jawa", "Fitur", "Dasar", "Rule", "Skenario", "Konsep skenario", "Conto|Contone", "Nalika |Nalikaning ", "Manawa |Menawa ", "Njuk |Banjur ", "Lan ", "Tapi |Nanging |Ananging ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ka", "Georgian", "ქართული", "თვისება|მოთხოვნა", "კონტექსტი", "წესი", "მაგალითად|მაგალითი|მაგ|სცენარი", "სცენარის ნიმუში|სცენარის შაბლონი|ნიმუში|შაბლონი", "მაგალითები", "მოცემული |მოცემულია |ვთქვათ ", "როდესაც |როცა |როგორც კი |თუ ", "მაშინ ", "და |ასევე ", "მაგრამ |თუმცა ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("kn", "Kannada", "ಕನ್ನಡ", "ಹೆಚ್ಚಳ", "ಹಿನ್ನೆಲೆ", "Rule", "ಉದಾಹರಣೆ|ಕಥಾಸಾರಾಂಶ", "ವಿವರಣೆ", "ಉದಾಹರಣೆಗಳು", "ನೀಡಿದ ", "ಸ್ಥಿತಿಯನ್ನು ", "ನಂತರ ", "ಮತ್ತು ", "ಆದರೆ ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ko", "Korean", "한국어", "기능", "배경", "규칙", "시나리오", "시나리오 개요", "예", "조건 |먼저 ", "만일 |만약 ", "그러면 ", "그리고 ", "하지만 |단 ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("lt", "Lithuanian", "lietuvių kalba", "Savybė", "Kontekstas", "Rule", "Pavyzdys|Scenarijus", "Scenarijaus šablonas", "Pavyzdžiai|Scenarijai|Variantai", "Duota ", "Kai ", "Tada ", "Ir ", "Bet ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("lu", "Luxemburgish", "Lëtzebuergesch", "Funktionalitéit", "Hannergrond", "Rule", "Beispill|Szenario", "Plang vum Szenario", "Beispiller", "ugeholl ", "wann ", "dann ", "an |a ", "awer |mä ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("lv", "Latvian", "latviešu", "Funkcionalitāte|Fīča", "Konteksts|Situācija", "Rule", "Piemērs|Scenārijs", "Scenārijs pēc parauga", "Piemēri|Paraugs", "Kad ", "Ja ", "Tad ", "Un ", "Bet ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("mk-Cyrl", "Macedonian", "Македонски", "Функционалност|Бизнис потреба|Можност", "Контекст|Содржина", "Rule", "Пример|Сценарио|На пример", "Преглед на сценарија|Скица|Концепт", "Примери|Сценарија", "Дадено |Дадена ", "Кога ", "Тогаш ", "И ", "Но ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("mk-Latn", "Macedonian (Latin)", "Makedonski (Latinica)", "Funkcionalnost|Biznis potreba|Mozhnost", "Kontekst|Sodrzhina", "Rule", "Scenario|Na primer", "Pregled na scenarija|Skica|Koncept", "Primeri|Scenaria", "Dadeno |Dadena ", "Koga ", "Togash ", "I ", "No ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ml", "Malayalam", "മലയാളം", "സവിശേഷത", "പശ്ചാത്തലം", "നിയമം", "രംഗം", "സാഹചര്യത്തിന്റെ രൂപരേഖ", "ഉദാഹരണങ്ങൾ", "നൽകിയത്", "എപ്പോൾ", "പിന്നെ", "ഒപ്പം", "പക്ഷേ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("mn", "Mongolian", "монгол", "Функц|Функционал", "Агуулга", "Rule", "Сценар", "Сценарын төлөвлөгөө", "Тухайлбал", "Өгөгдсөн нь |Анх ", "Хэрэв ", "Тэгэхэд |Үүний дараа ", "Мөн |Тэгээд ", "Гэхдээ |Харин ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("mr", "Marathi", "मराठी", "वैशिष्ट्य|सुविधा", "पार्श्वभूमी", "नियम", "परिदृश्य", "परिदृश्य रूपरेखा", "उदाहरण", "जर|दिलेल्या प्रमाणे ", "जेव्हा ", "मग |तेव्हा ", "आणि |तसेच ", "पण |परंतु ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ne", "Nepali", "नेपाली", "सुविधा|विशेषता", "पृष्ठभूमी", "नियम", "परिदृश्य", "परिदृश्य रूपरेखा", "उदाहरण|उदाहरणहरु", "दिइएको |दिएको |यदि ", "जब ", "त्यसपछि |अनी ", "र |अनि ", "तर ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("nl", "Dutch", "Nederlands", "Functionaliteit", "Achtergrond", "Regel", "Voorbeeld|Scenario", "Abstract Scenario", "Voorbeelden", "Gegeven |Stel ", "Als |Wanneer ", "Dan ", "En ", "Maar ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("no", "Norwegian", "norsk", "Egenskap", "Bakgrunn", "Regel", "Eksempel|Scenario", "Scenariomal|Abstrakt Scenario", "Eksempler", "Gitt ", "Når ", "Så ", "Og ", "Men ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("pa", "Panjabi", "ਪੰਜਾਬੀ", "ਖਾਸੀਅਤ|ਮੁਹਾਂਦਰਾ|ਨਕਸ਼ ਨੁਹਾਰ", "ਪਿਛੋਕੜ", "Rule", "ਉਦਾਹਰਨ|ਪਟਕਥਾ", "ਪਟਕਥਾ ਢਾਂਚਾ|ਪਟਕਥਾ ਰੂਪ ਰੇਖਾ", "ਉਦਾਹਰਨਾਂ", "ਜੇਕਰ |ਜਿਵੇਂ ਕਿ ", "ਜਦੋਂ ", "ਤਦ ", "ਅਤੇ ", "ਪਰ ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("pl", "Polish", "polski", "Właściwość|Funkcja|Aspekt|Potrzeba biznesowa", "Założenia", "Zasada|Reguła", "Przykład|Scenariusz", "Szablon scenariusza", "Przykłady", "Zakładając |Mając |Zakładając, że ", "Jeżeli |Jeśli |Gdy |Kiedy ", "Wtedy ", "Oraz |I ", "Ale ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("pt", "Portuguese", "português", "Funcionalidade|Característica|Caracteristica", "Contexto|Cenário de Fundo|Cenario de Fundo|Fundo", "Regra", "Exemplo|Cenário|Cenario", "Esquema do Cenário|Esquema do Cenario|Delineação do Cenário|Delineacao do Cenario", "Exemplos|Cenários|Cenarios", "Dado |Dada |Dados |Dadas ", "Quando ", "Então |Entao ", "E ", "Mas ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ro", "Romanian", "română", "Functionalitate|Funcționalitate|Funcţionalitate", "Context", "Rule", "Exemplu|Scenariu", "Structura scenariu|Structură scenariu", "Exemple", "Date fiind |Dat fiind |Dată fiind|Dati fiind |Dați fiind |Daţi fiind ", "Cand |Când ", "Atunci ", "Si |Și |Şi ", "Dar ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ru", "Russian", "русский", "Функция|Функциональность|Функционал|Свойство|Фича", "Предыстория|Контекст", "Правило", "Пример|Сценарий", "Структура сценария|Шаблон сценария", "Примеры|Значения", "Допустим |Дано |Пусть ", "Когда |Если ", "То |Затем |Тогда ", "И |К тому же |Также ", "Но |А |Иначе ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("sk", "Slovak", "Slovensky", "Požiadavka|Funkcia|Vlastnosť", "Pozadie", "Rule", "Príklad|Scenár", "Náčrt Scenáru|Náčrt Scenára|Osnova Scenára", "Príklady", "Pokiaľ |Za predpokladu ", "Keď |Ak ", "Tak |Potom ", "A |A tiež |A taktiež |A zároveň ", "Ale ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("sl", "Slovenian", "Slovenski", "Funkcionalnost|Funkcija|Možnosti|Moznosti|Lastnost|Značilnost", "Kontekst|Osnova|Ozadje", "Rule", "Primer|Scenarij", "Struktura scenarija|Skica|Koncept|Oris scenarija|Osnutek", "Primeri|Scenariji", "Dano |Podano |Zaradi |Privzeto ", "Ko |Ce |Če |Kadar ", "Nato |Potem |Takrat ", "In |Ter ", "Toda |Ampak |Vendar ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("sr-Cyrl", "Serbian", "Српски", "Функционалност|Могућност|Особина", "Контекст|Основа|Позадина", "Правило", "Сценарио|Пример", "Структура сценарија|Скица|Концепт", "Примери|Сценарији", "За дато |За дате |За дати ", "Када |Кад ", "Онда ", "И ", "Али ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("sr-Latn", "Serbian (Latin)", "Srpski (Latinica)", "Funkcionalnost|Mogućnost|Mogucnost|Osobina", "Kontekst|Osnova|Pozadina", "Pravilo", "Scenario|Primer", "Struktura scenarija|Skica|Koncept", "Primeri|Scenariji", "Za dato |Za date |Za dati ", "Kada |Kad ", "Onda ", "I ", "Ali ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("sv", "Swedish", "Svenska", "Egenskap", "Bakgrund", "Regel", "Scenario", "Abstrakt Scenario|Scenariomall", "Exempel", "Givet ", "När ", "Så ", "Och ", "Men ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ta", "Tamil", "தமிழ்", "அம்சம்|வணிக தேவை|திறன்", "பின்னணி", "Rule", "உதாரணமாக|காட்சி", "காட்சி சுருக்கம்|காட்சி வார்ப்புரு", "எடுத்துக்காட்டுகள்|காட்சிகள்|நிலைமைகளில்", "கொடுக்கப்பட்ட ", "எப்போது ", "அப்பொழுது ", "மேலும் |மற்றும் ", "ஆனால் ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("te", "Telugu", "తెలుగు", "గుణము", "నేపథ్యం", "Rule", "ఉదాహరణ|సన్నివేశం", "కథనం", "ఉదాహరణలు", "చెప్పబడినది ", "ఈ పరిస్థితిలో ", "అప్పుడు ", "మరియు ", "కాని ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("th", "Thai", "ไทย", "โครงหลัก|ความต้องการทางธุรกิจ|ความสามารถ", "แนวคิด", "Rule", "เหตุการณ์", "สรุปเหตุการณ์|โครงสร้างของเหตุการณ์", "ชุดของตัวอย่าง|ชุดของเหตุการณ์", "กำหนดให้ ", "เมื่อ ", "ดังนั้น ", "และ ", "แต่ ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("tlh", "Klingon", "tlhIngan", "Qap|Qu'meH 'ut|perbogh|poQbogh malja'|laH", "mo'", "Rule", "lut", "lut chovnatlh", "ghantoH|lutmey", "ghu' noblu' |DaH ghu' bejlu' ", "qaSDI' ", "vaj ", "'ej |latlh ", "'ach |'a ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("tr", "Turkish", "Türkçe", "Özellik|İş Gereksinimi|Gereksinim|İşlev|Kullanıcı Hikayesi|Yetenek|Teknik Gereksinim", "Geçmiş|Arka Plan|Ön Koşul|Önkoşul|Önceki Durum|Giriş|Mukaddime|Mevcut Durum", "Kural|İş Kuralı|Kaide|Hüküm|Madde", "Örnek|Senaryo|Durum|Vaka", "Senaryo taslağı|Senaryo şablonu", "Örnekler|Değerler", "Mevcut |Önceden |Geçmişte |Daha önce |Halihazırda |Zaten |Sistemde |Diyelim ki |Varsayalım ki |Farz edelim ki |Kabul edelim ki |Başlangıçta |Varsayılan olarak |Biliniyor ki ", "Eğer |Eğer ki |Ne zaman |Ne zaman ki |Şayet ", "Beklenen |O zaman |Sonuç olarak |Böylece |Bunun üzerine |Bu durumda |O takdirde |Şu halde |Netice itibariyle |Buna binaen ", "Ve |Hem de |Bir de |Ayrıca |İlaveten |Buna ek olarak ", "Fakat |Ama |Ancak |Yalnız |Lakin |Meğer ki |Buna mukabil |Aksi halde ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("tt", "Tatar", "Татарча", "Мөмкинлек|Үзенчәлеклелек", "Кереш", "Rule", "Сценарий", "Сценарийның төзелеше", "Үрнәкләр|Мисаллар", "Әйтик ", "Әгәр ", "Нәтиҗәдә ", "Һәм |Вә ", "Ләкин |Әмма ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("uk", "Ukrainian", "Українська", "Функціонал", "Передумова", "Rule", "Приклад|Сценарій", "Структура сценарію", "Приклади", "Припустимо |Припустимо, що |Нехай |Дано ", "Якщо |Коли ", "То |Тоді ", "І |А також |Та ", "Але ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("ur", "Urdu", "اردو", "صلاحیت|کاروبار کی ضرورت|خصوصیت", "پس منظر", "Rule", "منظرنامہ", "منظر نامے کا خاکہ", "مثالیں", "اگر |بالفرض |فرض کیا ", "جب ", "پھر |تب ", "اور ", "لیکن ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("uz", "Uzbek", "Узбекча", "Функционал", "Тарих", "Rule", "Сценарий", "Сценарий структураси", "Мисоллар", "Belgilangan ", "Агар ", "Унда ", "Ва ", "Лекин |Бирок |Аммо ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("vi", "Vietnamese", "Tiếng Việt", "Tính năng", "Bối cảnh", "Quy tắc", "Tình huống|Kịch bản", "Khung tình huống|Khung kịch bản", "Dữ liệu", "Biết |Cho ", "Khi ", "Thì ", "Và ", "Nhưng ")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("zh-CN", "Chinese simplified", "简体中文", "功能", "背景", "Rule|规则", "场景|剧本", "场景大纲|剧本大纲", "例子", "假如|假设|假定", "当", "那么", "而且|并且|同时", "但是")</ID>
+    <ID>MaxLineLength:GherkinDialectData.kt$GherkinDialectData$arrayOf("zh-TW", "Chinese traditional", "繁體中文", "功能", "背景", "Rule", "場景|劇本", "場景大綱|劇本大綱", "例子", "假如|假設|假定", "當", "那麼", "而且|並且|同時", "但是")</ID>
+    <ID>MaxLineLength:ReviewFixTests.kt$ReviewFixTests$"""{"gherkinDocument":{"uri":"features/a.feature","feature":{"location":{"line":1,"column":1},"keyword":"Feature","name":"A","children":[{"scenario":{"id":"s1","location":{"line":2,"column":3},"keyword":"Scenario","name":"$name","steps":[{"id":"st1","location":{"line":3,"column":5},"keyword":"Given ","text":"x"}]}}]}}}"""</ID>
+    <ID>MaxLineLength:ReviewFixTests.kt$ReviewFixTests$"""{"pickle":{"id":"p1","uri":"features/a.feature","name":"$name","astNodeIds":["s1"],"steps":[{"id":"ps1","text":"x","astNodeIds":["st1"]}]}}"""</ID>
+    <ID>MaxLineLength:ReviewFixTests.kt$ReviewFixTests$"""{"testStepFinished":{"testCaseStartedId":"c1","testStepId":"t1","testStepResult":{"status":"PASSED"}}}"""</ID>
+    <ID>MaxLineLength:SelfTest.kt$SelfTest$"${step.file.fileName}:${step.line} \"${step.text}\" matched ${matches.size} definitions ${matches.map { it.pattern }}"</ID>
+    <ID>NestedBlockDepth:CucumberMessages.kt$CucumberMessages.FileFollower$@Throws(IOException::class) fun read(onRestart: () -> Unit, onLine: (String) -> Unit)</ID>
+    <ID>NestedBlockDepth:CucumberMessages.kt$CucumberMessages.Json.Reader$private fun string(): String</ID>
+    <ID>NestedBlockDepth:CucumberRunState.kt$CucumberProcesses$private fun resolveExecutable(executable: String, base: String): String</ID>
+    <ID>NestedBlockDepth:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$private fun parse( file: VirtualFile, index: StepIndex.Index, fallback: Language? ): FeatureEntry</ID>
+    <ID>NestedBlockDepth:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$private fun selectFile(file: VirtualFile, line: Int)</ID>
+    <ID>NestedBlockDepth:FeatureOutline.kt$FeatureOutline$fun parse(text: String): Outline</ID>
+    <ID>NestedBlockDepth:FeatureStepDocumentationProvider.kt$FeatureStepDocumentationProvider$override fun generateDoc(element: PsiElement?, originalElement: PsiElement?): String?</ID>
+    <ID>NestedBlockDepth:JvmAdapter.kt$JvmAdapter$override fun parse(text: String): List&lt;StepDefinitionInfo></ID>
+    <ID>NestedBlockDepth:JvmCommand.kt$JvmCommand$private fun runnerFiles(module: Path): List&lt;Pair&lt;String, Path>></ID>
+    <ID>NestedBlockDepth:Literals.kt$Literals$@JvmStatic fun cSharp(text: String, position: Int): Literal?</ID>
+    <ID>NestedBlockDepth:Literals.kt$Literals$@JvmStatic fun inComment( text: String, offset: Int, lineMarker: String, blockComments: Boolean, nestedBlocks: Boolean, regexLiterals: Boolean, ): Boolean</ID>
+    <ID>NestedBlockDepth:Literals.kt$Literals$@JvmStatic fun rubyPercentRegex(text: String, position: Int): Literal?</ID>
+    <ID>NestedBlockDepth:Outlines.kt$Outlines$@JvmStatic fun scenarios(text: CharSequence): List&lt;Scenario></ID>
+    <ID>NestedBlockDepth:SelfTest.kt$SelfTest$private fun resolveProject(root: Path, fixture: Boolean)</ID>
+    <ID>NestedBlockDepth:SelfTest.kt$SelfTest$private fun stepWordsCoverAdapters(args: Array&lt;String>)</ID>
+    <ID>NestedBlockDepth:Snippets.kt$Snippets$private fun words(request: Request): List&lt;String></ID>
+    <ID>NestedBlockDepth:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun annotationAt(scanner: Scanner, position: Int): Int</ID>
+    <ID>NestedBlockDepth:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun braceBodyEnd(scanner: Scanner, position: Int): Int</ID>
+    <ID>NestedBlockDepth:StepDefinitionBlocks.kt$StepDefinitionBlocks.Scanner$fun skip(i: Int): Int</ID>
+    <ID>NestedBlockDepth:StepRenamer.kt$StepRenamer$private fun apply(project: Project, changes: List&lt;Change>)</ID>
+    <ID>NestedBlockDepth:StepRenamer.kt$StepRenamer$private fun plan( project: Project, oldText: String, newText: String, hint: StepIndex.Definition?, matchText: String, ): Plan</ID>
+    <ID>NestedBlockDepth:StepTextTemplates.kt$StepTextTemplates$private fun cucumberExpression(expression: String): List&lt;Piece>?</ID>
+    <ID>NestedBlockDepth:StepWords.kt$StepWords$@JvmStatic fun containsCall(text: String, words: List&lt;String>, notAfter: String): Boolean</ID>
+    <ID>NestedBlockDepth:Tags.kt$Tags$@JvmStatic fun find(text: CharSequence): List&lt;Tag></ID>
+    <ID>ReturnCount:CreateAllUndefinedStepsIntention.kt$CreateAllUndefinedStepsIntention$override fun invoke(project: Project, editor: Editor?, file: PsiFile?)</ID>
+    <ID>ReturnCount:CreateAllUndefinedStepsIntention.kt$CreateAllUndefinedStepsIntention$override fun isAvailable(project: Project, editor: Editor?, file: PsiFile?): Boolean</ID>
+    <ID>ReturnCount:CreateAllUndefinedStepsIntention.kt$CreateAllUndefinedStepsIntention$private fun createNewFile(project: Project, reference: VirtualFile, request: Request)</ID>
+    <ID>ReturnCount:CreateStepDefinitionFix.kt$CreateStepDefinitionFix$private fun plan(project: Project, descriptor: ProblemDescriptor): Plan?</ID>
+    <ID>ReturnCount:CucumberCommands.kt$CucumberCommands$@Throws(CommandException::class) fun build(request: Request): RunCommand</ID>
+    <ID>ReturnCount:CucumberDebugRunner.kt$CucumberDebugRunner$override fun canRun(executorId: String, profile: RunProfile): Boolean</ID>
+    <ID>ReturnCount:CucumberMessages.kt$CucumberMessages$fun parseLocation(path: String): Pair&lt;String, Int>?</ID>
+    <ID>ReturnCount:CucumberMessages.kt$CucumberMessages.Converter$fun accept(line: String): List&lt;Event></ID>
+    <ID>ReturnCount:CucumberMessages.kt$CucumberMessages.Converter$fun path(uri: String): String</ID>
+    <ID>ReturnCount:CucumberMessages.kt$CucumberMessages.Converter$private fun scenarioLocation(pickle: Pickle?): String?</ID>
+    <ID>ReturnCount:CucumberMessages.kt$CucumberMessages.Converter$private fun testStepFinished(body: Map&lt;*, *>, events: MutableList&lt;Event>)</ID>
+    <ID>ReturnCount:CucumberMessages.kt$CucumberMessages.Converter$private fun testStepStarted(body: Map&lt;*, *>, events: MutableList&lt;Event>)</ID>
+    <ID>ReturnCount:CucumberMessages.kt$CucumberMessages.FileFollower$private fun replaced(input: RandomAccessFile): Boolean</ID>
+    <ID>ReturnCount:CucumberRunConfiguration.kt$CucumberRunConfiguration$fun featureTargets(): List&lt;String></ID>
+    <ID>ReturnCount:CucumberRunConfiguration.kt$CucumberRunConfiguration$fun resolvedLanguage(): Language?</ID>
+    <ID>ReturnCount:CucumberRunConfigurationProducer.kt$CucumberRunConfigurationProducer$override fun isConfigurationFromContext( configuration: CucumberRunConfiguration, context: ConfigurationContext, ): Boolean</ID>
+    <ID>ReturnCount:CucumberRunConfigurationProducer.kt$CucumberRunConfigurationProducer$override fun setupConfigurationFromContext( configuration: CucumberRunConfiguration, context: ConfigurationContext, sourceElement: Ref&lt;PsiElement>, ): Boolean</ID>
+    <ID>ReturnCount:CucumberRunConfigurationProducer.kt$CucumberRunConfigurationProducer$private fun target(element: PsiElement): Target?</ID>
+    <ID>ReturnCount:CucumberRunConfigurationProducer.kt$CucumberRunConfigurationProducer.&lt;no name provided>$override fun visitFile(file: VirtualFile): Boolean</ID>
+    <ID>ReturnCount:CucumberRunLineMarkerContributor.kt$CucumberRunLineMarkerContributor$override fun getInfo(element: PsiElement): Info?</ID>
+    <ID>ReturnCount:CucumberRunLineMarkerContributor.kt$CucumberRunLineMarkerContributor$private fun isExampleRow(element: PsiElement, file: PsiFile): Boolean</ID>
+    <ID>ReturnCount:CucumberRunLineMarkerContributor.kt$CucumberRunLineMarkerContributor$private fun lastState(element: PsiElement): LastState?</ID>
+    <ID>ReturnCount:CucumberRunResults.kt$CucumberRunResults.Companion$fun canonicalLocation(location: String): String</ID>
+    <ID>ReturnCount:CucumberRunState.kt$CucumberProcesses$private fun resolveExecutable(executable: String, base: String): String</ID>
+    <ID>ReturnCount:CucumberRunState.kt$CucumberRerunFailedTestsAction$override fun getRunProfile(environment: ExecutionEnvironment): MyRunProfile?</ID>
+    <ID>ReturnCount:CucumberRunState.kt$CucumberTestLocator$override fun getLocation( protocol: String, path: String, project: Project, scope: GlobalSearchScope, ): List&lt;Location&lt;*>></ID>
+    <ID>ReturnCount:CucumberStepResultLineMarkerProvider.kt$CucumberStepResultLineMarkerProvider$override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo&lt;*>?</ID>
+    <ID>ReturnCount:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$private fun editorTarget(): RunTarget?</ID>
+    <ID>ReturnCount:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$private fun markerLanguage(): Language?</ID>
+    <ID>ReturnCount:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$private fun selectedTarget(): RunTarget?</ID>
+    <ID>ReturnCount:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$private fun tagExpression(): TagExpressions.Expression?</ID>
+    <ID>ReturnCount:FeatureGotoDeclarationHandler.kt$FeatureGotoDeclarationHandler$override fun getGotoDeclarationTargets( sourceElement: PsiElement?, offset: Int, editor: Editor? ): Array&lt;PsiElement>?</ID>
+    <ID>ReturnCount:FeatureKeywordCompletion.kt$FeatureKeywordCompletion$fun addCompletions(parameters: CompletionParameters, result: CompletionResultSet): Boolean</ID>
+    <ID>ReturnCount:FeatureLexer.kt$FeatureLexer$private fun lexContent(start: Int, end: Int)</ID>
+    <ID>ReturnCount:FeatureOutline.kt$FeatureOutline$fun targetAt(outline: Outline, line: Int): Target</ID>
+    <ID>ReturnCount:FeatureOutlines.kt$FeatureOutlines$fun matchText(step: FeatureStep): String</ID>
+    <ID>ReturnCount:FeatureStep.kt$FeatureStep$fun effectiveKeyword(): String</ID>
+    <ID>ReturnCount:FeatureStepCompletion.kt$FeatureStepCompletion$fun addCompletions(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>ReturnCount:FeatureStepLineMarkerProvider.kt$FeatureStepLineMarkerProvider$override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo&lt;*>?</ID>
+    <ID>ReturnCount:FeatureStructureViewFactory.kt$FeatureTreeElement$override fun getChildren(): Array&lt;TreeElement></ID>
+    <ID>ReturnCount:FindStepUsagesAction.kt$FindStepUsagesAction$override fun actionPerformed(event: AnActionEvent)</ID>
+    <ID>ReturnCount:FindStepUsagesAction.kt$FindStepUsagesAction$private fun usages(editor: Editor, file: PsiFile): List&lt;StepUsageIndex.Usage>?</ID>
+    <ID>ReturnCount:GherkinDialects.kt$Dialect.Companion$fun startsWith(text: CharSequence, from: Int, to: Int, keyword: String): Boolean</ID>
+    <ID>ReturnCount:GherkinDialects.kt$GherkinDialects$@JvmStatic fun languageCode(featureText: CharSequence): String?</ID>
+    <ID>ReturnCount:GherkinDialects.kt$GherkinDialects$@JvmStatic fun stepType(keyword: String): GherkinKeywordType?</ID>
+    <ID>ReturnCount:GherkinFormatter.kt$GherkinFormatter.Normalizer$private fun levelOf(trimmed: String): Int</ID>
+    <ID>ReturnCount:GoAdapter.kt$GoAdapter$private fun matchingBrace(text: String, open: Int): Int</ID>
+    <ID>ReturnCount:IgnoredPaths.kt$IgnoredPaths$private fun ignoredDirectories(directories: List&lt;String>): Boolean</ID>
+    <ID>ReturnCount:JvmCommand.kt$JvmCommand$private fun isMaven(module: Path, root: Path): Boolean</ID>
+    <ID>ReturnCount:Language.kt$Language.Companion$@JvmStatic fun forExtension(extension: String?): Language?</ID>
+    <ID>ReturnCount:Literals.kt$Literals$@JvmStatic fun cSharp(text: String, position: Int): Literal?</ID>
+    <ID>ReturnCount:Literals.kt$Literals$@JvmStatic fun groovy(text: String, position: Int): Literal?</ID>
+    <ID>ReturnCount:Literals.kt$Literals$@JvmStatic fun inComment( text: String, offset: Int, lineMarker: String, blockComments: Boolean, nestedBlocks: Boolean, regexLiterals: Boolean, ): Boolean</ID>
+    <ID>ReturnCount:Literals.kt$Literals$@JvmStatic fun java(text: String, position: Int): Literal?</ID>
+    <ID>ReturnCount:Literals.kt$Literals$@JvmStatic fun javaScript(text: String, position: Int): Literal?</ID>
+    <ID>ReturnCount:Literals.kt$Literals$@JvmStatic fun python(text: String, position: Int): Literal?</ID>
+    <ID>ReturnCount:Literals.kt$Literals$@JvmStatic fun quoted( text: String, position: Int, quote: Char, escapes: Escapes, multiline: Boolean, ): Literal?</ID>
+    <ID>ReturnCount:Literals.kt$Literals$@JvmStatic fun regex(text: String, position: Int): Literal?</ID>
+    <ID>ReturnCount:Literals.kt$Literals$@JvmStatic fun rubyPercentRegex(text: String, position: Int): Literal?</ID>
+    <ID>ReturnCount:Literals.kt$Literals$@JvmStatic fun rust(text: String, position: Int): Literal?</ID>
+    <ID>ReturnCount:Literals.kt$Literals$@JvmStatic fun triple(text: String, position: Int, delimiter: String, escapes: Escapes): Literal?</ID>
+    <ID>ReturnCount:OutlineGotoDeclarationHandler.kt$OutlineGotoDeclarationHandler$override fun getGotoDeclarationTargets( sourceElement: PsiElement?, offset: Int, editor: Editor? ): Array&lt;PsiElement>?</ID>
+    <ID>ReturnCount:OutlineHighlightUsagesHandlerFactory.kt$OutlineHighlightUsagesHandlerFactory$override fun createHighlightUsagesHandler( editor: Editor, file: PsiFile, target: PsiElement ): HighlightUsagesHandlerBase&lt;*>?</ID>
+    <ID>ReturnCount:RenameStepAction.kt$RenameStepAction$override fun actionPerformed(event: AnActionEvent)</ID>
+    <ID>ReturnCount:RenameStepAction.kt$private fun renameTarget(editor: Editor, file: PsiFile): RenameTarget?</ID>
+    <ID>ReturnCount:RunResults.kt$RunResults.Collector$private fun testCaseFinished(body: Map&lt;*, *>)</ID>
+    <ID>ReturnCount:RunResults.kt$RunResults.Collector$private fun testStepFinished(body: Map&lt;*, *>)</ID>
+    <ID>ReturnCount:SelfTest.kt$SelfTest$fun deleteOne(language: Language, text: String, pattern: String): String?</ID>
+    <ID>ReturnCount:SelfTest.kt$SelfTest$private fun stepdefsRenameDefinition( language: Language, source: String, oldText: String, newText: String, ): String?</ID>
+    <ID>ReturnCount:StepArguments.kt$StepArguments$@JvmStatic fun mismatch(info: StepDefinitionInfo, stepText: String): Mismatch?</ID>
+    <ID>ReturnCount:StepDefinitionBlocks.kt$StepDefinitionBlocks$@JvmStatic fun find(language: Language, text: String, offset: Int): Block?</ID>
+    <ID>ReturnCount:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun annotated( scanner: Scanner, start: Int, literalEnd: Int, depth: Int, definitions: List&lt;StepDefinitionInfo>, offset: Int, ): Pair&lt;Int, Int>?</ID>
+    <ID>ReturnCount:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun annotationAt(scanner: Scanner, position: Int): Int</ID>
+    <ID>ReturnCount:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun braceBodyEnd(scanner: Scanner, position: Int): Int</ID>
+    <ID>ReturnCount:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun call(scanner: Scanner, start: Int, literalEnd: Int, depth: Int): Pair&lt;Int, Int>?</ID>
+    <ID>ReturnCount:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun pythonDefEnd(scanner: Scanner, position: Int): Int</ID>
+    <ID>ReturnCount:StepDefinitionBlocks.kt$StepDefinitionBlocks$private fun rubyEnd(text: String, start: Int, afterDo: Int): Int?</ID>
+    <ID>ReturnCount:StepDefinitionBlocks.kt$StepDefinitionBlocks.Scanner$fun skip(i: Int): Int</ID>
+    <ID>ReturnCount:StepDefinitionBlocks.kt$StepDefinitionBlocks.Scanner$private fun characterLiteral(i: Int): Int</ID>
+    <ID>ReturnCount:StepDefinitionBlocks.kt$StepDefinitionBlocks.Scanner$private fun quoted(i: Int, quote: Char): Int</ID>
+    <ID>ReturnCount:StepDefinitionGotoDeclarationHandler.kt$StepDefinitionGotoDeclarationHandler$override fun getGotoDeclarationTargets( sourceElement: PsiElement?, offset: Int, editor: Editor?, ): Array&lt;PsiElement>?</ID>
+    <ID>ReturnCount:StepDefinitionImplicitReferenceProvider.kt$StepDefinitionImplicitReferenceProvider$override fun getImplicitReference( element: PsiElement, offsetInElement: Int ): PsiSymbolReference?</ID>
+    <ID>ReturnCount:StepDefinitionImplicitReferenceProvider.kt$StepDefinitionLiteral$fun at(file: PsiFile, offset: Int): Pair&lt;StepIndex.Definition, TextRange>?</ID>
+    <ID>ReturnCount:StepDefinitionLineMarkerProvider.kt$StepDefinitionLineMarkerProvider$override fun collectSlowLineMarkers( elements: MutableList&lt;out PsiElement>, result: MutableCollection&lt;in LineMarkerInfo&lt;*>>, )</ID>
+    <ID>ReturnCount:StepDefinitionLineMarkerProvider.kt$StepDefinitionLineMarkerProvider$override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo&lt;*>?</ID>
+    <ID>ReturnCount:StepIndex.kt$StepIndex$private fun steps( candidate: Candidate, parsed: MutableMap&lt;VirtualFile, ParsedFile>, filter: StepWordFilter?, counts: IntArray, ): List&lt;StepDefinitionInfo></ID>
+    <ID>ReturnCount:StepIndex.kt$StepIndex.&lt;no name provided>$override fun visitFile(file: VirtualFile): Boolean</ID>
+    <ID>ReturnCount:StepNavigation.kt$StepNavigation$fun navigate( project: Project, definitions: List&lt;StepIndex.Definition>, where: RelativePoint?, ): Boolean</ID>
+    <ID>ReturnCount:StepRename.kt$StepRename$@JvmStatic fun encodeLiteral(language: Language, original: String, value: String): String?</ID>
+    <ID>ReturnCount:StepRename.kt$StepRename$@JvmStatic fun plan( kind: PatternKind, pattern: String, regex: String, oldText: String, newText: String ): Plan?</ID>
+    <ID>ReturnCount:StepRename.kt$StepRename$@JvmStatic fun renameDefinition( sourceText: String, definition: StepDefinitionInfo, oldText: String, newText: String, matchText: String = oldText, ): DefinitionEdit?</ID>
+    <ID>ReturnCount:StepRename.kt$StepRename$@JvmStatic fun rewriteStep(plan: Plan, regex: String, stepText: String): String?</ID>
+    <ID>ReturnCount:StepRename.kt$StepRename$private fun cucumberExpression(pattern: String): Template?</ID>
+    <ID>ReturnCount:StepRename.kt$StepRename$private fun outlineSpans(texts: List&lt;String>, stepText: String): List&lt;IntArray>?</ID>
+    <ID>ReturnCount:StepRename.kt$StepRename$private fun parseFormat(pattern: String): Template?</ID>
+    <ID>ReturnCount:StepRename.kt$StepRename$private fun regex(pattern: String): Template?</ID>
+    <ID>ReturnCount:StepRename.kt$StepRename$private fun textSpans(regex: String, stepText: String, parameters: Int): List&lt;IntArray>?</ID>
+    <ID>ReturnCount:StepRenamer.kt$StepRenamer$fun rename( project: Project, editor: Editor?, oldText: String, definition: StepIndex.Definition?, matchText: String = oldText, )</ID>
+    <ID>ReturnCount:StepTextTemplates.kt$StepTextTemplates$@JvmStatic fun matchesWords(candidate: String, prefix: String): Boolean</ID>
+    <ID>ReturnCount:StepTextTemplates.kt$StepTextTemplates$private fun regex(pattern: String): List&lt;Piece>?</ID>
+    <ID>ReturnCount:StepTextTemplates.kt$StepTextTemplates.RegexParser$private fun escape(pieces: MutableList&lt;Piece>): Boolean</ID>
+    <ID>ReturnCount:StepTextTemplates.kt$StepTextTemplates.RegexParser$private fun group(pieces: MutableList&lt;Piece>): Boolean</ID>
+    <ID>ReturnCount:StepTextTemplates.kt$StepTextTemplates.RegexParser$private fun groupEnd(open: Int): Int</ID>
+    <ID>ReturnCount:StepTextTemplates.kt$StepTextTemplates.RegexParser$private fun quantified(last: Piece, quantifier: Char): Piece</ID>
+    <ID>ReturnCount:StepTextTemplates.kt$StepTextTemplates.RegexParser$private fun sequence(): List&lt;Piece>?</ID>
+    <ID>ReturnCount:StepUsageIndex.kt$StepUsageIndex$fun definitionAt( usages: Usages, file: VirtualFile, text: CharSequence, offset: Int, ): StepIndex.Definition?</ID>
+    <ID>ReturnCount:StepWordFilter.kt$StepWordFilter$private fun hasIndexedWords(file: VirtualFile): Boolean</ID>
+    <ID>ReturnCount:StepWordFilter.kt$StepWordFilter$private fun isWordIndexed(file: VirtualFile): Boolean</ID>
+    <ID>ReturnCount:StepWordFilter.kt$StepWordFilter.Companion$fun create(project: Project, languages: Collection&lt;Language>): StepWordFilter?</ID>
+    <ID>ReturnCount:UnusedStepDefinitionActions.kt$DeleteUnusedStepDefinitionAction$override fun actionPerformed(event: AnActionEvent)</ID>
+    <ID>ReturnCount:UnusedStepDefinitions.kt$UnusedStepDefinitions$fun delete(project: Project, targets: Collection&lt;Target>)</ID>
+    <ID>SpreadOperator:StepIndex.kt$StepIndex$(compute(project), *dependencies(project))</ID>
+    <ID>SpreadOperator:StepRenamer.kt$StepRenamer$(project, *psiFiles.toTypedArray())</ID>
+    <ID>SpreadOperator:StepUsageIndex.kt$StepUsageIndex$( compute(project), CucumberModificationTrackers.getInstance(project).features, *StepIndex.dependencies(project))</ID>
+    <ID>SpreadOperator:UnusedStepDefinitions.kt$UnusedStepDefinitions$(project, *files)</ID>
+    <ID>SwallowedException:CucumberCommands.kt$CucumberCommands$e: IOException</ID>
+    <ID>SwallowedException:CucumberMessages.kt$CucumberMessages.Converter$e: IllegalArgumentException</ID>
+    <ID>SwallowedException:CucumberRunResults.kt$CucumberRunResults.Companion$e: Exception</ID>
+    <ID>SwallowedException:CucumberRunState.kt$CucumberRunState$e: CucumberCommands.CommandException</ID>
+    <ID>SwallowedException:CucumberRunState.kt$CucumberRunState$e: IOException</ID>
+    <ID>SwallowedException:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$e: CucumberCommands.CommandException</ID>
+    <ID>SwallowedException:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel.Companion$e: IOException</ID>
+    <ID>SwallowedException:JvmCommand.kt$JvmCommand$e: IOException</ID>
+    <ID>SwallowedException:JvmCommand.kt$JvmCommand$e: RuntimeException</ID>
+    <ID>SwallowedException:JvmCommand.kt$JvmCommand$e: java.nio.file.InvalidPathException</ID>
+    <ID>SwallowedException:Literals.kt$Literals$invalidEscape: IllegalArgumentException</ID>
+    <ID>SwallowedException:RunResults.kt$RunResults.Collector$e: IllegalArgumentException</ID>
+    <ID>SwallowedException:SelfTest.kt$SelfTest$e: IllegalArgumentException</ID>
+    <ID>SwallowedException:StepArguments.kt$StepArguments$e: RuntimeException</ID>
+    <ID>SwallowedException:StepDefinitionBlocks.kt$StepDefinitionBlocks$e: RuntimeException</ID>
+    <ID>SwallowedException:StepDefinitionInfo.kt$StepDefinitionInfo$e: RuntimeException</ID>
+    <ID>SwallowedException:StepReadAction.kt$cancelled: ProcessCanceledException</ID>
+    <ID>SwallowedException:StepRename.kt$StepRename$invalid: RuntimeException</ID>
+    <ID>SwallowedException:StepWordFilter.kt$StepWordFilter.Companion$e: IndexNotReadyException</ID>
+    <ID>SwallowedException:TagExpressions.kt$TagExpressions$e: IllegalArgumentException</ID>
+    <ID>ThrowsCount:CucumberMessages.kt$CucumberMessages.Json.Reader$private fun string(): String</ID>
+    <ID>ThrowsCount:TagExpressions.kt$TagExpressions.Parser$fun primary(): Expression</ID>
+    <ID>TooGenericExceptionCaught:CucumberRunResults.kt$CucumberRunResults.Companion$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:CucumberRunState.kt$CucumberEventsConverter$e: RuntimeException</ID>
+    <ID>TooGenericExceptionCaught:CucumberToolWindowFactory.kt$CucumberToolWindowFactory.CucumberPanel$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:JvmCommand.kt$JvmCommand$e: RuntimeException</ID>
+    <ID>TooGenericExceptionCaught:StepArguments.kt$StepArguments$e: RuntimeException</ID>
+    <ID>TooGenericExceptionCaught:StepDefinitionBlocks.kt$StepDefinitionBlocks$e: RuntimeException</ID>
+    <ID>TooGenericExceptionCaught:StepDefinitionInfo.kt$StepDefinitionInfo$e: RuntimeException</ID>
+    <ID>TooGenericExceptionCaught:StepIndex.kt$StepIndex$e: RuntimeException</ID>
+    <ID>TooGenericExceptionCaught:StepRename.kt$StepRename$invalid: RuntimeException</ID>
+    <ID>TooManyFunctions:CucumberCommands.kt$CucumberCommands</ID>
+    <ID>TooManyFunctions:CucumberMessages.kt$CucumberMessages$Converter</ID>
+    <ID>TooManyFunctions:CucumberRunConfiguration.kt$CucumberRunConfiguration : LocatableConfigurationBaseSMRunnerConsolePropertiesProvider</ID>
+    <ID>TooManyFunctions:CucumberToolWindowFactory.kt$CucumberToolWindowFactory$CucumberPanel</ID>
+    <ID>TooManyFunctions:FeatureLexer.kt$FeatureLexer : LexerBaseRestartableLexer</ID>
+    <ID>TooManyFunctions:GherkinSyntax.kt$GherkinSyntax</ID>
+    <ID>TooManyFunctions:JvmCommand.kt$JvmCommand</ID>
+    <ID>TooManyFunctions:Literals.kt$Literals</ID>
+    <ID>TooManyFunctions:RunResults.kt$RunResults$Collector</ID>
+    <ID>TooManyFunctions:Snippets.kt$Snippets</ID>
+    <ID>TooManyFunctions:StepDefinitionBlocks.kt$StepDefinitionBlocks</ID>
+    <ID>TooManyFunctions:StepRename.kt$StepRename</ID>
+    <ID>TooManyFunctions:StepTarget.kt$StepTarget : FakePsiElement</ID>
+    <ID>TooManyFunctions:StepTextTemplates.kt$StepTextTemplates</ID>
+    <ID>TooManyFunctions:StepTextTemplates.kt$StepTextTemplates$RegexParser</ID>
+    <ID>UseRequire:CucumberMessages.kt$CucumberMessages.Json$throw IllegalArgumentException("Trailing characters at ${reader.position}")</ID>
+    <ID>UseRequire:CucumberMessages.kt$CucumberMessages.Json.Reader$throw IllegalArgumentException("Bad unicode escape")</ID>
+    <ID>UseRequire:CucumberMessages.kt$CucumberMessages.Json.Reader$throw IllegalArgumentException("Expected '$c' at $position")</ID>
+    <ID>UseRequire:CucumberMessages.kt$CucumberMessages.Json.Reader$throw IllegalArgumentException("Expected a key at $position")</ID>
+    <ID>UseRequire:CucumberMessages.kt$CucumberMessages.Json.Reader$throw IllegalArgumentException("Unexpected '$c' at $position")</ID>
+    <ID>UseRequire:CucumberMessages.kt$CucumberMessages.Json.Reader$throw IllegalArgumentException("Unexpected end of JSON")</ID>
+    <ID>UseRequire:CucumberMessages.kt$CucumberMessages.Json.Reader$throw IllegalArgumentException("Unexpected token at $position")</ID>
+    <ID>UseRequire:CucumberMessages.kt$CucumberMessages.Json.Reader$throw IllegalArgumentException("Unterminated escape")</ID>
+    <ID>UseRequire:CucumberMessages.kt$CucumberMessages.Json.Reader$throw IllegalArgumentException("Unterminated string")</ID>
+    <ID>UseRequire:TagExpressions.kt$TagExpressions$throw IllegalArgumentException("Tag expression ends with an escape")</ID>
+    <ID>UseRequire:TagExpressions.kt$TagExpressions$throw IllegalArgumentException("Unexpected '${tokens[parser.position]}' in tag expression")</ID>
+    <ID>UseRequire:TagExpressions.kt$TagExpressions.Parser$throw IllegalArgumentException("Missing ')' in tag expression")</ID>
+    <ID>UseRequire:TagExpressions.kt$TagExpressions.Parser$throw IllegalArgumentException("Tags must start with @: '$token'")</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -5,6 +5,7 @@ plugins {
   id("org.jetbrains.kotlin.jvm") version "2.4.20"
   id("org.jetbrains.intellij.platform") version "2.19.0"
   id("com.diffplug.spotless") version "8.11.0"
+  id("io.gitlab.arturbosch.detekt") version "1.23.8"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -124,6 +125,33 @@ spotless {
     target("*.gradle.kts")
     ktfmt("0.53").metaStyle()
   }
+}
+
+// Static analysis: ./gradlew detekt (also run by `check`). Findings already in the code are listed
+// in
+// config/detekt/baseline.xml (./gradlew detektBaseline); only new ones fail the build.
+detekt {
+  buildUponDefaultConfig = true
+  parallel = true
+  source.setFrom("src/main/kotlin", "src/test/kotlin")
+  baseline = file("config/detekt/baseline.xml")
+}
+
+// detekt 1.23 embeds the Kotlin 2.0 compiler; keep its own Kotlin dependencies at that version.
+configurations
+    .matching { it.name == "detekt" }
+    .configureEach {
+      resolutionStrategy.eachDependency {
+        if (requested.group == "org.jetbrains.kotlin") {
+          useVersion(io.gitlab.arturbosch.detekt.getSupportedKotlinVersion())
+        }
+      }
+    }
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach { jvmTarget = "21" }
+
+tasks.withType<io.gitlab.arturbosch.detekt.DetektCreateBaselineTask>().configureEach {
+  jvmTarget = "21"
 }
 
 tasks {
