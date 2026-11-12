@@ -1,7 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.CucumberIcons
-import io.github.fangzhengjie.cucumber.core.Language
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProviderDescriptor
 import com.intellij.openapi.editor.markup.GutterIconRenderer
@@ -11,14 +9,16 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.ui.awt.RelativePoint
+import io.github.fangzhengjie.cucumber.CucumberIcons
+import io.github.fangzhengjie.cucumber.core.Language
 import java.awt.event.MouseEvent
 import java.util.concurrent.ConcurrentHashMap
 import javax.swing.Icon
 
 /**
  * Gutter icon on each step definition in code, in any language: the Cucumber icon when feature
- * steps use it (the tooltip gives the count; click to open the step, or choose among several), or
- * a grey icon for an unused definition.
+ * steps use it (the tooltip gives the count; click to open the step, or choose among several), or a
+ * grey icon for an unused definition.
  *
  * Registered for every language (`language=""`), so it also runs on files the IDE only knows as
  * plain text (e.g. Go or Rust in IntelliJ IDEA): such a file is a single PSI leaf, and the markers
@@ -43,7 +43,10 @@ class StepDefinitionLineMarkerProvider : LineMarkerProviderDescriptor() {
     }
     val usages = StepUsageIndex.getIfUpToDate(file.project) ?: return null
     val range = element.textRange ?: return null
-    val inLeaf = usages.definitionsIn(virtualFile).filter { it.info.offset in range.startOffset until range.endOffset }
+    val inLeaf =
+        usages.definitionsIn(virtualFile).filter {
+          it.info.offset in range.startOffset until range.endOffset
+        }
     // A fast provider gives one marker per element; a plain-text file is one leaf with several.
     if (inLeaf.size != 1) {
       return null
@@ -69,7 +72,11 @@ class StepDefinitionLineMarkerProvider : LineMarkerProviderDescriptor() {
     if (definitions.isEmpty()) {
       return
     }
-    val alreadyShown = file.getUserData(FAST)?.takeIf { it.stamp == file.modificationStamp && it.usages === usages }?.offsets
+    val alreadyShown =
+        file
+            .getUserData(FAST)
+            ?.takeIf { it.stamp == file.modificationStamp && it.usages === usages }
+            ?.offsets
     for (element in elements) {
       if (element.firstChild != null || element.containingFile != file) {
         continue
@@ -101,7 +108,11 @@ class StepDefinitionLineMarkerProvider : LineMarkerProviderDescriptor() {
     return fresh.offsets
   }
 
-  private class FastMarkers(val stamp: Long, val usages: StepUsageIndex.Usages, val offsets: MutableSet<Int>)
+  private class FastMarkers(
+      val stamp: Long,
+      val usages: StepUsageIndex.Usages,
+      val offsets: MutableSet<Int>
+  )
 
   private fun marker(
       element: PsiElement,
@@ -111,7 +122,8 @@ class StepDefinitionLineMarkerProvider : LineMarkerProviderDescriptor() {
   ): LineMarkerInfo<PsiElement> {
     val count = usages.size
     val icon: Icon =
-        if (count == 0) IconLoader.getDisabledIcon(CucumberIcons.CUCUMBER) else CucumberIcons.CUCUMBER
+        if (count == 0) IconLoader.getDisabledIcon(CucumberIcons.CUCUMBER)
+        else CucumberIcons.CUCUMBER
     val tooltip =
         when (count) {
           0 -> "Unused step definition: no feature step uses it"
@@ -129,16 +141,24 @@ class StepDefinitionLineMarkerProvider : LineMarkerProviderDescriptor() {
               stepReadAction(project, STEP_INDEX_PROGRESS) {
                 val all = StepUsageIndex.get(project)
                 val virtualFile = target.containingFile?.viewProvider?.virtualFile
-                val definition = all.definitionsIn(virtualFile).firstOrNull { it.info.offset == offset }
+                val definition =
+                    all.definitionsIn(virtualFile).firstOrNull { it.info.offset == offset }
                 if (definition == null) emptyList() else all.of(definition)
               } ?: return@LineMarkerInfo
-          StepUsagesPopup.show(project, current, "Feature Steps Using This Definition", null, RelativePoint(mouseEvent))
+          StepUsagesPopup.show(
+              project,
+              current,
+              "Feature Steps Using This Definition",
+              null,
+              RelativePoint(mouseEvent))
         },
         GutterIconRenderer.Alignment.RIGHT,
         { if (count == 0) "Unused step definition" else "Step definition usages" })
   }
 
   private companion object {
-    val FAST = com.intellij.openapi.util.Key.create<FastMarkers>("cucumber.jetbrains.plugin.fastStepMarkers")
+    val FAST =
+        com.intellij.openapi.util.Key.create<FastMarkers>(
+            "cucumber.jetbrains.plugin.fastStepMarkers")
   }
 }

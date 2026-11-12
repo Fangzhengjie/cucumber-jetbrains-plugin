@@ -36,7 +36,8 @@ object JvmCommand {
 
   internal fun build(base: String, featurePath: String?, line: Int, windows: Boolean): RunCommand {
     val features =
-        if (featurePath == null) listOf() else listOf(featurePath + (if (line > 0) ":$line" else ""))
+        if (featurePath == null) listOf()
+        else listOf(featurePath + (if (line > 0) ":$line" else ""))
     return build(base, features, Options(), windows)
   }
 
@@ -56,11 +57,11 @@ object JvmCommand {
   )
 
   /**
-   * Gradle does not forward `-D` options to the test JVM: this init script copies the
-   * `CUCUMBER_*` environment variables (or, when unset, the matching `-D` system properties of the
-   * Gradle command line, so a copied command needs no environment) to the `cucumber.*` system
-   * properties of every `Test` task (which then always runs), and attaches the test JVM to a
-   * listening debugger.
+   * Gradle does not forward `-D` options to the test JVM: this init script copies the `CUCUMBER_*`
+   * environment variables (or, when unset, the matching `-D` system properties of the Gradle
+   * command line, so a copied command needs no environment) to the `cucumber.*` system properties
+   * of every `Test` task (which then always runs), and attaches the test JVM to a listening
+   * debugger.
    */
   val GRADLE_INIT_SCRIPT: String =
       """
@@ -113,8 +114,8 @@ object JvmCommand {
           .trimMargin()
 
   /**
-   * @param features absolute feature files or directories, each optionally with `:line`
-   *   suffixes; empty to run every feature
+   * @param features absolute feature files or directories, each optionally with `:line` suffixes;
+   *   empty to run every feature
    */
   fun build(base: String, features: List<String>, options: Options): RunCommand =
       build(base, features, options, isWindows())
@@ -143,11 +144,13 @@ object JvmCommand {
           (if (local == null) path else relativeFeature(module, local)) + lines
         }
     // An empty path is the module itself: run all of its features (Cucumber's default).
-    val features = if (targets.isEmpty() || "" in featureArgs) null else featureArgs.joinToString(",")
+    val features =
+        if (targets.isEmpty() || "" in featureArgs) null else featureArgs.joinToString(",")
     val allRunners = runnerFiles(module)
     // Each runner class would run cucumber.features again: keep the one closest to the feature.
     val runners =
-        if (features == null || featurePath == null || allRunners.size < 2) allRunners.map { it.first }
+        if (features == null || featurePath == null || allRunners.size < 2)
+            allRunners.map { it.first }
         else listOf(closestRunner(module, featurePath, allRunners))
 
     val args = ArrayList<String>()
@@ -179,7 +182,8 @@ object JvmCommand {
       args.add(tool(buildRoot, root, if (windows) "gradlew.bat" else "gradlew", "gradle"))
       options.gradleInitScript?.let { args.addAll(listOf("--init-script", it)) }
       args.add(
-          if (relativeModule.isEmpty()) "test" else ":" + relativeModule.replace('/', ':') + ":test")
+          if (relativeModule.isEmpty()) "test"
+          else ":" + relativeModule.replace('/', ':') + ":test")
       for (runner in runners) {
         args.addAll(listOf("--tests", runner))
       }
@@ -220,8 +224,13 @@ object JvmCommand {
    * The runner whose package shares the most leading directories with the feature's (sources and
    * resources both start below `src/<set>/<language>`), else the first by name.
    */
-  private fun closestRunner(module: Path, feature: Path, runners: List<Pair<String, Path>>): String {
-    val featureDirs = packageDirs(module, if (Files.isDirectory(feature)) feature else feature.parent)
+  private fun closestRunner(
+      module: Path,
+      feature: Path,
+      runners: List<Pair<String, Path>>
+  ): String {
+    val featureDirs =
+        packageDirs(module, if (Files.isDirectory(feature)) feature else feature.parent)
     return runners
         .maxWith(
             compareBy<Pair<String, Path>> { (_, file) ->

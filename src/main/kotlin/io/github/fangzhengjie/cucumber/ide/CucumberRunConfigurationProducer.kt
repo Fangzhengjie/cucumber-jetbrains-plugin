@@ -1,7 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.FeatureOutline
-import io.github.fangzhengjie.cucumber.core.IgnoredPaths
 import com.intellij.execution.actions.ConfigurationContext
 import com.intellij.execution.actions.LazyRunConfigurationProducer
 import com.intellij.execution.configurations.ConfigurationFactory
@@ -13,10 +11,12 @@ import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import io.github.fangzhengjie.cucumber.core.FeatureOutline
+import io.github.fangzhengjie.cucumber.core.IgnoredPaths
 
 /**
- * Creates Cucumber run configurations from the context: a scenario or example row at the caret,
- * a `.feature` file, or a directory containing feature files.
+ * Creates Cucumber run configurations from the context: a scenario or example row at the caret, a
+ * `.feature` file, or a directory containing feature files.
  */
 class CucumberRunConfigurationProducer : LazyRunConfigurationProducer<CucumberRunConfiguration>() {
 

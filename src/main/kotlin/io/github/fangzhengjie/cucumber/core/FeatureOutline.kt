@@ -41,7 +41,9 @@ object FeatureOutline {
       val scenarios: List<Scenario>,
   )
 
-  /** What to run for a caret line: the whole feature (`line == 0`), a scenario or an example row. */
+  /**
+   * What to run for a caret line: the whole feature (`line == 0`), a scenario or an example row.
+   */
   data class Target(val line: Int, val name: String, val isFeature: Boolean)
 
   fun parse(text: String): Outline {
@@ -116,7 +118,9 @@ object FeatureOutline {
           close(number)
           val name = header.title.ifEmpty { header.keyword }
           val inherited = if (ruleTags.isEmpty()) featureTags else ruleTags
-          current = Scenario(number, header.keyword, name, LinkedHashSet(inherited + pending), listOf(), 0)
+          current =
+              Scenario(
+                  number, header.keyword, name, LinkedHashSet(inherited + pending), listOf(), 0)
           pending.clear()
           continue
         }

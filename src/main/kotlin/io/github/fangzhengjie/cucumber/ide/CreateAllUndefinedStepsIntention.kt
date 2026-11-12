@@ -1,11 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.Language
-import io.github.fangzhengjie.cucumber.core.Snippets
-import io.github.fangzhengjie.cucumber.core.StepFileTemplates
-import io.github.fangzhengjie.cucumber.feature.FeatureOutlines
-import io.github.fangzhengjie.cucumber.feature.FeatureStep
-import io.github.fangzhengjie.cucumber.feature.FeatureTokenTypes
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.codeInsight.intention.IntentionAction
 import com.intellij.codeInsight.intention.preview.IntentionPreviewInfo
@@ -23,6 +17,12 @@ import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.ui.SimpleListCellRenderer
+import io.github.fangzhengjie.cucumber.core.Language
+import io.github.fangzhengjie.cucumber.core.Snippets
+import io.github.fangzhengjie.cucumber.core.StepFileTemplates
+import io.github.fangzhengjie.cucumber.feature.FeatureOutlines
+import io.github.fangzhengjie.cucumber.feature.FeatureStep
+import io.github.fangzhengjie.cucumber.feature.FeatureTokenTypes
 import java.io.IOException
 import java.util.EnumMap
 import javax.swing.JList
@@ -60,8 +60,11 @@ class CreateAllUndefinedStepsIntention : IntentionAction {
 
   override fun startInWriteAction(): Boolean = false
 
-  override fun generatePreview(project: Project, editor: Editor, file: PsiFile): IntentionPreviewInfo =
-      IntentionPreviewInfo.EMPTY
+  override fun generatePreview(
+      project: Project,
+      editor: Editor,
+      file: PsiFile
+  ): IntentionPreviewInfo = IntentionPreviewInfo.EMPTY
 
   override fun invoke(project: Project, editor: Editor?, file: PsiFile?) {
     if (editor == null || file == null) {
@@ -76,7 +79,8 @@ class CreateAllUndefinedStepsIntention : IntentionAction {
     if (request.files.isEmpty()) {
       HintManager.getInstance()
           .showInformationHint(
-              editor, "No writable " + request.language.displayName() + " step definition file found")
+              editor,
+              "No writable " + request.language.displayName() + " step definition file found")
       return
     }
     val choices = request.files.map { Choice(it, false) }.toMutableList()
@@ -150,7 +154,11 @@ class CreateAllUndefinedStepsIntention : IntentionAction {
     }
     val language =
         votes.entries.maxByOrNull { it.value }?.key
-            ?: index.definitions.groupingBy { it.info.language }.eachCount().maxByOrNull { it.value }?.key
+            ?: index.definitions
+                .groupingBy { it.info.language }
+                .eachCount()
+                .maxByOrNull { it.value }
+                ?.key
             ?: return null
     val files =
         index.files
@@ -165,7 +173,8 @@ class CreateAllUndefinedStepsIntention : IntentionAction {
 
   private fun addTo(project: Project, file: VirtualFile, request: Request) {
     val document = FileDocumentManager.getInstance().getDocument(file) ?: return
-    val batch = StepFileTemplates.addSnippets(request.language, document.text, file.name, request.items)
+    val batch =
+        StepFileTemplates.addSnippets(request.language, document.text, file.name, request.items)
     if (batch.snippets.isEmpty()) {
       return
     }
@@ -190,26 +199,34 @@ class CreateAllUndefinedStepsIntention : IntentionAction {
     val keywords = request.items.map { it.request.keyword }
     val name =
         Messages.showInputDialog(
-            project,
-            "New " + request.language.displayName() + " step file in " + directory.presentableUrl + ":",
-            "Create New Step File",
-            null,
-            StepFileTemplates.defaultName(request.language),
-            object : InputValidator {
-              override fun checkInput(inputString: String?): Boolean {
-                val template =
-                    inputString?.let {
-                      StepFileTemplates.create(request.language, reference.name, referenceText, it.trim(), keywords)
-                    } ?: return false
-                return directory.findChild(template.fileName) == null
-              }
+                project,
+                "New " +
+                    request.language.displayName() +
+                    " step file in " +
+                    directory.presentableUrl +
+                    ":",
+                "Create New Step File",
+                null,
+                StepFileTemplates.defaultName(request.language),
+                object : InputValidator {
+                  override fun checkInput(inputString: String?): Boolean {
+                    val template =
+                        inputString?.let {
+                          StepFileTemplates.create(
+                              request.language, reference.name, referenceText, it.trim(), keywords)
+                        } ?: return false
+                    return directory.findChild(template.fileName) == null
+                  }
 
-              override fun canClose(inputString: String?): Boolean = checkInput(inputString)
-            })
+                  override fun canClose(inputString: String?): Boolean = checkInput(inputString)
+                })
             ?.trim() ?: return
     val template =
-        StepFileTemplates.create(request.language, reference.name, referenceText, name, keywords) ?: return
-    val batch = StepFileTemplates.addSnippets(request.language, template.text, template.fileName, request.items)
+        StepFileTemplates.create(request.language, reference.name, referenceText, name, keywords)
+            ?: return
+    val batch =
+        StepFileTemplates.addSnippets(
+            request.language, template.text, template.fileName, request.items)
     var failure: IOException? = null
     val created =
         WriteCommandAction.writeCommandAction(project)
@@ -232,8 +249,10 @@ class CreateAllUndefinedStepsIntention : IntentionAction {
     if (created == null) {
       Messages.showErrorDialog(
           project,
-          "Cannot create " + FileUtil.toSystemDependentName(directory.path + "/" + template.fileName) +
-              ": " + failure?.message,
+          "Cannot create " +
+              FileUtil.toSystemDependentName(directory.path + "/" + template.fileName) +
+              ": " +
+              failure?.message,
           "Create New Step File")
       return
     }

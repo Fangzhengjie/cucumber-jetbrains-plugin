@@ -28,7 +28,8 @@ class JvmAdapter private constructor(private val language: Language) : LanguageA
     val steps = ArrayList<StepDefinitionInfo>()
     for (syntax in listOf(ANNOTATION, CALL)) {
       for (m in syntax.findAll(text)) {
-        if (!Literals.inComment(text, m.range.first, "//", true, false, language == Language.GROOVY)) {
+        if (!Literals.inComment(
+            text, m.range.first, "//", true, false, language == Language.GROOVY)) {
           val step = step(text, m.groupValues[1], m.range.last + 1)
           if (step != null) {
             steps.add(step)
@@ -71,11 +72,16 @@ class JvmAdapter private constructor(private val language: Language) : LanguageA
         kind,
         pattern,
         // Cucumber-JVM matches a regex against the whole step (Matcher.matches()), anchored or not.
-        if (kind == PatternKind.REGEX) Patterns.fullMatch(pattern) else Patterns.toRegex(kind, pattern),
+        if (kind == PatternKind.REGEX) Patterns.fullMatch(pattern)
+        else Patterns.toRegex(kind, pattern),
         literal.start)
   }
 
-  override fun snippet(request: Snippets.Request, fileText: String, fileName: String): Snippets.Snippet {
+  override fun snippet(
+      request: Snippets.Request,
+      fileText: String,
+      fileName: String
+  ): Snippets.Snippet {
     val parameters = ArrayList<String>()
     val names = Snippets.argumentNames(request)
     val types = request.parameterTypes()

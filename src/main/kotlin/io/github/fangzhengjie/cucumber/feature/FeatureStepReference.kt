@@ -1,10 +1,10 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.ide.StepIndex
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElementResolveResult
 import com.intellij.psi.PsiPolyVariantReferenceBase
 import com.intellij.psi.ResolveResult
+import io.github.fangzhengjie.cucumber.ide.StepIndex
 import kotlin.math.max
 
 /** Ctrl+click from a step to its definition(s); ambiguous steps offer a chooser. */

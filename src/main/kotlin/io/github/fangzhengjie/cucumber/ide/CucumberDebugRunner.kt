@@ -31,7 +31,10 @@ class CucumberDebugRunner : GenericDebuggerRunner() {
     return CucumberCommands.isJvm(configuration.resolvedLanguage())
   }
 
-  override fun doExecute(state: RunProfileState, environment: ExecutionEnvironment): RunContentDescriptor? {
+  override fun doExecute(
+      state: RunProfileState,
+      environment: ExecutionEnvironment
+  ): RunContentDescriptor? {
     val cucumber = state as? CucumberRunState ?: return super.doExecute(state, environment)
     val port = cucumber.debugPort ?: throw ExecutionException("No debugger port was allocated")
     val connection = RemoteConnection(true, "127.0.0.1", port.toString(), true)

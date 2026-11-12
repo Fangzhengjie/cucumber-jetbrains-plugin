@@ -3,8 +3,8 @@ package io.github.fangzhengjie.cucumber.core
 import java.util.Locale
 
 /**
- * New step definition files ("Create new step file...") and adding several snippets to a step
- * file at once ("Create all undefined step definitions").
+ * New step definition files ("Create new step file...") and adding several snippets to a step file
+ * at once ("Create all undefined step definitions").
  */
 object StepFileTemplates {
 
@@ -43,9 +43,9 @@ object StepFileTemplates {
       else FILE_BASE.matches(name) && !name.endsWith(".")
 
   /**
-   * A new step file named after `name` in the directory of an existing step file (`referenceFileName`,
-   * content `referenceText`), declaring the imports the snippets of `keywords` need. Null for
-   * languages without a template or an invalid name.
+   * A new step file named after `name` in the directory of an existing step file
+   * (`referenceFileName`, content `referenceText`), declaring the imports the snippets of
+   * `keywords` need. Null for languages without a template or an invalid name.
    */
   @JvmStatic
   fun create(
@@ -59,7 +59,10 @@ object StepFileTemplates {
       return null
     }
     val used =
-        keywords.map { Snippets.normalizeKeyword(it) }.toSortedSet().map { Snippets.capitalized(it) }
+        keywords
+            .map { Snippets.normalizeKeyword(it) }
+            .toSortedSet()
+            .map { Snippets.capitalized(it) }
     val extension = referenceFileName.substringAfterLast('.', "").lowercase(Locale.ROOT)
     return when (language) {
       Language.JAVA -> {
@@ -99,7 +102,8 @@ object StepFileTemplates {
         val esm =
             typeScript ||
                 ext == "mjs" ||
-                Regex("""(?m)^\s*import\s.*['"]@cucumber/cucumber['"]""").containsMatchIn(referenceText)
+                Regex("""(?m)^\s*import\s.*['"]@cucumber/cucumber['"]""")
+                    .containsMatchIn(referenceText)
         val text =
             if (esm) "import { $names } from '@cucumber/cucumber';\n"
             else "const { $names } = require('@cucumber/cucumber');\n"

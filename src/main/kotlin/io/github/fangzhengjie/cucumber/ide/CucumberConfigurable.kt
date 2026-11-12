@@ -1,10 +1,10 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.Language
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.ProjectManager
 import com.intellij.psi.PsiManager
+import io.github.fangzhengjie.cucumber.core.Language
 import java.awt.BorderLayout
 import java.util.EnumMap
 import javax.swing.BorderFactory

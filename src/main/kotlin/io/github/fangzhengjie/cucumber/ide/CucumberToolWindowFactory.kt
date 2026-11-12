@@ -1,18 +1,9 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.CucumberIcons
-import io.github.fangzhengjie.cucumber.core.Language
-import io.github.fangzhengjie.cucumber.core.FeatureOutline
-import io.github.fangzhengjie.cucumber.core.GherkinKeywordType
-import io.github.fangzhengjie.cucumber.core.GherkinSyntax
-import io.github.fangzhengjie.cucumber.core.Outlines
-import io.github.fangzhengjie.cucumber.core.TagExpressions
-import com.intellij.openapi.ui.Messages
 import com.intellij.execution.ExecutionException
 import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.ProjectView
 import com.intellij.openapi.Disposable
-import com.intellij.openapi.diagnostic.ControlFlowException
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.ActionToolbar
 import com.intellij.openapi.actionSystem.ActionUpdateThread
@@ -20,6 +11,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.application.ReadAction
+import com.intellij.openapi.diagnostic.ControlFlowException
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.editor.event.DocumentListener
@@ -33,6 +25,7 @@ import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.util.Key
@@ -60,6 +53,13 @@ import com.intellij.util.concurrency.AppExecutorUtil
 import com.intellij.util.execution.ParametersListUtil
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
+import io.github.fangzhengjie.cucumber.CucumberIcons
+import io.github.fangzhengjie.cucumber.core.FeatureOutline
+import io.github.fangzhengjie.cucumber.core.GherkinKeywordType
+import io.github.fangzhengjie.cucumber.core.GherkinSyntax
+import io.github.fangzhengjie.cucumber.core.Language
+import io.github.fangzhengjie.cucumber.core.Outlines
+import io.github.fangzhengjie.cucumber.core.TagExpressions
 import java.awt.BorderLayout
 import java.awt.Color
 import java.awt.Point
@@ -67,7 +67,6 @@ import java.awt.datatransfer.StringSelection
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
 import java.awt.event.MouseEvent
-import java.io.File
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
@@ -198,7 +197,9 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
       TreeUIHelper.getInstance().installTreeSpeedSearch(tree)
       tree.addTreeSelectionListener { selection = selectedValue() }
       editorFeature =
-          project.getService(FileEditorManager::class.java).selectedFiles.firstOrNull()?.let { isFeature(it) } == true
+          project.getService(FileEditorManager::class.java).selectedFiles.firstOrNull()?.let {
+            isFeature(it)
+          } == true
       object : DoubleClickListener() {
             override fun onDoubleClick(event: MouseEvent): Boolean {
               navigateSelection()
@@ -220,7 +221,8 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
     private fun setUpLayout() {
       // update() runs in the background (BGT): enabled states only read the volatile fields.
       val hasSelection = { selection != null }
-      // Until the first scan is done the run actions stay enabled; a click then reports what's missing.
+      // Until the first scan is done the run actions stay enabled; a click then reports what's
+      // missing.
       val canRun = { features.isNotEmpty() || !scanned }
 
       val runSelected =
@@ -242,9 +244,11 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
       val refreshAction =
           SimpleAction(
               "Refresh", "Rescan .feature files", AllIcons.Actions.Refresh, { refresh() }, { true })
-      val expand = SimpleAction("Expand All", null, AllIcons.Actions.Expandall, { expandAll() }, { true })
+      val expand =
+          SimpleAction("Expand All", null, AllIcons.Actions.Expandall, { expandAll() }, { true })
       val collapse =
-          SimpleAction("Collapse All", null, AllIcons.Actions.Collapseall, { collapseAll() }, { true })
+          SimpleAction(
+              "Collapse All", null, AllIcons.Actions.Collapseall, { collapseAll() }, { true })
       val locate =
           SimpleAction(
               "Select Opened File",
@@ -263,7 +267,11 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
           )
       val navigate =
           SimpleAction(
-              "Jump to Source", null, AllIcons.Actions.EditSource, { navigateSelection() }, hasSelection)
+              "Jump to Source",
+              null,
+              AllIcons.Actions.EditSource,
+              { navigateSelection() },
+              hasSelection)
       val settings =
           SimpleAction(
               "Settings",
@@ -280,7 +288,9 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
       val more = DefaultActionGroup("More", true)
       more.templatePresentation.icon = AllIcons.Actions.More
       more.add(copyAction)
-      ActionManager.getInstance().getAction("Cucumber.FindUnusedStepDefinitions")?.let { more.add(it) }
+      ActionManager.getInstance().getAction("Cucumber.FindUnusedStepDefinitions")?.let {
+        more.add(it)
+      }
       more.addSeparator()
       more.add(settings)
 
@@ -330,7 +340,8 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
               hasSelection,
           )
       val expandSelected =
-          SimpleAction("Expand", null, AllIcons.Actions.Expandall, { expandSelection() }, hasSelection)
+          SimpleAction(
+              "Expand", null, AllIcons.Actions.Expandall, { expandSelection() }, hasSelection)
 
       // Context menu: only actions about the clicked item.
       val copyGroup = DefaultActionGroup("Copy", true)
@@ -492,7 +503,11 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
       return null
     }
 
-    private fun parse(file: VirtualFile, index: StepIndex.Index, fallback: Language?): FeatureEntry {
+    private fun parse(
+        file: VirtualFile,
+        index: StepIndex.Index,
+        fallback: Language?
+    ): FeatureEntry {
       val content = readText(file)
       val lines = content.split(Regex("\r?\n"))
       val dialect = GherkinSyntax.dialect(lines)
@@ -546,7 +561,8 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
             val steps = ArrayList<StepEntry>()
             currentSteps = steps
             scenarios.add(
-                TestEntry(file, i, header.title.ifEmpty { header.keyword }, pendingTags.toList(), steps))
+                TestEntry(
+                    file, i, header.title.ifEmpty { header.keyword }, pendingTags.toList(), steps))
             pendingTags.clear()
             continue
           }
@@ -625,7 +641,9 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
       for (feature in features) {
         val featureMatches =
             tagFilter == null &&
-                (filter.isEmpty() || contains(feature.title, filter) || contains(feature.file.name, filter))
+                (filter.isEmpty() ||
+                    contains(feature.title, filter) ||
+                    contains(feature.file.name, filter))
         val featureNode = DefaultMutableTreeNode(feature)
         for (test in feature.scenarios) {
           val matches =
@@ -710,7 +728,10 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
       }
       val expression = TagExpressions.parseOrNull(text) ?: return null
       if (TagExpressions.tags(text).size == 1 && !text.contains(' ') && !text.contains('(')) {
-        val used = features.any { feature -> feature.scenarios.any { tagMatches(feature, it, expression) } }
+        val used =
+            features.any { feature ->
+              feature.scenarios.any { tagMatches(feature, it, expression) }
+            }
         if (!used) {
           return null
         }
@@ -915,7 +936,8 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
 
     private fun runAll() {
       if (scanned && features.isEmpty()) {
-        Messages.showInfoMessage(project, "There are no .feature files in this project.", "Cucumber")
+        Messages.showInfoMessage(
+            project, "There are no .feature files in this project.", "Cucumber")
         return
       }
       run(null)
@@ -935,7 +957,8 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
     }
 
     private fun editorTarget(): RunTarget? {
-      val editor = project.getService(FileEditorManager::class.java).selectedTextEditor ?: return null
+      val editor =
+          project.getService(FileEditorManager::class.java).selectedTextEditor ?: return null
       val file = FileDocumentManager.getInstance().getFile(editor.document) ?: return null
       if (!isFeature(file)) {
         return null
@@ -1010,7 +1033,8 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
         project.basePath ?: throw ExecutionException("The project has no base directory")
 
     companion object {
-      private val LOG = com.intellij.openapi.diagnostic.Logger.getInstance(CucumberPanel::class.java)
+      private val LOG =
+          com.intellij.openapi.diagnostic.Logger.getInstance(CucumberPanel::class.java)
 
       private fun readText(file: VirtualFile): String {
         val document = FileDocumentManager.getInstance().getCachedDocument(file)
@@ -1066,7 +1090,6 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
   private class Renderer : ColoredTreeCellRenderer() {
     /** Per-feature language pills only help when the project mixes step-definition languages. */
     var showLanguage = false
-
 
     private fun pill(text: String, attributes: SimpleTextAttributes) {
       append("  ", SimpleTextAttributes.REGULAR_ATTRIBUTES)

@@ -1,11 +1,11 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.CucumberIcons
 import com.intellij.execution.configurations.ConfigurationFactory
 import com.intellij.execution.configurations.ConfigurationTypeBase
 import com.intellij.execution.configurations.ConfigurationTypeUtil
 import com.intellij.execution.configurations.RunConfiguration
 import com.intellij.openapi.project.Project
+import io.github.fangzhengjie.cucumber.CucumberIcons
 
 /** The "Cucumber" run configuration type: runs features, scenarios or folders of features. */
 class CucumberRunConfigurationType :

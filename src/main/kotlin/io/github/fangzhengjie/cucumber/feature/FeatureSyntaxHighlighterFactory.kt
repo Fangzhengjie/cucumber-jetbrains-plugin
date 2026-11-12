@@ -7,6 +7,8 @@ import com.intellij.openapi.vfs.VirtualFile
 
 class FeatureSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
 
-  override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?): SyntaxHighlighter =
-      FeatureSyntaxHighlighter()
+  override fun getSyntaxHighlighter(
+      project: Project?,
+      virtualFile: VirtualFile?
+  ): SyntaxHighlighter = FeatureSyntaxHighlighter()
 }

@@ -1,9 +1,5 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.CucumberIcons
-import io.github.fangzhengjie.cucumber.core.StepTextTemplates
-import io.github.fangzhengjie.cucumber.ide.StepIndex
-import io.github.fangzhengjie.cucumber.ide.StepUsageIndex
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.completion.InsertHandler
@@ -18,11 +14,15 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiManager
 import com.intellij.psi.util.PsiTreeUtil
+import io.github.fangzhengjie.cucumber.CucumberIcons
+import io.github.fangzhengjie.cucumber.core.StepTextTemplates
+import io.github.fangzhengjie.cucumber.ide.StepIndex
+import io.github.fangzhengjie.cucumber.ide.StepUsageIndex
 
 /**
  * Completion of step text: the project's step definitions rendered as text with placeholders
- * (inserted as a live template, Tab moves between parameters) and the steps already written in
- * the project's feature files.
+ * (inserted as a live template, Tab moves between parameters) and the steps already written in the
+ * project's feature files.
  */
 internal object FeatureStepCompletion {
 
@@ -92,7 +92,9 @@ internal object FeatureStepCompletion {
     val offered = HashSet<String>()
 
     val definitions =
-        StepIndex.get(project).definitions.sortedByDescending { acceptsKeyword(it.info.keyword, keyword) }
+        StepIndex.get(project).definitions.sortedByDescending {
+          acceptsKeyword(it.info.keyword, keyword)
+        }
     for (definition in definitions) {
       ProgressManager.checkCanceled()
       val info = definition.info
@@ -161,5 +163,7 @@ internal object FeatureStepCompletion {
   /** Whether a definition declared with `definitionKeyword` suits a step with `stepKeyword`. */
   private fun acceptsKeyword(definitionKeyword: String, stepKeyword: String): Boolean =
       definitionKeyword == stepKeyword ||
-          (definitionKeyword != "given" && definitionKeyword != "when" && definitionKeyword != "then")
+          (definitionKeyword != "given" &&
+              definitionKeyword != "when" &&
+              definitionKeyword != "then")
 }

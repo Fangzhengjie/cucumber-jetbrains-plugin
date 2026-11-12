@@ -1,12 +1,12 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.feature.FeatureOutlines
-import io.github.fangzhengjie.cucumber.feature.FeatureStep
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.ui.SimpleListCellRenderer
 import com.intellij.ui.awt.RelativePoint
+import io.github.fangzhengjie.cucumber.feature.FeatureOutlines
+import io.github.fangzhengjie.cucumber.feature.FeatureStep
 import javax.swing.JList
 
 /** Opens step definitions in the editor; several matches (ambiguous steps) offer a chooser. */

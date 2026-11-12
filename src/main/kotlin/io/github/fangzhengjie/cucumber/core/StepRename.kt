@@ -6,9 +6,9 @@ import java.util.regex.Pattern
  * Renaming a step: which part of a step definition pattern a step text change touches, the new
  * pattern, the new text of other steps using it, and the rewritten pattern literal in source.
  *
- * Only the literal parts of a pattern are renamed; a change touching a parameter, or a pattern
- * this cannot take apart safely (regex classes, quantifiers, optional text, alternatives...) is
- * refused (null).
+ * Only the literal parts of a pattern are renamed; a change touching a parameter, or a pattern this
+ * cannot take apart safely (regex classes, quantifiers, optional text, alternatives...) is refused
+ * (null).
  */
 object StepRename {
 
@@ -232,7 +232,9 @@ object StepRename {
     return -1
   }
 
-  /** Spans `[start, end)` of the literal pieces of `stepText`, or null if `regex` does not cover it. */
+  /**
+   * Spans `[start, end)` of the literal pieces of `stepText`, or null if `regex` does not cover it.
+   */
   private fun textSpans(regex: String, stepText: String, parameters: Int): List<IntArray>? {
     val matcher =
         try {
@@ -295,7 +297,13 @@ object StepRename {
    * changes the pattern; null when the change touches a parameter or the pattern is not simple.
    */
   @JvmStatic
-  fun plan(kind: PatternKind, pattern: String, regex: String, oldText: String, newText: String): Plan? {
+  fun plan(
+      kind: PatternKind,
+      pattern: String,
+      regex: String,
+      oldText: String,
+      newText: String
+  ): Plan? {
     if (oldText == newText || newText.isBlank()) {
       return null
     }
@@ -336,11 +344,11 @@ object StepRename {
       val newTexts = ArrayList(oldTexts)
       val span = spans[segment]
       val old = oldTexts[segment]
-      newTexts[segment] = old.substring(0, from - span[0]) + replacement + old.substring(to - span[0])
+      newTexts[segment] =
+          old.substring(0, from - span[0]) + replacement + old.substring(to - span[0])
       val newPattern = StringBuilder(template.prefix)
       for (i in newTexts.indices) {
-        newPattern.append(
-            if (i == segment) escape(kind, newTexts[i]) else template.texts[i].source)
+        newPattern.append(if (i == segment) escape(kind, newTexts[i]) else template.texts[i].source)
         if (i < template.parameters.size) {
           newPattern.append(template.parameters[i])
         }
@@ -382,11 +390,14 @@ object StepRename {
       return null
     }
     return when (language) {
-      Language.JAVA, Language.CPP -> Literals.java(text, offset)
-      Language.KOTLIN, Language.SCALA -> Literals.kotlin(text, offset)
+      Language.JAVA,
+      Language.CPP -> Literals.java(text, offset)
+      Language.KOTLIN,
+      Language.SCALA -> Literals.kotlin(text, offset)
       Language.GROOVY -> Literals.groovy(text, offset)
       Language.JAVASCRIPT ->
-          if (text[offset] == '/') Literals.regex(text, offset) else Literals.javaScript(text, offset)
+          if (text[offset] == '/') Literals.regex(text, offset)
+          else Literals.javaScript(text, offset)
       Language.PYTHON -> Literals.python(text, offset)
       Language.GO -> Literals.go(text, offset)
       Language.RUST -> Literals.rust(text, offset)
@@ -490,7 +501,8 @@ object StepRename {
       return if (value.indexOf(quote) >= 0 ||
           value.contains("\\\\") ||
           value.endsWith("\\") ||
-          value.contains('\n')) null
+          value.contains('\n'))
+          null
       else prefix + quote + value + quote
     }
     if (language == Language.RUBY && quote == '\'') {
@@ -546,8 +558,8 @@ object StepRename {
    * instead of `oldText`. The result is verified by parsing the edited source again; null when the
    * pattern or its literal cannot be rewritten safely.
    *
-   * `matchText` is the concrete text `oldText` stands for: for a Scenario Outline step
-   * `I have <n> cukes` it is the text with Examples values substituted (`I have 5 cukes`).
+   * `matchText` is the concrete text `oldText` stands for: for a Scenario Outline step `I have <n>
+   * cukes` it is the text with Examples values substituted (`I have 5 cukes`).
    */
   @JvmStatic
   fun renameDefinition(

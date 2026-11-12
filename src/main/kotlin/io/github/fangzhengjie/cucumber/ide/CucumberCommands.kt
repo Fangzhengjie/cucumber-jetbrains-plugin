@@ -8,8 +8,8 @@ import java.nio.file.Path
 import java.util.Locale
 
 /**
- * Builds the command that runs features or scenarios with the project's Cucumber runner. Shared
- * by the run configuration and the tool window; IDE-free (tested by SelfTest).
+ * Builds the command that runs features or scenarios with the project's Cucumber runner. Shared by
+ * the run configuration and the tool window; IDE-free (tested by SelfTest).
  */
 object CucumberCommands {
 
@@ -18,8 +18,8 @@ object CucumberCommands {
   /**
    * @param base the project directory
    * @param language the step-definition language; null detects it from build files
-   * @param features absolute feature files or directories, each optionally with `:line`
-   *   suffixes; empty runs every feature
+   * @param features absolute feature files or directories, each optionally with `:line` suffixes;
+   *   empty runs every feature
    * @param tags a tag expression, or null
    * @param messagesFile where Cucumber should write its ndjson messages (when supported)
    * @param debugPort port of a listening JVM debugger the test JVM connects to (JVM runners)
@@ -72,8 +72,7 @@ object CucumberCommands {
   fun detectLanguage(base: String, featurePath: String?): Language? {
     val root = Path.of(base).toAbsolutePath().normalize()
     var dir: Path? =
-        featurePath?.let { JvmCommand.localPath(JvmCommand.splitLines(it).first) }
-            ?: root
+        featurePath?.let { JvmCommand.localPath(JvmCommand.splitLines(it).first) } ?: root
     if (dir != null && !Files.isDirectory(dir)) {
       dir = dir.parent
     }
@@ -94,7 +93,9 @@ object CucumberCommands {
     }
     return try {
       Files.list(dir).use { files ->
-        if (files.anyMatch { it.fileName.toString().let { n -> n.endsWith(".csproj") || n.endsWith(".sln") } })
+        if (files.anyMatch {
+          it.fileName.toString().let { n -> n.endsWith(".csproj") || n.endsWith(".sln") }
+        })
             Language.CSHARP
         else null
       }
@@ -117,7 +118,8 @@ object CucumberCommands {
     val args = ArrayList<String>()
     when (language) {
       Language.JAVASCRIPT -> {
-        if (Files.exists(Path.of(base, "node_modules", "@cucumber", "cucumber", "bin", "cucumber.js"))) {
+        if (Files.exists(
+            Path.of(base, "node_modules", "@cucumber", "cucumber", "bin", "cucumber.js"))) {
           args.addAll(listOf("node", "node_modules/@cucumber/cucumber/bin/cucumber.js"))
         } else {
           args.addAll(listOf("npx", "cucumber-js"))
@@ -139,7 +141,9 @@ object CucumberCommands {
         }
         args.addAll(features)
         tags?.let { args.addAll(listOf("--tags", it)) }
-        messages?.let { args.addAll(listOf("--format", "pretty", "--format", "message", "--out", it)) }
+        messages?.let {
+          args.addAll(listOf("--format", "pretty", "--format", "message", "--out", it))
+        }
       }
       Language.JAVA,
       Language.KOTLIN,
@@ -156,11 +160,20 @@ object CucumberCommands {
         return RunCommand(command.argv + request.extraArgs, command.workDir, command.env)
       }
       Language.GO ->
-          return nativeCommand(base, first, listOf("go.mod"), listOf("go", "test", "./...", "-v") + request.extraArgs)
+          return nativeCommand(
+              base,
+              first,
+              listOf("go.mod"),
+              listOf("go", "test", "./...", "-v") + request.extraArgs)
       Language.RUST ->
-          return nativeCommand(base, first, listOf("Cargo.toml"), listOf("cargo", "test") + request.extraArgs)
+          return nativeCommand(
+              base, first, listOf("Cargo.toml"), listOf("cargo", "test") + request.extraArgs)
       Language.CSHARP ->
-          return nativeCommand(base, first, listOf("*.sln", "*.csproj"), listOf("dotnet", "test") + request.extraArgs)
+          return nativeCommand(
+              base,
+              first,
+              listOf("*.sln", "*.csproj"),
+              listOf("dotnet", "test") + request.extraArgs)
       else -> throw CommandException("No runner for " + language.displayName() + " projects.")
     }
     args.addAll(request.extraArgs)
@@ -174,7 +187,8 @@ object CucumberCommands {
         Files.createDirectories(dir)
         val file = dir.resolve("cucumber-init.gradle")
         val content = JvmCommand.GRADLE_INIT_SCRIPT
-        if (!Files.isRegularFile(file) || Files.readString(file, StandardCharsets.UTF_8) != content) {
+        if (!Files.isRegularFile(file) ||
+            Files.readString(file, StandardCharsets.UTF_8) != content) {
           Files.writeString(file, content, StandardCharsets.UTF_8)
         }
         file.toString()
@@ -182,7 +196,9 @@ object CucumberCommands {
         null
       }
 
-  /** Runs [argv] in the closest directory (feature dir up to the project root) with a build file. */
+  /**
+   * Runs [argv] in the closest directory (feature dir up to the project root) with a build file.
+   */
   @Throws(CommandException::class)
   private fun nativeCommand(
       base: String,
@@ -191,8 +207,7 @@ object CucumberCommands {
       argv: List<String>,
   ): RunCommand {
     val root = Path.of(base).toAbsolutePath().normalize()
-    var dir: Path? =
-        feature?.let { JvmCommand.localPath(JvmCommand.splitLines(it).first) } ?: root
+    var dir: Path? = feature?.let { JvmCommand.localPath(JvmCommand.splitLines(it).first) } ?: root
     if (dir != null && !Files.isDirectory(dir)) {
       dir = dir.parent
     }
@@ -229,7 +244,8 @@ object CucumberCommands {
     val normalized = path.replace('\\', '/')
     val prefix = base.replace('\\', '/').trimEnd('/') + "/"
     val relative =
-        if (normalized.startsWith(prefix, ignoreCase = isWindows())) normalized.substring(prefix.length)
+        if (normalized.startsWith(prefix, ignoreCase = isWindows()))
+            normalized.substring(prefix.length)
         else normalized
     return relative + lines
   }

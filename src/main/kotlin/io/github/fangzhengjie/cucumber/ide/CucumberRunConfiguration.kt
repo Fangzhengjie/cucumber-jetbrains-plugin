@@ -1,8 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.Language
-import io.github.fangzhengjie.cucumber.core.TagExpressions
-import io.github.fangzhengjie.cucumber.feature.FeatureFileType
 import com.intellij.execution.ExecutionException
 import com.intellij.execution.Executor
 import com.intellij.execution.configuration.EnvironmentVariablesComponent
@@ -29,6 +26,9 @@ import com.intellij.ui.components.JBTextField
 import com.intellij.util.execution.ParametersListUtil
 import com.intellij.util.net.NetUtils
 import com.intellij.util.ui.FormBuilder
+import io.github.fangzhengjie.cucumber.core.Language
+import io.github.fangzhengjie.cucumber.core.TagExpressions
+import io.github.fangzhengjie.cucumber.feature.FeatureFileType
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
@@ -95,7 +95,8 @@ class CucumberRunConfiguration(project: Project, factory: ConfigurationFactory, 
     val base =
         when {
           path == null -> "All Features"
-          line > 0 -> "Scenario: " + targetName.ifBlank { Path.of(path).fileName.toString() + ":" + line }
+          line > 0 ->
+              "Scenario: " + targetName.ifBlank { Path.of(path).fileName.toString() + ":" + line }
           Files.isDirectory(Path.of(path)) -> "Features in " + Path.of(path).fileName
           else -> "Feature: " + targetName.ifBlank { Path.of(path).fileName.toString() }
         }
@@ -121,9 +122,11 @@ class CucumberRunConfiguration(project: Project, factory: ConfigurationFactory, 
 
   fun resolvedLanguage(): Language? {
     if (language.isNotBlank()) {
-      Language.entries.firstOrNull { it.name == language }?.let {
-        return it
-      }
+      Language.entries
+          .firstOrNull { it.name == language }
+          ?.let {
+            return it
+          }
     }
     val base = project.basePath ?: return null
     return CucumberCommands.detectLanguage(base, absoluteFeaturePath())
@@ -194,7 +197,9 @@ class CucumberRunConfiguration(project: Project, factory: ConfigurationFactory, 
           FileChooserDescriptorFactory.createSingleFileOrFolderDescriptor(FeatureFileType)
               .withTitle("Feature File or Directory"))
       workingDirectory.addBrowseFolderListener(
-          project, FileChooserDescriptorFactory.createSingleFolderDescriptor().withTitle("Working Directory"))
+          project,
+          FileChooserDescriptorFactory.createSingleFolderDescriptor()
+              .withTitle("Working Directory"))
       line.emptyText.text = "Whole feature"
       tags.emptyText.text = "e.g. @smoke and not @wip"
       workingDirectory.textField.let { (it as? JBTextField)?.emptyText?.text = "Automatic" }

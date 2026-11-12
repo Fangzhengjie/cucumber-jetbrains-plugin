@@ -63,8 +63,7 @@ object Snippets {
     }
 
     companion object {
-      @JvmStatic
-      fun of(code: String, offset: Int): Snippet = Snippet(listOf(Edit(offset, code)), 0)
+      @JvmStatic fun of(code: String, offset: Int): Snippet = Snippet(listOf(Edit(offset, code)), 0)
     }
   }
 
@@ -87,8 +86,7 @@ object Snippets {
       val token = m.group()
       val type =
           if (token.startsWith("\"") || token.startsWith("'")) PartType.STRING
-          else if (token.contains(".")) PartType.FLOAT
-          else PartType.INT
+          else if (token.contains(".")) PartType.FLOAT else PartType.INT
       parts.add(Part(type, token))
       last = m.end()
     }
@@ -210,8 +208,8 @@ object Snippets {
       text.replace("\\", "\\\\").replace(quote.toString(), "\\" + quote)
 
   /**
-   * Offset of the start of the line holding the `n`-th last `}` (n = 1 is the last), or the end
-   * of the text if there is none.
+   * Offset of the start of the line holding the `n`-th last `}` (n = 1 is the last), or the end of
+   * the text if there is none.
    */
   @JvmStatic
   fun beforeClosingBrace(text: String, n: Int): Int {
@@ -232,7 +230,6 @@ object Snippets {
     if (before.all { Character.isWhitespace(it) }) {
       return code
     }
-    return (if (before.endsWith("\n\n")) "" else if (before.endsWith("\n")) "\n" else "\n\n") +
-        code
+    return (if (before.endsWith("\n\n")) "" else if (before.endsWith("\n")) "\n" else "\n\n") + code
   }
 }

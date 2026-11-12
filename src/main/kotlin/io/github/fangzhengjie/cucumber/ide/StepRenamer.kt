@@ -1,6 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.StepRename
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationType
@@ -14,6 +13,7 @@ import com.intellij.openapi.vfs.ReadonlyStatusHandler
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiManager
+import io.github.fangzhengjie.cucumber.core.StepRename
 
 /**
  * Renames a step in every feature file and, when that can be done safely, the literal parts of the
@@ -24,13 +24,24 @@ object StepRenamer {
 
   const val NOTIFICATION_GROUP = "Cucumber Step Definitions"
 
-  private data class Change(val file: VirtualFile, val start: Int, val end: Int, val old: String, val new: String)
+  private data class Change(
+      val file: VirtualFile,
+      val start: Int,
+      val end: Int,
+      val old: String,
+      val new: String
+  )
 
-  private data class Plan(val changes: List<Change>, val steps: Int, val definitionRenamed: Boolean, val note: String?)
+  private data class Plan(
+      val changes: List<Change>,
+      val steps: Int,
+      val definitionRenamed: Boolean,
+      val note: String?
+  )
 
   /**
-   * Asks for the new text of `oldText` and renames it. `definition` restricts the rename to one step
-   * definition (when started from code or resolved from the step); otherwise the definitions
+   * Asks for the new text of `oldText` and renames it. `definition` restricts the rename to one
+   * step definition (when started from code or resolved from the step); otherwise the definitions
    * matching `matchText` (`oldText` with Scenario Outline values substituted) are used.
    */
   fun rename(
@@ -49,7 +60,9 @@ object StepRenamer {
                 oldText,
                 object : InputValidator {
                   override fun checkInput(inputString: String?): Boolean =
-                      inputString != null && inputString.isNotBlank() && inputString.trim() != oldText
+                      inputString != null &&
+                          inputString.isNotBlank() &&
+                          inputString.trim() != oldText
 
                   override fun canClose(inputString: String?): Boolean = checkInput(inputString)
                 })
@@ -81,7 +94,10 @@ object StepRenamer {
             plan.steps +
             (if (plan.steps == 1) " feature step" else " feature steps") +
             (if (plan.definitionRenamed) " and the step definition pattern" else "")
-    report(project, if (plan.note == null) editor else null, if (plan.note == null) summary else "$summary. ${plan.note}")
+    report(
+        project,
+        if (plan.note == null) editor else null,
+        if (plan.note == null) summary else "$summary. ${plan.note}")
   }
 
   private fun plan(
@@ -102,7 +118,9 @@ object StepRenamer {
       val document = file?.let { FileDocumentManager.getInstance().getDocument(it) }
       val edit =
           if (file == null || document == null) null
-          else StepRename.renameDefinition(document.text, definition.info, oldText, newText, matchText)
+          else
+              StepRename.renameDefinition(
+                  document.text, definition.info, oldText, newText, matchText)
       // Every step using the definition must follow it, or the change would leave some undefined.
       val rewritten =
           edit?.let {
@@ -136,13 +154,18 @@ object StepRenamer {
     } else if (definitions.isEmpty()) {
       note = "No step definition matches the step; only feature steps were renamed"
     } else {
-      note = "The step matches ${definitions.size} step definitions; only feature steps were renamed"
+      note =
+          "The step matches ${definitions.size} step definitions; only feature steps were renamed"
     }
     // Steps with the same text, except those bound to another definition (keyword-sensitive
     // frameworks can bind `Given x` and `When x` to different definitions).
     val boundElsewhere =
         if (definitions.size != 1) emptySet()
-        else usages.index.definitions.filter { it != definitions[0] }.flatMap { usages.of(it) }.toSet()
+        else
+            usages.index.definitions
+                .filter { it != definitions[0] }
+                .flatMap { usages.of(it) }
+                .toSet()
     for (usage in usages.steps) {
       if (usage.text == oldText && usage !in renamed && usage !in boundElsewhere) {
         renamed[usage] = newText
@@ -150,9 +173,11 @@ object StepRenamer {
     }
     val changes =
         renamed.map { (usage, text) ->
-          Change(usage.file, usage.textOffset, usage.textOffset + usage.text.length, usage.text, text)
+          Change(
+              usage.file, usage.textOffset, usage.textOffset + usage.text.length, usage.text, text)
         }
-    return Plan(listOfNotNull(definitionChange) + changes, changes.size, definitionChange != null, note)
+    return Plan(
+        listOfNotNull(definitionChange) + changes, changes.size, definitionChange != null, note)
   }
 
   private fun apply(project: Project, changes: List<Change>) {
@@ -168,7 +193,8 @@ object StepRenamer {
             val document = FileDocumentManager.getInstance().getDocument(file) ?: continue
             for (change in fileChanges.sortedByDescending { it.start }) {
               if (change.end <= document.textLength &&
-                  document.charsSequence.subSequence(change.start, change.end).toString() == change.old) {
+                  document.charsSequence.subSequence(change.start, change.end).toString() ==
+                      change.old) {
                 document.replaceString(change.start, change.end, change.new)
               }
             }
@@ -181,7 +207,8 @@ object StepRenamer {
     if (editor != null && !editor.isDisposed) {
       HintManager.getInstance().showInformationHint(editor, message)
     } else {
-      Notification(NOTIFICATION_GROUP, "Rename Cucumber step", message, NotificationType.INFORMATION)
+      Notification(
+              NOTIFICATION_GROUP, "Rename Cucumber step", message, NotificationType.INFORMATION)
           .notify(project)
     }
   }
