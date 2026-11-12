@@ -1,11 +1,11 @@
 package verify;
 
-import com.github.cucumber.jetbrains.plugin.core.CucumberMessages;
-import com.github.cucumber.jetbrains.plugin.core.RunResults;
-import com.github.cucumber.jetbrains.plugin.ide.CucumberRunConfiguration;
-import com.github.cucumber.jetbrains.plugin.ide.CucumberRunConfigurationProducer;
-import com.github.cucumber.jetbrains.plugin.ide.CucumberRunLineMarkerContributor;
-import com.github.cucumber.jetbrains.plugin.ide.CucumberRunResults;
+import io.github.fangzhengjie.cucumber.core.CucumberMessages;
+import io.github.fangzhengjie.cucumber.core.RunResults;
+import io.github.fangzhengjie.cucumber.ide.CucumberRunConfiguration;
+import io.github.fangzhengjie.cucumber.ide.CucumberRunConfigurationProducer;
+import io.github.fangzhengjie.cucumber.ide.CucumberRunLineMarkerContributor;
+import io.github.fangzhengjie.cucumber.ide.CucumberRunResults;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.codeInsight.daemon.impl.DaemonCodeAnalyzerImpl;

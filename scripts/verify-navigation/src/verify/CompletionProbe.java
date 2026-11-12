@@ -1,6 +1,6 @@
 package verify;
 
-import com.github.cucumber.jetbrains.plugin.feature.FeatureStep;
+import io.github.fangzhengjie.cucumber.feature.FeatureStep;
 import com.intellij.codeInsight.completion.CodeCompletionHandlerBase;
 import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.codeInsight.lookup.Lookup;

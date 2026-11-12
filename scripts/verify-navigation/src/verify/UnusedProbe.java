@@ -1,8 +1,8 @@
 package verify;
 
-import com.github.cucumber.jetbrains.plugin.ide.StepIndex;
-import com.github.cucumber.jetbrains.plugin.ide.StepUsageIndex;
-import com.github.cucumber.jetbrains.plugin.ide.UnusedStepDefinitions;
+import io.github.fangzhengjie.cucumber.ide.StepIndex;
+import io.github.fangzhengjie.cucumber.ide.StepUsageIndex;
+import io.github.fangzhengjie.cucumber.ide.UnusedStepDefinitions;
 import com.intellij.ide.impl.ProjectUtil;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ApplicationStarter;

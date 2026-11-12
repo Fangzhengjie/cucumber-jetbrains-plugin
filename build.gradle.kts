@@ -81,7 +81,7 @@ val selfTest = tasks.register<JavaExec>("selfTest") {
     group = "verification"
     description = "Runs the IDE-free SelfTest."
     classpath = sourceSets.test.get().runtimeClasspath
-    mainClass = "com.github.cucumber.jetbrains.plugin.SelfTest"
+    mainClass = "io.github.fangzhengjie.cucumber.SelfTest"
     args(layout.projectDirectory.dir("src/test/resources/testdata/multi-language").asFile.absolutePath)
     providers.gradleProperty("cucumberProjects").orNull
         ?.split(',')
@@ -95,7 +95,7 @@ val windowsArgsTest = tasks.register<JavaExec>("windowsArgsTest") {
     group = "verification"
     description = "Checks command-line quoting through cmd.exe on Windows."
     classpath = sourceSets.test.get().runtimeClasspath + sourceSets.test.get().compileClasspath
-    mainClass = providers.gradleProperty("argsMain").orElse("com.github.cucumber.jetbrains.plugin.WindowsArgsMain")
+    mainClass = providers.gradleProperty("argsMain").orElse("io.github.fangzhengjie.cucumber.WindowsArgsMain")
     onlyIf { System.getProperty("os.name").lowercase().startsWith("windows") }
 }
 
