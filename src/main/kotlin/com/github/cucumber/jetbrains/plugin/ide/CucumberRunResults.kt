@@ -82,7 +82,7 @@ class CucumberRunResults(private val project: Project) :
     ApplicationManager.getApplication().invokeLater(
         {
           val psiManager = PsiManager.getInstance(project)
-          for (file in FileEditorManager.getInstance(project).openFiles) {
+          for (file in project.getService(FileEditorManager::class.java).openFiles) {
             if (key(file.path) in keys) {
               psiManager.findFile(file)?.let {
                 DaemonCodeAnalyzer.getInstance(project).restart(it, "Cucumber run results")

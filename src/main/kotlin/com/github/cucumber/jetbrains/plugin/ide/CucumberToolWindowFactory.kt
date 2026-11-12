@@ -198,7 +198,7 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
       TreeUIHelper.getInstance().installTreeSpeedSearch(tree)
       tree.addTreeSelectionListener { selection = selectedValue() }
       editorFeature =
-          FileEditorManager.getInstance(project).selectedFiles.firstOrNull()?.let { isFeature(it) } == true
+          project.getService(FileEditorManager::class.java).selectedFiles.firstOrNull()?.let { isFeature(it) } == true
       object : DoubleClickListener() {
             override fun onDoubleClick(event: MouseEvent): Boolean {
               navigateSelection()
@@ -852,7 +852,7 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
     }
 
     private fun locateOpenedFile() {
-      val editor = FileEditorManager.getInstance(project).selectedTextEditor ?: return
+      val editor = project.getService(FileEditorManager::class.java).selectedTextEditor ?: return
       val file = FileDocumentManager.getInstance().getFile(editor.document)
       if (file != null) {
         selectFile(file, editor.caretModel.logicalPosition.line)
@@ -935,7 +935,7 @@ class CucumberToolWindowFactory : ToolWindowFactory, DumbAware {
     }
 
     private fun editorTarget(): RunTarget? {
-      val editor = FileEditorManager.getInstance(project).selectedTextEditor ?: return null
+      val editor = project.getService(FileEditorManager::class.java).selectedTextEditor ?: return null
       val file = FileDocumentManager.getInstance().getFile(editor.document) ?: return null
       if (!isFeature(file)) {
         return null
