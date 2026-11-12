@@ -4,7 +4,7 @@
   <vendor>verify</vendor>
   <idea-version since-build="262" />
   <depends>com.intellij.modules.platform</depends>
-  <depends>com.github.cucumber.jetbrains.plugin</depends>
+  <depends>io.github.fangzhengjie.cucumber</depends>
   <depends>intellij.testRunner.plugin</depends>
   <extensions defaultExtensionNs="com.intellij">
     <appStarter id="cucumberNavigationProbe" implementation="verify.NavigationProbe" />
