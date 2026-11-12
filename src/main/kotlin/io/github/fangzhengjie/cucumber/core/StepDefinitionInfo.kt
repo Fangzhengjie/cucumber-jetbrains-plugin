@@ -21,13 +21,14 @@ data class StepDefinitionInfo(
 ) {
 
   /** [regex] compiled once (null when invalid); not part of equality. */
-  val compiled: Pattern? by lazy(LazyThreadSafetyMode.PUBLICATION) {
-    try {
-      Pattern.compile(regex)
-    } catch (e: RuntimeException) {
-      null
-    }
-  }
+  val compiled: Pattern? by
+      lazy(LazyThreadSafetyMode.PUBLICATION) {
+        try {
+          Pattern.compile(regex)
+        } catch (e: RuntimeException) {
+          null
+        }
+      }
 
   /** Whether `stepText` is matched by this step definition. */
   fun matches(stepText: String): Boolean = compiled?.matcher(stepText)?.find() ?: false
@@ -39,7 +40,10 @@ data class StepDefinitionInfo(
    * (`@step`, `[StepDefinition]`) bind any keyword.
    */
   fun acceptsKeyword(stepKeyword: String?): Boolean =
-      stepKeyword == null || !language.keywordSensitive || keyword == "step" || keyword == stepKeyword
+      stepKeyword == null ||
+          !language.keywordSensitive ||
+          keyword == "step" ||
+          keyword == stepKeyword
 
   /** [matches] and [acceptsKeyword] together. */
   fun matches(stepText: String, stepKeyword: String?): Boolean =

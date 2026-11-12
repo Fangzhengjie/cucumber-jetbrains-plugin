@@ -16,7 +16,8 @@ import java.util.Locale
 object JavaScriptAdapter : LanguageAdapter {
 
   private val CALL =
-      Regex("""(?<![\w${'$'}.])(?:this\.)?(Given|When|Then|defineStep|Step)\s*(?:<[^<>()]*>)?\s*\(\s*""")
+      Regex(
+          """(?<![\w${'$'}.])(?:this\.)?(Given|When|Then|defineStep|Step)\s*(?:<[^<>()]*>)?\s*\(\s*""")
   private val TYPESCRIPT_FILE = Regex("""(?i).*\.(ts|tsx|mts|cts)${'$'}""")
 
   override fun language(): Language = Language.JAVASCRIPT
@@ -31,7 +32,8 @@ object JavaScriptAdapter : LanguageAdapter {
       }
       val end = call.range.last + 1
       val regex = end < text.length && text[end] == '/'
-      val literal = (if (regex) Literals.regex(text, end) else Literals.javaScript(text, end)) ?: continue
+      val literal =
+          (if (regex) Literals.regex(text, end) else Literals.javaScript(text, end)) ?: continue
       val kind = if (regex) PatternKind.REGEX else PatternKind.CUCUMBER_EXPRESSION
       val keyword = call.groupValues[1].lowercase(Locale.ROOT)
       steps.add(
@@ -46,7 +48,11 @@ object JavaScriptAdapter : LanguageAdapter {
     return steps
   }
 
-  override fun snippet(request: Snippets.Request, fileText: String, fileName: String): Snippets.Snippet {
+  override fun snippet(
+      request: Snippets.Request,
+      fileText: String,
+      fileName: String
+  ): Snippets.Snippet {
     val typeScript = fileName.matches(TYPESCRIPT_FILE)
     val parameters = ArrayList<String>()
     val names = Snippets.argumentNames(request)

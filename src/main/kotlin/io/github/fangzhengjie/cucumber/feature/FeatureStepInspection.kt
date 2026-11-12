@@ -1,12 +1,12 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.ide.CreateStepDefinitionFix
-import io.github.fangzhengjie.cucumber.ide.StepIndex
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
+import io.github.fangzhengjie.cucumber.ide.CreateStepDefinitionFix
+import io.github.fangzhengjie.cucumber.ide.StepIndex
 
 class FeatureStepInspection : LocalInspectionTool() {
 
@@ -32,8 +32,7 @@ class FeatureStepInspection : LocalInspectionTool() {
                   ProblemHighlightType.GENERIC_ERROR_OR_WARNING,
                   CreateStepDefinitionFix())
             } else {
-              holder.registerProblem(
-                  step, message, ProblemHighlightType.GENERIC_ERROR_OR_WARNING)
+              holder.registerProblem(step, message, ProblemHighlightType.GENERIC_ERROR_OR_WARNING)
             }
           } else if (matches.size > 1) {
             holder.registerProblem(

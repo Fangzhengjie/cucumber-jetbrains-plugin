@@ -11,10 +11,20 @@ object GherkinSyntax {
    * A section header line such as `Scenario: x` / `场景：x`: [type] is its canonical kind (never a
    * step kind), [keyword] the source keyword without colon, [keywordEnd] the index after the colon.
    */
-  class Header(val type: GherkinKeywordType, val keyword: String, val title: String, val keywordEnd: Int)
+  class Header(
+      val type: GherkinKeywordType,
+      val keyword: String,
+      val title: String,
+      val keywordEnd: Int
+  )
 
   /** A step line: [keyword] as written (`Given`, `假如`, `*`), [text] the trimmed step text. */
-  class Step(val type: GherkinKeywordType, val keyword: String, val text: String, val keywordEnd: Int)
+  class Step(
+      val type: GherkinKeywordType,
+      val keyword: String,
+      val text: String,
+      val keywordEnd: Int
+  )
 
   /** The dialect of a feature file given as lines (only the leading comment block is read). */
   @JvmStatic
@@ -44,7 +54,10 @@ object GherkinSyntax {
     return Step(match.type, match.keyword, trimmed.substring(match.end).trim(), match.end)
   }
 
-  /** Lower-case English `given`/`when`/`then`/`and`/`but` (or `*`) for a step keyword of any dialect. */
+  /**
+   * Lower-case English `given`/`when`/`then`/`and`/`but` (or `*`) for a step keyword of any
+   * dialect.
+   */
   @JvmStatic
   fun canonicalStepKeyword(keyword: String): String {
     val trimmed = keyword.trim()
@@ -93,7 +106,10 @@ object GherkinSyntax {
     return end
   }
 
-  /** Index after a doc string that opens at [start] (the closing delimiter must match the opening one). */
+  /**
+   * Index after a doc string that opens at [start] (the closing delimiter must match the opening
+   * one).
+   */
   @JvmStatic
   fun docStringEnd(lines: List<String>, start: Int): Int {
     val delimiter = lines[start].trim().substring(0, 3)
@@ -107,7 +123,10 @@ object GherkinSyntax {
     return lines.size
   }
 
-  /** Cells of a trimmed table row (`\` escapes the next character), or null if it lacks the final `|`. */
+  /**
+   * Cells of a trimmed table row (`\` escapes the next character), or null if it lacks the final
+   * `|`.
+   */
   @JvmStatic
   fun cells(row: String): List<String>? {
     val cells = ArrayList<String>()

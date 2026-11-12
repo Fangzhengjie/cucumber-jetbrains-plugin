@@ -1,29 +1,28 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.Language
-import io.github.fangzhengjie.cucumber.core.StepRename
-import io.github.fangzhengjie.cucumber.feature.FeatureOutlines
-import io.github.fangzhengjie.cucumber.feature.FeatureStep
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ProjectRootModificationTracker
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.util.CachedValue
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import com.intellij.psi.util.PsiTreeUtil
+import io.github.fangzhengjie.cucumber.core.Language
+import io.github.fangzhengjie.cucumber.core.StepRename
+import io.github.fangzhengjie.cucumber.feature.FeatureOutlines
+import io.github.fangzhengjie.cucumber.feature.FeatureStep
 import java.util.regex.Pattern
 
 /**
- * The reverse of [StepIndex]: for each step definition, the feature steps it matches. Feature
- * files are found by scanning the project like [StepIndex]; each file's steps are cached until
- * that file changes, and step texts are only matched again when the definitions' patterns change.
- * Rebuilt only when step definitions or feature files change (see [CucumberModificationTrackers]).
- * All functions must be called in a read action.
+ * The reverse of [StepIndex]: for each step definition, the feature steps it matches. Feature files
+ * are found by scanning the project like [StepIndex]; each file's steps are cached until that file
+ * changes, and step texts are only matched again when the definitions' patterns change. Rebuilt
+ * only when step definitions or feature files change (see [CucumberModificationTrackers]). All
+ * functions must be called in a read action.
  */
 object StepUsageIndex {
 
@@ -186,8 +185,8 @@ object StepUsageIndex {
   }
 
   /**
-   * The step definition whose pattern literal contains `offset` in `file` (`text` is its
-   * content), else the one on the same line.
+   * The step definition whose pattern literal contains `offset` in `file` (`text` is its content),
+   * else the one on the same line.
    */
   fun definitionAt(
       usages: Usages,

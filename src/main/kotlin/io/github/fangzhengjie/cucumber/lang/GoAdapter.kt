@@ -45,7 +45,11 @@ object GoAdapter : LanguageAdapter {
     return steps
   }
 
-  override fun snippet(request: Snippets.Request, fileText: String, fileName: String): Snippets.Snippet {
+  override fun snippet(
+      request: Snippets.Request,
+      fileText: String,
+      fileName: String
+  ): Snippets.Snippet {
     val regex = Snippets.regex(request)
     val pattern = if (regex.contains("`")) "\"" + Snippets.escape(regex, '"') + "\"" else "`$regex`"
     val name = Snippets.camelName(request)
@@ -62,7 +66,11 @@ object GoAdapter : LanguageAdapter {
       parameters.add("table *godog.Table")
     }
     val function =
-        "func " + name + "(" + parameters.joinToString(", ") + ") error {\n\treturn godog.ErrPending\n}\n"
+        "func " +
+            name +
+            "(" +
+            parameters.joinToString(", ") +
+            ") error {\n\treturn godog.ErrPending\n}\n"
     val registration = "ctx.Step($pattern, $name)"
     val end = fileText.length
     val initializer = INITIALIZER.find(fileText)
@@ -74,7 +82,8 @@ object GoAdapter : LanguageAdapter {
     }
     val context = initializer.groupValues[1]
     val lineStart = fileText.lastIndexOf('\n', close - 1) + 1
-    val register = Snippets.Edit(lineStart, "\t" + CTX_PREFIX.replaceFirst(registration, context) + "\n")
+    val register =
+        Snippets.Edit(lineStart, "\t" + CTX_PREFIX.replaceFirst(registration, context) + "\n")
     val handler = Snippets.Edit(end, Snippets.separated(fileText, end, function))
     return Snippets.Snippet(listOf(register, handler), 1)
   }

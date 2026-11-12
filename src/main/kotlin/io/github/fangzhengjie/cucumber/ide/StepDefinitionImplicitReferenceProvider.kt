@@ -1,10 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.Language
-import io.github.fangzhengjie.cucumber.core.LiteralRanges
-import io.github.fangzhengjie.cucumber.core.StepRename
-import io.github.fangzhengjie.cucumber.feature.FeatureFile
-import io.github.fangzhengjie.cucumber.feature.FeatureStep
 import com.intellij.model.Pointer
 import com.intellij.model.Symbol
 import com.intellij.model.psi.ImplicitReferenceProvider
@@ -21,6 +16,11 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.SmartPointerManager
 import com.intellij.psi.util.PsiTreeUtil
+import io.github.fangzhengjie.cucumber.core.Language
+import io.github.fangzhengjie.cucumber.core.LiteralRanges
+import io.github.fangzhengjie.cucumber.core.StepRename
+import io.github.fangzhengjie.cucumber.feature.FeatureFile
+import io.github.fangzhengjie.cucumber.feature.FeatureStep
 
 /**
  * Gives a step definition's pattern literal its own reference when the file's PSI is one coarse
@@ -30,13 +30,17 @@ import com.intellij.psi.util.PsiTreeUtil
  */
 class StepDefinitionImplicitReferenceProvider : ImplicitReferenceProvider {
 
-  override fun getImplicitReference(element: PsiElement, offsetInElement: Int): PsiSymbolReference? {
+  override fun getImplicitReference(
+      element: PsiElement,
+      offsetInElement: Int
+  ): PsiSymbolReference? {
     if (element is PsiFile || element.firstChild != null || element.parent !is PsiFile) {
       return null
     }
     val leafRange = element.textRange ?: return null
     val (definition, literal) =
-        StepDefinitionLiteral.at(element.containingFile ?: return null, leafRange.startOffset + offsetInElement)
+        StepDefinitionLiteral.at(
+            element.containingFile ?: return null, leafRange.startOffset + offsetInElement)
             ?: return null
     if (!LiteralRanges.leafIsCoarser(
         leafRange.startOffset, leafRange.endOffset, literal.startOffset, literal.endOffset)) {
@@ -63,7 +67,9 @@ class StepDefinitionImplicitReferenceProvider : ImplicitReferenceProvider {
         StepDefinitionLiteral.featureSteps(element.project, definition).map(::FeatureStepSymbol)
   }
 
-  /** A feature step as a symbol, so Ctrl+click navigates to it (PsiSymbolService is internal API). */
+  /**
+   * A feature step as a symbol, so Ctrl+click navigates to it (PsiSymbolService is internal API).
+   */
   private class FeatureStepSymbol(private val step: PsiElement) : NavigatableSymbol {
 
     override fun createPointer(): Pointer<FeatureStepSymbol> =
@@ -104,7 +110,10 @@ class StepDefinitionImplicitReferenceProvider : ImplicitReferenceProvider {
 /** Locating step definition pattern literals in code files and the feature steps using them. */
 internal object StepDefinitionLiteral {
 
-  /** The step definition whose pattern literal contains `offset` in `file`, with that literal's range. */
+  /**
+   * The step definition whose pattern literal contains `offset` in `file`, with that literal's
+   * range.
+   */
   fun at(file: PsiFile, offset: Int): Pair<StepIndex.Definition, TextRange>? {
     if (file is FeatureFile) {
       return null

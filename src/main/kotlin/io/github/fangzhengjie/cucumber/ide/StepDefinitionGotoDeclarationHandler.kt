@@ -1,16 +1,16 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.Language
-import io.github.fangzhengjie.cucumber.core.LiteralRanges
-import io.github.fangzhengjie.cucumber.core.StepRename
-import io.github.fangzhengjie.cucumber.feature.FeatureFile
-import io.github.fangzhengjie.cucumber.feature.FeatureStep
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.util.PsiTreeUtil
+import io.github.fangzhengjie.cucumber.core.Language
+import io.github.fangzhengjie.cucumber.core.LiteralRanges
+import io.github.fangzhengjie.cucumber.core.StepRename
+import io.github.fangzhengjie.cucumber.feature.FeatureFile
+import io.github.fangzhengjie.cucumber.feature.FeatureStep
 
 /**
  * Ctrl+click / Ctrl+B on a step definition's pattern literal in code (any language, including files

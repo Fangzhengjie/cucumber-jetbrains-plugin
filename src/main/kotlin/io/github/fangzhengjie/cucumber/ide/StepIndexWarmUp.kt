@@ -13,9 +13,7 @@ import com.intellij.openapi.startup.ProjectActivity
 class StepIndexWarmUp : ProjectActivity {
 
   override suspend fun execute(project: Project) {
-    smartReadAction(project) {
-      StepUsageIndex.get(project)
-    }
+    smartReadAction(project) { StepUsageIndex.get(project) }
     // Editors opened while the scan ran got their icons from the slow path; refresh them so the
     // fast path takes over from now on.
     DaemonCodeAnalyzer.getInstance(project).restart("Cucumber step index ready")

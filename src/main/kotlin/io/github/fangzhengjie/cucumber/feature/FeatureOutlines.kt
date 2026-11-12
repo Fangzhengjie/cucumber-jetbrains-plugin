@@ -1,11 +1,11 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.core.Outlines
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
+import io.github.fangzhengjie.cucumber.core.Outlines
 
 /** Scenario Outline structure of a feature file, cached per file. */
 object FeatureOutlines {

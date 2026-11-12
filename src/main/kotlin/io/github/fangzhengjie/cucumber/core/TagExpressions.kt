@@ -1,8 +1,8 @@
 package io.github.fangzhengjie.cucumber.core
 
 /**
- * Cucumber tag expressions: `@a and not (@b or @c)`. Precedence (lowest first): `or`, `and`,
- * `not`. A backslash escapes `(`, `)`, `\` and whitespace inside a tag.
+ * Cucumber tag expressions: `@a and not (@b or @c)`. Precedence (lowest first): `or`, `and`, `not`.
+ * A backslash escapes `(`, `)`, `\` and whitespace inside a tag.
  */
 object TagExpressions {
 

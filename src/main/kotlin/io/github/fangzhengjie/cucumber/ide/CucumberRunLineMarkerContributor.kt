@@ -1,11 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.CucumberMessages
-import io.github.fangzhengjie.cucumber.core.FeatureOutline
-import io.github.fangzhengjie.cucumber.core.GherkinKeywordType
-import io.github.fangzhengjie.cucumber.core.RunResults
-import io.github.fangzhengjie.cucumber.feature.FeatureFile
-import io.github.fangzhengjie.cucumber.feature.FeatureTokenTypes
 import com.intellij.execution.TestStateStorage
 import com.intellij.execution.lineMarker.ExecutorAction
 import com.intellij.execution.lineMarker.RunLineMarkerContributor
@@ -17,6 +11,12 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
+import io.github.fangzhengjie.cucumber.core.CucumberMessages
+import io.github.fangzhengjie.cucumber.core.FeatureOutline
+import io.github.fangzhengjie.cucumber.core.GherkinKeywordType
+import io.github.fangzhengjie.cucumber.core.RunResults
+import io.github.fangzhengjie.cucumber.feature.FeatureFile
+import io.github.fangzhengjie.cucumber.feature.FeatureTokenTypes
 import java.text.DateFormat
 import javax.swing.Icon
 
@@ -35,7 +35,9 @@ class CucumberRunLineMarkerContributor : RunLineMarkerContributor() {
     if (node.elementType == FeatureTokenTypes.KEYWORD) {
       val type = file.dialect().sectionType(element.text) ?: return null
       feature = type == GherkinKeywordType.FEATURE
-      if (!feature && type != GherkinKeywordType.SCENARIO && type != GherkinKeywordType.SCENARIO_OUTLINE) {
+      if (!feature &&
+          type != GherkinKeywordType.SCENARIO &&
+          type != GherkinKeywordType.SCENARIO_OUTLINE) {
         return null
       }
     } else if (node.elementType == FeatureTokenTypes.TABLE && isExampleRow(element, file)) {
@@ -77,8 +79,8 @@ class CucumberRunLineMarkerContributor : RunLineMarkerContributor() {
     }
     // E.g. runs from before this plugin kept its own results: the platform's per-test record.
     val record =
-        TestStateStorage.getInstance(element.project).getState(CucumberMessages.location(virtualFile.path, line))
-            ?: return null
+        TestStateStorage.getInstance(element.project)
+            .getState(CucumberMessages.location(virtualFile.path, line)) ?: return null
     val status =
         when (record.magnitude) {
           MAGNITUDE_PASSED -> RunResults.Status.PASSED
@@ -88,7 +90,9 @@ class CucumberRunLineMarkerContributor : RunLineMarkerContributor() {
           else -> return null
         }
     val text = StringBuilder("Last run: ").append(status.label)
-    record.date?.let { text.append(" (").append(DateFormat.getDateTimeInstance().format(it)).append(')') }
+    record.date?.let {
+      text.append(" (").append(DateFormat.getDateTimeInstance().format(it)).append(')')
+    }
     RunResults.headline(record.errorMessage)?.let { text.append(": ").append(it) }
     return LastState(icon(status), text.toString())
   }

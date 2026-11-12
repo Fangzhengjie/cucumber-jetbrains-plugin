@@ -1,7 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.IgnoredPaths
-import io.github.fangzhengjie.cucumber.core.Language
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.Service
@@ -23,14 +21,16 @@ import com.intellij.openapi.vfs.newvfs.events.VFilePropertyChangeEvent
 import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiTreeChangeAdapter
 import com.intellij.psi.PsiTreeChangeEvent
+import io.github.fangzhengjie.cucumber.core.IgnoredPaths
+import io.github.fangzhengjie.cucumber.core.Language
 
 /**
- * What the step indexes depend on, finer than "any PSI change": [definitions] counts edits of
- * files in a step definition language, [features] edits of `.feature` files, so typing in an
- * unrelated file rebuilds nothing. Each follows what its index reads: step definitions are parsed
- * from document text (document events), feature steps from PSI (PSI events, i.e. after commit).
- * Changes made outside the IDE arrive as VFS events. [files] counts files or directories that
- * could hold them appearing, disappearing, moving or being renamed; unlike
+ * What the step indexes depend on, finer than "any PSI change": [definitions] counts edits of files
+ * in a step definition language, [features] edits of `.feature` files, so typing in an unrelated
+ * file rebuilds nothing. Each follows what its index reads: step definitions are parsed from
+ * document text (document events), feature steps from PSI (PSI events, i.e. after commit). Changes
+ * made outside the IDE arrive as VFS events. [files] counts files or directories that could hold
+ * them appearing, disappearing, moving or being renamed; unlike
  * [VirtualFileManager.VFS_STRUCTURE_MODIFICATIONS] it ignores build output and other files, so a
  * build writing `target/` doesn't rescan the project.
  */
@@ -105,30 +105,39 @@ class CucumberModificationTrackers(project: Project) : Disposable {
    */
   private fun changesFileSet(event: VFileEvent): Boolean =
       when (event) {
-        is VFileCreateEvent -> if (event.isDirectory) scannedDirectory(event.path) else relevantFile(event.path)
-        is VFileDeleteEvent -> if (event.file.isDirectory) scannedDirectory(event.path) else relevantFile(event.path)
+        is VFileCreateEvent ->
+            if (event.isDirectory) scannedDirectory(event.path) else relevantFile(event.path)
+        is VFileDeleteEvent ->
+            if (event.file.isDirectory) scannedDirectory(event.path) else relevantFile(event.path)
         is VFileMoveEvent ->
-            if (event.file.isDirectory) scannedDirectory(event.oldPath) || scannedDirectory(event.newPath)
+            if (event.file.isDirectory)
+                scannedDirectory(event.oldPath) || scannedDirectory(event.newPath)
             else relevantFile(event.oldPath) || relevantFile(event.newPath)
         is VFileCopyEvent ->
             if (event.file.isDirectory) scannedDirectory(event.path) else relevantFile(event.path)
         is VFilePropertyChangeEvent ->
             event.propertyName == VirtualFile.PROP_NAME &&
-                (if (event.file.isDirectory) scannedDirectory(event.oldPath) || scannedDirectory(event.newPath)
+                (if (event.file.isDirectory)
+                    scannedDirectory(event.oldPath) || scannedDirectory(event.newPath)
                 else relevantFile(event.oldPath) || relevantFile(event.newPath))
         else -> false
       }
 
-  /** A feature or step definition file outside build output, dependencies and hidden directories. */
+  /**
+   * A feature or step definition file outside build output, dependencies and hidden directories.
+   */
   private fun relevantFile(path: String): Boolean =
       kind(path.substringAfterLast('/')) != null && scannedFile(path)
 
   private fun scannedFile(path: String): Boolean = !IgnoredPaths.isIgnored(relative(path))
 
   /** Directories are judged relative to the project directory (see [IgnoredPaths]). */
-  private fun scannedDirectory(path: String): Boolean = !IgnoredPaths.isIgnoredDirectory(relative(path))
+  private fun scannedDirectory(path: String): Boolean =
+      !IgnoredPaths.isIgnoredDirectory(relative(path))
 
-  /** `path` relative to the project directory; outside it, just the last name (file or directory). */
+  /**
+   * `path` relative to the project directory; outside it, just the last name (file or directory).
+   */
   private fun relative(path: String): String {
     val base = basePath
     return if (base != null && path.startsWith("$base/")) path.substring(base.length + 1)

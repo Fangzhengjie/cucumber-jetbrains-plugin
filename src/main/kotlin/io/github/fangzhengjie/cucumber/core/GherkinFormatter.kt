@@ -2,8 +2,8 @@ package io.github.fangzhengjie.cucumber.core
 
 /**
  * IDE-free Gherkin formatter: normalizes indentation, trims trailing whitespace and aligns data
- * table columns. Every input line maps to exactly one output line (the line count never changes) and
- * only whitespace is changed, so the result can be applied line by line.
+ * table columns. Every input line maps to exactly one output line (the line count never changes)
+ * and only whitespace is changed, so the result can be applied line by line.
  */
 object GherkinFormatter {
 
@@ -18,7 +18,11 @@ object GherkinFormatter {
 
   /** Data table rows with aligned columns, each prefixed with [indent]; comment lines are kept. */
   private fun alignTable(rows: List<String>, indent: String): List<String> {
-    val parsed = rows.map { val t = it.trim(); if (GherkinSyntax.isTableRow(t)) GherkinSyntax.cells(t) else null }
+    val parsed =
+        rows.map {
+          val t = it.trim()
+          if (GherkinSyntax.isTableRow(t)) GherkinSyntax.cells(t) else null
+        }
     val widths = ArrayList<Int>()
     for (cells in parsed) {
       cells?.forEachIndexed { column, cell ->
@@ -32,7 +36,8 @@ object GherkinFormatter {
         cells == null -> indent + row.trim()
         cells.isEmpty() -> "$indent|"
         else ->
-            cells.mapIndexed { column, cell -> cell.padEnd(widths[column]) }
+            cells
+                .mapIndexed { column, cell -> cell.padEnd(widths[column]) }
                 .joinToString(" | ", "$indent| ", " |")
       }
     }

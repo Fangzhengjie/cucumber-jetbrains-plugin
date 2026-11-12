@@ -48,7 +48,11 @@ object CSharpAdapter : LanguageAdapter {
     return steps
   }
 
-  override fun snippet(request: Snippets.Request, fileText: String, fileName: String): Snippets.Snippet {
+  override fun snippet(
+      request: Snippets.Request,
+      fileText: String,
+      fileName: String
+  ): Snippets.Snippet {
     val parameters = ArrayList<String>()
     val names = Snippets.argumentNames(request)
     val types = request.parameterTypes()

@@ -1,8 +1,5 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.CucumberIcons
-import io.github.fangzhengjie.cucumber.core.GherkinOutline
-import io.github.fangzhengjie.cucumber.ide.LetterIcon
 import com.intellij.icons.AllIcons
 import com.intellij.ide.structureView.StructureViewBuilder
 import com.intellij.ide.structureView.StructureViewModel
@@ -16,9 +13,14 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import io.github.fangzhengjie.cucumber.CucumberIcons
+import io.github.fangzhengjie.cucumber.core.GherkinOutline
+import io.github.fangzhengjie.cucumber.ide.LetterIcon
 import javax.swing.Icon
 
-/** Structure tool window: Feature -> Background / Rule -> Scenario (Outline) -> Examples / steps. */
+/**
+ * Structure tool window: Feature -> Background / Rule -> Scenario (Outline) -> Examples / steps.
+ */
 class FeatureStructureViewFactory : PsiStructureViewFactory {
 
   override fun getStructureViewBuilder(psiFile: PsiFile): StructureViewBuilder? {
@@ -86,7 +88,8 @@ private class FeatureTreeElement(
         .navigate(requestFocus)
   }
 
-  override fun canNavigate(): Boolean = element.isValid && element.containingFile?.virtualFile != null
+  override fun canNavigate(): Boolean =
+      element.isValid && element.containingFile?.virtualFile != null
 
   override fun canNavigateToSource(): Boolean = canNavigate()
 
@@ -108,7 +111,8 @@ private class FeatureTreeElement(
         GherkinOutline.Kind.STEP -> LetterIcon.forKeyword(section.keyword, true)
       }
 
-  override fun equals(other: Any?): Boolean = other is FeatureTreeElement && other.element == element
+  override fun equals(other: Any?): Boolean =
+      other is FeatureTreeElement && other.element == element
 
   override fun hashCode(): Int = element.hashCode()
 }

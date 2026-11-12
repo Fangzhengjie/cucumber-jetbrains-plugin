@@ -13,10 +13,14 @@ object ArgDump {
   }
 
   fun escape(text: String): String =
-      text.map { if (it.code in 32..126) it.toString() else "\\u%04x".format(it.code) }.joinToString("")
+      text
+          .map { if (it.code in 32..126) it.toString() else "\\u%04x".format(it.code) }
+          .joinToString("")
 }
 
-/** Entry point of the `windowsArgsTest` Gradle task (needs the IntelliJ Platform on the classpath). */
+/**
+ * Entry point of the `windowsArgsTest` Gradle task (needs the IntelliJ Platform on the classpath).
+ */
 object WindowsArgsMain {
   @JvmStatic
   fun main(args: Array<String>) {

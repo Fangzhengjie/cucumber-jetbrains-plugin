@@ -1,6 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.Language
 import com.intellij.execution.Executor
 import com.intellij.execution.ProgramRunnerUtil
 import com.intellij.execution.RunManager
@@ -9,6 +8,7 @@ import com.intellij.execution.runners.ExecutionEnvironmentBuilder
 import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.project.Project
+import io.github.fangzhengjie.cucumber.core.Language
 
 /** Runs features through (temporary) Cucumber run configurations, e.g. from the tool window. */
 object CucumberLauncher {
@@ -57,7 +57,8 @@ object CucumberLauncher {
           created
         }
     runManager.selectedConfiguration = settings
-    // ProgramRunnerUtil.executeConfiguration(settings, executor) silently does nothing without a runner.
+    // ProgramRunnerUtil.executeConfiguration(settings, executor) silently does nothing without a
+    // runner.
     val builder = ExecutionEnvironmentBuilder.createOrNull(executor, settings)
     if (builder == null) {
       notifyFailure(

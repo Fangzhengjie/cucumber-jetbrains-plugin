@@ -1,7 +1,5 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.CucumberIcons
-import io.github.fangzhengjie.cucumber.core.Tags
 import com.intellij.codeInsight.AutoPopupController
 import com.intellij.codeInsight.completion.CompletionContributor
 import com.intellij.codeInsight.completion.CompletionParameters
@@ -15,6 +13,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.PsiFile
 import com.intellij.util.ProcessingContext
+import io.github.fangzhengjie.cucumber.CucumberIcons
+import io.github.fangzhengjie.cucumber.core.Tags
 
 /** Completes `@tags` with the tags used in the project's feature files. */
 class FeatureTagCompletionContributor : CompletionContributor() {
@@ -62,7 +62,12 @@ class FeatureTagCompletionContributor : CompletionContributor() {
 /** Opens tag completion when `@` is typed in a feature file. */
 class FeatureTagTypedHandler : TypedHandlerDelegate() {
 
-  override fun checkAutoPopup(charTyped: Char, project: Project, editor: Editor, file: PsiFile): Result {
+  override fun checkAutoPopup(
+      charTyped: Char,
+      project: Project,
+      editor: Editor,
+      file: PsiFile
+  ): Result {
     if (charTyped == '@' && file is FeatureFile) {
       AutoPopupController.getInstance(project).scheduleAutoPopup(editor)
       return Result.STOP

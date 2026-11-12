@@ -1,10 +1,10 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.ide.StepIndex
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import io.github.fangzhengjie.cucumber.ide.StepIndex
 
 /** Ctrl+click / Ctrl+B anywhere on a step line (keyword included) opens its definition(s). */
 class FeatureGotoDeclarationHandler : GotoDeclarationHandler {

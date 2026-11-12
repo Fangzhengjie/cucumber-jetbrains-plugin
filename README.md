@@ -161,7 +161,8 @@ IntelliJ Platform Gradle Plugin 2.x. The version is `pluginVersion` in `gradle.p
 exists, IntelliJ IDEA `platformVersion` is downloaded.
 
 ```powershell
-./gradlew.bat build              # compile + SelfTest + build/distributions/cucumber-jetbrains-plugin-<version>.zip
+./gradlew.bat build              # compile + SelfTest + format check + build/distributions/cucumber-jetbrains-plugin-<version>.zip
+./gradlew.bat spotlessApply      # format Kotlin sources and build scripts (ktfmt, Meta style)
 ./gradlew.bat buildPlugin        # plugin zip only
 ./gradlew.bat runIde             # start a sandbox IDE with the plugin
 ./gradlew.bat selfTest -PcucumberProjects=C:\src\my-service   # also check that project's steps all resolve

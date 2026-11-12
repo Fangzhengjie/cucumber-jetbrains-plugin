@@ -38,7 +38,11 @@ object CppAdapter : LanguageAdapter {
     return steps
   }
 
-  override fun snippet(request: Snippets.Request, fileText: String, fileName: String): Snippets.Snippet {
+  override fun snippet(
+      request: Snippets.Request,
+      fileText: String,
+      fileName: String
+  ): Snippets.Snippet {
     val code =
         StringBuilder()
             .append(Snippets.capitalized(request.keyword).uppercase(Locale.ROOT))
@@ -48,7 +52,12 @@ object CppAdapter : LanguageAdapter {
     val names = Snippets.argumentNames(request)
     val types = request.parameterTypes()
     for (i in names.indices) {
-      code.append("  REGEX_PARAM(").append(cppType(types[i])).append(", ").append(names[i]).append(");\n")
+      code
+          .append("  REGEX_PARAM(")
+          .append(cppType(types[i]))
+          .append(", ")
+          .append(names[i])
+          .append(");\n")
     }
     if (request.docString) {
       code.append("  REGEX_PARAM(std::string, docString);\n")

@@ -19,7 +19,9 @@ object StepUsagesPopup {
     }
   }
 
-  /** Opens a single usage directly; several are offered in a chooser at `where` or the editor caret. */
+  /**
+   * Opens a single usage directly; several are offered in a chooser at `where` or the editor caret.
+   */
   fun show(
       project: Project,
       usages: List<StepUsageIndex.Usage>,
@@ -46,7 +48,11 @@ object StepUsagesPopup {
     }
   }
 
-  private fun chooser(project: Project, usages: List<StepUsageIndex.Usage>, title: String): JBPopup =
+  private fun chooser(
+      project: Project,
+      usages: List<StepUsageIndex.Usage>,
+      title: String
+  ): JBPopup =
       JBPopupFactory.getInstance()
           .createPopupChooserBuilder(usages.sortedWith(compareBy({ it.file.path }, { it.line })))
           .setTitle(title)

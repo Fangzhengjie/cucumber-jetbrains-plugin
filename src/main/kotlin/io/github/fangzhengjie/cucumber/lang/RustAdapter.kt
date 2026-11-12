@@ -9,8 +9,8 @@ import io.github.fangzhengjie.cucumber.core.Snippets
 import io.github.fangzhengjie.cucumber.core.StepDefinitionInfo
 
 /**
- * cucumber-rs: `#[given("text")]` (matched exactly), `#[given(expr = "...")]` and
- * `#[given(regex = r"...")]`.
+ * cucumber-rs: `#[given("text")]` (matched exactly), `#[given(expr = "...")]` and `#[given(regex =
+ * r"...")]`.
  */
 object RustAdapter : LanguageAdapter {
 
@@ -32,7 +32,9 @@ object RustAdapter : LanguageAdapter {
       var kind = PatternKind.EXACT
       val qualifier = QUALIFIER.matchAt(text, position)
       if (qualifier != null) {
-        kind = if (qualifier.groupValues[1] == "expr") PatternKind.CUCUMBER_EXPRESSION else PatternKind.REGEX
+        kind =
+            if (qualifier.groupValues[1] == "expr") PatternKind.CUCUMBER_EXPRESSION
+            else PatternKind.REGEX
         position = qualifier.range.last + 1
       }
       val literal = Literals.rust(text, Literals.skipWhitespace(text, position))
@@ -50,7 +52,11 @@ object RustAdapter : LanguageAdapter {
     return steps
   }
 
-  override fun snippet(request: Snippets.Request, fileText: String, fileName: String): Snippets.Snippet {
+  override fun snippet(
+      request: Snippets.Request,
+      fileText: String,
+      fileName: String
+  ): Snippets.Snippet {
     val world = WORLD_PARAMETER.find(fileText)
     val signature = StringBuilder("world: &mut ").append(world?.groupValues?.get(1) ?: "World")
     val names = Snippets.argumentNames(request)

@@ -65,8 +65,14 @@ object Patterns {
 
   private fun expressionParameter(type: String): String =
       when (type) {
-        "int", "byte", "short", "long", "biginteger" -> "(-?\\d+)"
-        "float", "double", "bigdecimal" -> "(-?(?:\\d+\\.?\\d*|\\.\\d+)(?:[eE][-+]?\\d+)?)"
+        "int",
+        "byte",
+        "short",
+        "long",
+        "biginteger" -> "(-?\\d+)"
+        "float",
+        "double",
+        "bigdecimal" -> "(-?(?:\\d+\\.?\\d*|\\.\\d+)(?:[eE][-+]?\\d+)?)"
         "word" -> "([^\\s]+)"
         "string" -> "(\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*')"
         else -> "(.*)"
@@ -127,9 +133,19 @@ object Patterns {
   private fun parseType(spec: String): String {
     val type = if (spec.isEmpty()) ' ' else spec[spec.length - 1]
     return when (type) {
-      'd', 'n', 'b', 'o' -> "(-?\\d+)"
-      'x', 'X' -> "([0-9a-fA-F]+)"
-      'f', 'F', 'e', 'E', 'g', 'G', '%' -> "(-?(?:\\d+\\.?\\d*|\\.\\d+)(?:[eE][-+]?\\d+)?)"
+      'd',
+      'n',
+      'b',
+      'o' -> "(-?\\d+)"
+      'x',
+      'X' -> "([0-9a-fA-F]+)"
+      'f',
+      'F',
+      'e',
+      'E',
+      'g',
+      'G',
+      '%' -> "(-?(?:\\d+\\.?\\d*|\\.\\d+)(?:[eE][-+]?\\d+)?)"
       'w' -> "(\\w+)"
       'W' -> "(\\W+)"
       's' -> "(\\s+)"

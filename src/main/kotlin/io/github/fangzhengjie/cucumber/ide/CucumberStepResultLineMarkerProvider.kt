@@ -1,7 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.RunResults
-import io.github.fangzhengjie.cucumber.feature.FeatureTokenTypes
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
 import com.intellij.icons.AllIcons
@@ -9,6 +7,8 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
+import io.github.fangzhengjie.cucumber.core.RunResults
+import io.github.fangzhengjie.cucumber.feature.FeatureTokenTypes
 
 /**
  * Marks the steps that failed (or were undefined, ambiguous or pending) in the last Cucumber run,
@@ -29,7 +29,8 @@ class CucumberStepResultLineMarkerProvider : LineMarkerProvider {
     val document = PsiDocumentManager.getInstance(element.project).getDocument(file) ?: return null
     val line = document.getLineNumber(element.textRange.startOffset) + 1
     val result =
-        results.resultAt(virtualFile, line, CucumberRunLineMarkerContributor.lineText(document, line))
+        results.resultAt(
+            virtualFile, line, CucumberRunLineMarkerContributor.lineText(document, line))
             ?: return null
     val icon =
         when (result.status) {
@@ -40,7 +41,9 @@ class CucumberStepResultLineMarkerProvider : LineMarkerProvider {
           RunResults.Status.PASSED,
           RunResults.Status.SKIPPED -> return null
         }
-    val tooltip = "Last run: step " + StringUtil.escapeXmlEntities(result.describe().replaceFirstChar { it.lowercase() })
+    val tooltip =
+        "Last run: step " +
+            StringUtil.escapeXmlEntities(result.describe().replaceFirstChar { it.lowercase() })
     return LineMarkerInfo(
         element,
         element.textRange,

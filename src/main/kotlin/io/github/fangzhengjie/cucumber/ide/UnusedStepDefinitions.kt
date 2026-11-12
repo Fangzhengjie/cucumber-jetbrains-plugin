@@ -1,7 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.StepDefinitionBlocks
-import io.github.fangzhengjie.cucumber.core.StepRename
 import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.command.WriteCommandAction
@@ -21,6 +19,8 @@ import com.intellij.usages.UsageTarget
 import com.intellij.usages.UsageView
 import com.intellij.usages.UsageViewManager
 import com.intellij.usages.UsageViewPresentation
+import io.github.fangzhengjie.cucumber.core.StepDefinitionBlocks
+import io.github.fangzhengjie.cucumber.core.StepRename
 
 /**
  * Step definitions no feature step uses: listing them in the Find tool window and deleting them
@@ -50,7 +50,9 @@ object UnusedStepDefinitions {
         usages.of(definition).isEmpty()
       }
 
-  /** Usages (in the Find tool window sense) at the pattern literal of each definition. Read action. */
+  /**
+   * Usages (in the Find tool window sense) at the pattern literal of each definition. Read action.
+   */
   fun usageInfos(definitions: List<StepIndex.Definition>): List<UsageInfo> {
     val infos = ArrayList<UsageInfo>()
     for ((file, inFile) in definitions.groupBy { it.file }) {
@@ -71,7 +73,10 @@ object UnusedStepDefinitions {
     return infos
   }
 
-  /** Finds the unused definitions under a cancellable progress and shows them in the Find tool window. */
+  /**
+   * Finds the unused definitions under a cancellable progress and shows them in the Find tool
+   * window.
+   */
   fun show(project: Project) {
     val found =
         stepReadAction(project, "Finding unused Cucumber step definitions...") {
@@ -92,14 +97,20 @@ object UnusedStepDefinitions {
     presentation.setUsageTypeFilteringAvailable(false)
     val view =
         UsageViewManager.getInstance(project)
-            .showUsages(UsageTarget.EMPTY_ARRAY, infos.map { UsageInfo2UsageAdapter(it) }.toTypedArray(), presentation)
-    view.addButtonToLowerPane(Runnable { delete(project, targets(view, false)) }, "Delete All Not Excluded...")
-    view.addButtonToLowerPane(Runnable { delete(project, targets(view, true)) }, "Delete Selected...")
+            .showUsages(
+                UsageTarget.EMPTY_ARRAY,
+                infos.map { UsageInfo2UsageAdapter(it) }.toTypedArray(),
+                presentation)
+    view.addButtonToLowerPane(
+        Runnable { delete(project, targets(view, false)) }, "Delete All Not Excluded...")
+    view.addButtonToLowerPane(
+        Runnable { delete(project, targets(view, true)) }, "Delete Selected...")
   }
 
   /** The definitions selected in `view` (`selected`), or all of them that are not excluded. */
   fun targets(view: UsageView, selected: Boolean): List<Target> {
-    val usages: Collection<Usage> = if (selected) view.selectedUsages else view.usages - view.excludedUsages
+    val usages: Collection<Usage> =
+        if (selected) view.selectedUsages else view.usages - view.excludedUsages
     return usages.mapNotNull { usage ->
       val info = (usage as? UsageInfo2UsageAdapter)?.usageInfo ?: return@mapNotNull null
       val file = info.virtualFile ?: return@mapNotNull null
@@ -115,9 +126,11 @@ object UnusedStepDefinitions {
     val skipped = ArrayList<String>()
     for (target in targets.distinct()) {
       ProgressManager.checkCanceled()
-      val definition = usages.definitionsIn(target.file).firstOrNull { it.info.offset == target.offset }
+      val definition =
+          usages.definitionsIn(target.file).firstOrNull { it.info.offset == target.offset }
       if (definition == null) {
-        skipped.add(target.file.name + ": no step definition at offset " + target.offset + " any more")
+        skipped.add(
+            target.file.name + ": no step definition at offset " + target.offset + " any more")
         continue
       }
       val document = FileDocumentManager.getInstance().getDocument(target.file)
@@ -131,7 +144,8 @@ object UnusedStepDefinitions {
         skipped.add("$label: file cannot be edited")
         continue
       }
-      val block = StepDefinitionBlocks.find(definition.info.language, document.text, definition.info.offset)
+      val block =
+          StepDefinitionBlocks.find(definition.info.language, document.text, definition.info.offset)
       if (block == null) {
         skipped.add("$label: its extent cannot be determined safely")
         continue
@@ -166,12 +180,16 @@ object UnusedStepDefinitions {
     return deleted
   }
 
-  /** Deletes the `targets` that are still unused definitions, after confirmation. Call on the EDT. */
+  /**
+   * Deletes the `targets` that are still unused definitions, after confirmation. Call on the EDT.
+   */
   fun delete(project: Project, targets: Collection<Target>) {
     if (targets.isEmpty()) {
       return
     }
-    val plan = stepReadAction(project, "Checking Cucumber step definitions...") { plan(project, targets) } ?: return
+    val plan =
+        stepReadAction(project, "Checking Cucumber step definitions...") { plan(project, targets) }
+            ?: return
     if (plan.deletions.isEmpty()) {
       Messages.showInfoMessage(
           project, "Nothing to delete:\n" + list(plan.skipped), "Delete Unused Step Definitions")
@@ -181,7 +199,8 @@ object UnusedStepDefinitions {
     message
         .append("Delete ")
         .append(plan.deletions.size)
-        .append(if (plan.deletions.size == 1) " unused step definition" else " unused step definitions")
+        .append(
+            if (plan.deletions.size == 1) " unused step definition" else " unused step definitions")
         .append("?\n\n")
         .append(list(plan.deletions.map { it.label }))
     if (plan.skipped.isNotEmpty()) {
@@ -202,20 +221,24 @@ object UnusedStepDefinitions {
     val skipped = plan.skipped.size + plan.deletions.size - deleted
     notify(
         project,
-        "Deleted $deleted step " + (if (deleted == 1) "definition" else "definitions") +
+        "Deleted $deleted step " +
+            (if (deleted == 1) "definition" else "definitions") +
             (if (skipped > 0) ", left $skipped alone" else ""),
         if (skipped > 0) NotificationType.WARNING else NotificationType.INFORMATION)
   }
 
   private fun label(definition: StepIndex.Definition, document: Document?): String {
     val offset = definition.info.offset
-    val line = if (document != null && offset <= document.textLength) document.getLineNumber(offset) + 1 else 0
+    val line =
+        if (document != null && offset <= document.textLength) document.getLineNumber(offset) + 1
+        else 0
     return definition.file.name + ":" + line + "  " + definition.info.pattern
   }
 
   private fun list(lines: List<String>): String {
     val shown = lines.take(MAX_LISTED).joinToString("\n") { "  $it" }
-    return if (lines.size > MAX_LISTED) shown + "\n  ... and ${lines.size - MAX_LISTED} more" else shown
+    return if (lines.size > MAX_LISTED) shown + "\n  ... and ${lines.size - MAX_LISTED} more"
+    else shown
   }
 
   private fun notify(project: Project, content: String, type: NotificationType) {

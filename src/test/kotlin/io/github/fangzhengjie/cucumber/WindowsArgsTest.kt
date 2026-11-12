@@ -56,13 +56,19 @@ internal object WindowsArgsTest {
       val ansi = Charset.forName(System.getProperty("sun.jnu.encoding")).newEncoder()
       val tricky = TRICKY.filter { ansi.canEncode(it) }
       val command = RunCommand(listOf(bat.toString()) + tricky, dir.toString(), emptyMap())
-      val process = CucumberProcesses.commandLine(command).withRedirectErrorStream(true).createProcess()
+      val process =
+          CucumberProcesses.commandLine(command).withRedirectErrorStream(true).createProcess()
       val output = String(process.inputStream.readAllBytes(), StandardCharsets.UTF_8)
       process.waitFor(30, TimeUnit.SECONDS)
-      val received = output.lines().filter { it.startsWith("<") }.map { it.removePrefix("<").removeSuffix(">") }
+      val received =
+          output
+              .lines()
+              .filter { it.startsWith("<") }
+              .map { it.removePrefix("<").removeSuffix(">") }
       equal(tricky.size, received.size, "windows .bat: argument count (output:\n$output)")
       for (i in tricky.indices) {
-        equal(ArgDump.escape(tricky[i]), received.getOrNull(i), "windows .bat: argument ${tricky[i]}")
+        equal(
+            ArgDump.escape(tricky[i]), received.getOrNull(i), "windows .bat: argument ${tricky[i]}")
       }
     } finally {
       dir.toFile().deleteRecursively()

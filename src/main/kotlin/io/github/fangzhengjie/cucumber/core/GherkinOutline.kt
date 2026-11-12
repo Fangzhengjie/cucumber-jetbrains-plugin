@@ -2,8 +2,8 @@ package io.github.fangzhengjie.cucumber.core
 
 /**
  * IDE-free outline of a feature file: the Feature / Rule / Background / Scenario / Examples / step
- * hierarchy plus doc string and data table blocks, with text offsets (used by the structure view and
- * code folding).
+ * hierarchy plus doc string and data table blocks, with text offsets (used by the structure view
+ * and code folding).
  */
 object GherkinOutline {
 
@@ -18,8 +18,9 @@ object GherkinOutline {
   }
 
   /**
-   * A section or step. [startOffset] is the keyword start, [headerEnd] the end of the header line text,
-   * [endOffset] the end of its last content line (trailing tags, comments and blank lines excluded).
+   * A section or step. [startOffset] is the keyword start, [headerEnd] the end of the header line
+   * text, [endOffset] the end of its last content line (trailing tags, comments and blank lines
+   * excluded).
    */
   class Node(
       val kind: Kind,
@@ -102,7 +103,8 @@ object GherkinOutline {
         GherkinSyntax.isDocStringDelimiter(trimmed) || GherkinSyntax.isTableRow(trimmed) -> {
           val docString = GherkinSyntax.isDocStringDelimiter(trimmed)
           val end =
-              if (docString) GherkinSyntax.docStringEnd(lines, i) else GherkinSyntax.tableEnd(lines, i)
+              if (docString) GherkinSyntax.docStringEnd(lines, i)
+              else GherkinSyntax.tableEnd(lines, i)
           blocks.add(
               Block(
                   if (docString) BlockKind.DOC_STRING else BlockKind.TABLE,

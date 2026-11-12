@@ -1,13 +1,13 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.ide.StepIndex
-import io.github.fangzhengjie.cucumber.ide.StepNavigation
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.ui.awt.RelativePoint
+import io.github.fangzhengjie.cucumber.ide.StepIndex
+import io.github.fangzhengjie.cucumber.ide.StepNavigation
 import java.awt.event.MouseEvent
 
 /** Gutter icon on each defined step; click it to jump to the step definition in code. */
@@ -24,7 +24,8 @@ class FeatureStepLineMarkerProvider : LineMarkerProvider {
       return null
     }
     val tooltip =
-        if (definitions.size == 1) "Go to step definition: " + StepNavigation.describe(definitions[0])
+        if (definitions.size == 1)
+            "Go to step definition: " + StepNavigation.describe(definitions[0])
         else "Go to step definition (" + definitions.size + " matches)"
     return LineMarkerInfo(
         element,
@@ -35,9 +36,7 @@ class FeatureStepLineMarkerProvider : LineMarkerProvider {
           val current = keyword.parent
           if (current is FeatureStep) {
             StepNavigation.navigate(
-                current.project,
-                StepNavigation.definitions(current),
-                RelativePoint(mouseEvent))
+                current.project, StepNavigation.definitions(current), RelativePoint(mouseEvent))
           }
         },
         GutterIconRenderer.Alignment.LEFT,

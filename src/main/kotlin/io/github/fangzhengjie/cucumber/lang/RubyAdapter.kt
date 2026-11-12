@@ -26,7 +26,8 @@ object RubyAdapter : LanguageAdapter {
       }
       val literal = Literals.ruby(text, call.range.last + 1) ?: continue
       val first = text[literal.start]
-      val kind = if (first == '/' || first == '%') PatternKind.REGEX else PatternKind.CUCUMBER_EXPRESSION
+      val kind =
+          if (first == '/' || first == '%') PatternKind.REGEX else PatternKind.CUCUMBER_EXPRESSION
       steps.add(
           StepDefinitionInfo.of(
               Language.RUBY,
@@ -39,7 +40,11 @@ object RubyAdapter : LanguageAdapter {
     return steps
   }
 
-  override fun snippet(request: Snippets.Request, fileText: String, fileName: String): Snippets.Snippet {
+  override fun snippet(
+      request: Snippets.Request,
+      fileText: String,
+      fileName: String
+  ): Snippets.Snippet {
     val parameters = ArrayList(Snippets.argumentNames(request))
     if (request.docString) {
       parameters.add("doc_string")

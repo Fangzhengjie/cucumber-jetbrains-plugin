@@ -1,10 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.Language
-import io.github.fangzhengjie.cucumber.core.Snippets
-import io.github.fangzhengjie.cucumber.feature.FeatureOutlines
-import io.github.fangzhengjie.cucumber.feature.FeatureStep
-import io.github.fangzhengjie.cucumber.feature.FeatureTokenTypes
 import com.intellij.codeInsight.intention.preview.IntentionPreviewInfo
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
@@ -16,6 +11,11 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
+import io.github.fangzhengjie.cucumber.core.Language
+import io.github.fangzhengjie.cucumber.core.Snippets
+import io.github.fangzhengjie.cucumber.feature.FeatureOutlines
+import io.github.fangzhengjie.cucumber.feature.FeatureStep
+import io.github.fangzhengjie.cucumber.feature.FeatureTokenTypes
 
 /**
  * Adds a snippet for an undefined step to a step definition file. The step index is computed in a
@@ -34,8 +34,10 @@ class CreateStepDefinitionFix : LocalQuickFix {
 
   override fun startInWriteAction(): Boolean = false
 
-  override fun generatePreview(project: Project, previewDescriptor: ProblemDescriptor): IntentionPreviewInfo =
-      IntentionPreviewInfo.EMPTY
+  override fun generatePreview(
+      project: Project,
+      previewDescriptor: ProblemDescriptor
+  ): IntentionPreviewInfo = IntentionPreviewInfo.EMPTY
 
   override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
     PsiDocumentManager.getInstance(project).commitAllDocuments()
@@ -58,7 +60,8 @@ class CreateStepDefinitionFix : LocalQuickFix {
   private fun plan(project: Project, descriptor: ProblemDescriptor): Plan? {
     val step = descriptor.psiElement as? FeatureStep ?: return null
     val index = StepIndex.get(project)
-    val destination = index.files.filter { it.file.isWritable }.minByOrNull { it.file.name } ?: return null
+    val destination =
+        index.files.filter { it.file.isWritable }.minByOrNull { it.file.name } ?: return null
     val file = destination.file
     val virtualFile = file.virtualFile ?: return null
     val language = Language.forExtension(virtualFile.extension) ?: return null
