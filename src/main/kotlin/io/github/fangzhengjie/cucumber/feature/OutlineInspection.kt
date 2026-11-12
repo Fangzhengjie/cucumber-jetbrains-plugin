@@ -1,11 +1,11 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.core.Outlines
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
+import io.github.fangzhengjie.cucumber.core.Outlines
 
 /**
  * Scenario Outline checks: `<param>` without an Examples column, unused Examples columns, outlines

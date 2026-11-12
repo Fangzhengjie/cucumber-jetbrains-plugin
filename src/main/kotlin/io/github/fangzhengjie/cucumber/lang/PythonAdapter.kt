@@ -55,8 +55,7 @@ object PythonAdapter : LanguageAdapter {
         position = wrapper.range.last + 1
       }
       val literal = Literals.python(text, position) ?: continue
-      val mode =
-          parser ?: if (pytestBdd) "string" else behaveMatcherAt(text, decorator.range.first)
+      val mode = parser ?: if (pytestBdd) "string" else behaveMatcherAt(text, decorator.range.first)
       val kind =
           when (mode) {
             "re" -> PatternKind.REGEX
@@ -78,7 +77,11 @@ object PythonAdapter : LanguageAdapter {
     return steps
   }
 
-  override fun snippet(request: Snippets.Request, fileText: String, fileName: String): Snippets.Snippet {
+  override fun snippet(
+      request: Snippets.Request,
+      fileText: String,
+      fileName: String
+  ): Snippets.Snippet {
     val names = Snippets.argumentNames(request)
     val code: String
     if (isPytestBdd(fileText)) {
@@ -104,7 +107,8 @@ object PythonAdapter : LanguageAdapter {
               "):\n    raise NotImplementedError\n"
     } else {
       val pattern =
-          if (behaveMatcherAt(fileText, fileText.length) == "re") "r" + quote(Snippets.regex(request))
+          if (behaveMatcherAt(fileText, fileText.length) == "re")
+              "r" + quote(Snippets.regex(request))
           else quote(Snippets.parseFormat(request))
       val parameters = ArrayList<String>()
       parameters.add("context")

@@ -5,8 +5,8 @@ package io.github.fangzhengjie.cucumber.core
  * environments, hidden directories and build output.
  *
  * Paths are always relative to a project or content root, so the location of the project itself
- * (e.g. `C:/work/build/my-service`) never matters. Build output names (`build`, `target`, ...)
- * only count above the first `src` directory: `module/build/` is output, but
+ * (e.g. `C:/work/build/my-service`) never matters. Build output names (`build`, `target`, ...) only
+ * count above the first `src` directory: `module/build/` is output, but
  * `src/test/java/com/acme/build/` is source.
  */
 object IgnoredPaths {
@@ -16,11 +16,13 @@ object IgnoredPaths {
 
   /** Whether the file at `relativePath` (`/`- or `\`-separated, file name last) is skipped. */
   @JvmStatic
-  fun isIgnored(relativePath: String): Boolean = ignoredDirectories(directories(relativePath).dropLast(1))
+  fun isIgnored(relativePath: String): Boolean =
+      ignoredDirectories(directories(relativePath).dropLast(1))
 
   /** Whether the directory at `relativePath` (and everything below it) is skipped. */
   @JvmStatic
-  fun isIgnoredDirectory(relativePath: String): Boolean = ignoredDirectories(directories(relativePath))
+  fun isIgnoredDirectory(relativePath: String): Boolean =
+      ignoredDirectories(directories(relativePath))
 
   private fun directories(path: String): List<String> =
       path.split('/', '\\').filter { it.isNotEmpty() && it != "." }

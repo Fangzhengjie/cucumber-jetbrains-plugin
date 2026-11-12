@@ -1,12 +1,12 @@
 package io.github.fangzhengjie.cucumber
 
-import io.github.fangzhengjie.cucumber.core.GherkinDialects
-import io.github.fangzhengjie.cucumber.core.GherkinKeywordType
-import io.github.fangzhengjie.cucumber.core.GherkinFormatter
-import io.github.fangzhengjie.cucumber.core.GherkinOutline
-import io.github.fangzhengjie.cucumber.core.GherkinSyntax
 import io.github.fangzhengjie.cucumber.core.CucumberMessages
 import io.github.fangzhengjie.cucumber.core.FeatureOutline
+import io.github.fangzhengjie.cucumber.core.GherkinDialects
+import io.github.fangzhengjie.cucumber.core.GherkinFormatter
+import io.github.fangzhengjie.cucumber.core.GherkinKeywordType
+import io.github.fangzhengjie.cucumber.core.GherkinOutline
+import io.github.fangzhengjie.cucumber.core.GherkinSyntax
 import io.github.fangzhengjie.cucumber.core.IgnoredPaths
 import io.github.fangzhengjie.cucumber.core.Language
 import io.github.fangzhengjie.cucumber.core.Literals
@@ -19,8 +19,8 @@ import io.github.fangzhengjie.cucumber.core.StepArguments
 import io.github.fangzhengjie.cucumber.core.StepDefinitionInfo
 import io.github.fangzhengjie.cucumber.core.StepTextTemplates
 import io.github.fangzhengjie.cucumber.core.StepWords
-import io.github.fangzhengjie.cucumber.core.Tags
 import io.github.fangzhengjie.cucumber.core.TagExpressions
+import io.github.fangzhengjie.cucumber.core.Tags
 import io.github.fangzhengjie.cucumber.ide.CucumberCommands
 import io.github.fangzhengjie.cucumber.ide.JvmCommand
 import io.github.fangzhengjie.cucumber.lang.JavaScriptAdapter
@@ -157,7 +157,8 @@ object SelfTest {
     equal(GherkinKeywordType.GIVEN, GherkinDialects.stepType("Given"), "stepType English first")
     equal("given", GherkinKeywordType.GIVEN.stepKeyword(), "canonical keyword")
     check(
-        Regex("^(" + zh.alternation(GherkinKeywordType.WHEN) + ")").containsMatchIn("当x"), "zh regex")
+        Regex("^(" + zh.alternation(GherkinKeywordType.WHEN) + ")").containsMatchIn("当x"),
+        "zh regex")
     check(
         Regex("^(" + en.alternation(GherkinKeywordType.GIVEN) + ")").find("Givenx") == null,
         "en regex needs a space")
@@ -271,7 +272,8 @@ object SelfTest {
         "Feature: x\n  Scenario: y\n    Given a\n      ```\n      \"\"\"\n      ```",
         GherkinFormatter.format("Feature: x\nScenario: y\nGiven a\n```\n\"\"\"\n```"),
         "gherkin format backtick doc string")
-    val foreign = "# language: fr\nFonctionnalité: x\n Scénario: y\nSoit a  \n  |a|bb|\n      |ccc|d|   \n"
+    val foreign =
+        "# language: fr\nFonctionnalité: x\n Scénario: y\nSoit a  \n  |a|bb|\n      |ccc|d|   \n"
     equal(
         "# language: fr\nFonctionnalité: x\n  Scénario: y\n    Soit a\n      | a   | bb |\n      | ccc | d  |\n",
         GherkinFormatter.format(foreign),
@@ -292,7 +294,8 @@ object SelfTest {
         "outline scenario outline children")
     val examples = scenarioOutline.children[2]
     equal(expected.indexOf("| 3  | x     |") + 14, examples.endOffset, "outline examples end")
-    equal(examples.endOffset, scenarioOutline.endOffset, "outline scenario end excludes blank lines")
+    equal(
+        examples.endOffset, scenarioOutline.endOffset, "outline scenario end excludes blank lines")
     val rule = feature.children[2]
     equal("Rule: Members", rule.toString(), "outline rule")
     equal("[SCENARIO]", rule.children.map { it.kind }.toString(), "outline rule children")
@@ -300,16 +303,19 @@ object SelfTest {
         "[Given a member, And a table]",
         rule.children[0].children.map { "${it.keyword} ${it.title}" }.toString(),
         "outline steps")
+    equal("[TABLE, DOC_STRING, TABLE]", outline.blocks.map { it.kind }.toString(), "outline blocks")
     equal(
-        "[TABLE, DOC_STRING, TABLE]",
-        outline.blocks.map { it.kind }.toString(),
-        "outline blocks")
-    equal(expected.indexOf("        }\n        \"\"\"") + 21, outline.blocks[1].endOffset, "doc string end")
+        expected.indexOf("        }\n        \"\"\"") + 21,
+        outline.blocks[1].endOffset,
+        "doc string end")
     equal(
         "[FEATURE: [SCENARIO: [STEP]]]",
-        GherkinOutline.parse(foreign).roots.map { f ->
-          "${f.kind}: " + f.children.map { s -> "${s.kind}: " + s.children.map { it.kind } }
-        }.toString(),
+        GherkinOutline.parse(foreign)
+            .roots
+            .map { f ->
+              "${f.kind}: " + f.children.map { s -> "${s.kind}: " + s.children.map { it.kind } }
+            }
+            .toString(),
         "outline of other languages")
 
     val fixture = args.firstOrNull()?.let { Path.of(it).resolve("features") }
@@ -379,7 +385,10 @@ object SelfTest {
         "I eat 5 cucumbers named \"a|b\"",
         outline.substitute("I eat <eat> cucumbers named \"<name>\""),
         "substitution with first row")
-    equal("keep <zzz> 12", Outlines.substitute("keep <zzz> <a>", mapOf("a" to "12")), "unknown param kept")
+    equal(
+        "keep <zzz> 12",
+        Outlines.substitute("keep <zzz> <a>", mapOf("a" to "12")),
+        "unknown param kept")
     val eat = OUTLINE_FEATURE.indexOf("<eat>")
     equal("eat", outline.paramAt(eat + 2)?.name, "param at offset")
     val header = OUTLINE_FEATURE.indexOf("| start") + 2
@@ -388,8 +397,15 @@ object SelfTest {
     equal(1, outline.headerCells("left").size, "header cells for left")
     equal(outline, Outlines.scenarioAt(scenarios, eat), "scenario at offset")
     check(!scenarios[1].isOutline, "plain scenario")
-    equal("I have <count> cukes", scenarios[1].substitute("I have <count> cukes"), "no substitution in plain scenario")
-    check(Outlines.scenarios("Feature: x\n  Scenario: y\n    Given z\n    Examples:\n      | a |\n      | 1 |\n")[0].isOutline,
+    equal(
+        "I have <count> cukes",
+        scenarios[1].substitute("I have <count> cukes"),
+        "no substitution in plain scenario")
+    check(
+        Outlines.scenarios(
+                "Feature: x\n  Scenario: y\n    Given z\n    Examples:\n      | a |\n      | 1 |\n")[
+                0]
+            .isOutline,
         "Scenario with Examples is an outline")
   }
 
@@ -397,14 +413,23 @@ object SelfTest {
     val problems = Outlines.problems(Outlines.scenarios(OUTLINE_FEATURE))
     val messages = problems.map { it.message }
     check(messages.any { it.contains("'unused'") }, "unused column reported: $messages")
-    check(messages.none { it.contains("<start>") || it.contains("<eat>") }, "used params not reported: $messages")
-    check(messages.any { it.contains("<count>") && it.contains("Scenario Outline") }, "plain <x> reported: $messages")
-    check(messages.contains("Scenario Outline has no Examples"), "missing examples reported: $messages")
+    check(
+        messages.none { it.contains("<start>") || it.contains("<eat>") },
+        "used params not reported: $messages")
+    check(
+        messages.any { it.contains("<count>") && it.contains("Scenario Outline") },
+        "plain <x> reported: $messages")
+    check(
+        messages.contains("Scenario Outline has no Examples"),
+        "missing examples reported: $messages")
     val unknown =
         Outlines.problems(
             Outlines.scenarios(
                 "Scenario Outline: a\n  Given <x> and <y>\n  Examples:\n    | x |\n    | 1 |\n"))
-    equal(listOf("Parameter <y> is not a column of any Examples table"), unknown.map { it.message }, "unknown param")
+    equal(
+        listOf("Parameter <y> is not a column of any Examples table"),
+        unknown.map { it.message },
+        "unknown param")
     equal(Outlines.Severity.WARNING, unknown.firstOrNull()?.severity, "unknown param severity")
   }
 
@@ -417,10 +442,16 @@ object SelfTest {
   private fun stepArguments() {
     val ints =
         StepDefinitionInfo.of(
-            Language.JAVA, "given", PatternKind.CUCUMBER_EXPRESSION, "I have {int} cukes in {word}",
-            Patterns.cucumberExpression("I have {int} cukes in {word}"), 0)
+            Language.JAVA,
+            "given",
+            PatternKind.CUCUMBER_EXPRESSION,
+            "I have {int} cukes in {word}",
+            Patterns.cucumberExpression("I have {int} cukes in {word}"),
+            0)
     equal(
-        listOf(StepArguments.Argument("int", "{int}", "42"), StepArguments.Argument("word", "{word}", "box")),
+        listOf(
+            StepArguments.Argument("int", "{int}", "42"),
+            StepArguments.Argument("word", "{word}", "box")),
         StepArguments.extract(ints, "I have 42 cukes in box"),
         "extracted arguments")
     equal(null, StepArguments.mismatch(ints, "I have 42 cukes in box"), "no mismatch when matching")
@@ -431,22 +462,51 @@ object SelfTest {
         "argument 'abc' is not a valid {int} for step definition 'I have {int} cukes in {word}'",
         mismatch?.message,
         "mismatch message")
-    equal(null, StepArguments.mismatch(ints, "I own abc cukes in box"), "different text is no mismatch")
+    equal(
+        null,
+        StepArguments.mismatch(ints, "I own abc cukes in box"),
+        "different text is no mismatch")
     val anything =
         StepDefinitionInfo.of(
-            Language.JAVA, "given", PatternKind.CUCUMBER_EXPRESSION, "{int}", Patterns.cucumberExpression("{int}"), 0)
-    equal(null, StepArguments.bestMismatch(listOf(anything), "abc"), "parameter-only definitions ignored")
-    equal("abc", StepArguments.bestMismatch(listOf(anything, ints), "I have abc cukes in box")?.value, "best mismatch")
+            Language.JAVA,
+            "given",
+            PatternKind.CUCUMBER_EXPRESSION,
+            "{int}",
+            Patterns.cucumberExpression("{int}"),
+            0)
+    equal(
+        null,
+        StepArguments.bestMismatch(listOf(anything), "abc"),
+        "parameter-only definitions ignored")
+    equal(
+        "abc",
+        StepArguments.bestMismatch(listOf(anything, ints), "I have abc cukes in box")?.value,
+        "best mismatch")
     val parse =
         StepDefinitionInfo.of(
-            Language.PYTHON, "given", PatternKind.PARSE_FORMAT, "I wait {n:d} seconds",
-            Patterns.parseFormat("I wait {n:d} seconds"), 0)
+            Language.PYTHON,
+            "given",
+            PatternKind.PARSE_FORMAT,
+            "I wait {n:d} seconds",
+            Patterns.parseFormat("I wait {n:d} seconds"),
+            0)
     equal("{n:d}", StepArguments.mismatch(parse, "I wait x seconds")?.type, "parse format mismatch")
-    equal(listOf(StepArguments.Argument("n", "{n:d}", "3")), StepArguments.extract(parse, "I wait 3 seconds"), "parse args")
-    val escaped = StepArguments.relaxedRegex(
-        StepDefinitionInfo.of(
-            Language.JAVA, "given", PatternKind.CUCUMBER_EXPRESSION, "a \\{int} {float}", "", 0))
-    check(escaped != null && Pattern.compile(escaped).matcher("a {int} x").matches(), "escaped brace kept: $escaped")
+    equal(
+        listOf(StepArguments.Argument("n", "{n:d}", "3")),
+        StepArguments.extract(parse, "I wait 3 seconds"),
+        "parse args")
+    val escaped =
+        StepArguments.relaxedRegex(
+            StepDefinitionInfo.of(
+                Language.JAVA,
+                "given",
+                PatternKind.CUCUMBER_EXPRESSION,
+                "a \\{int} {float}",
+                "",
+                0))
+    check(
+        escaped != null && Pattern.compile(escaped).matcher("a {int} x").matches(),
+        "escaped brace kept: $escaped")
   }
 
   // feature: stepdefs -------------------------------------------------------
@@ -468,7 +528,8 @@ object SelfTest {
     if (plan != null) {
       equal(
           "I own 12 cukes",
-          rename.rewriteStep(plan, Patterns.cucumberExpression("I have {int} cukes"), "I have 12 cukes"),
+          rename.rewriteStep(
+              plan, Patterns.cucumberExpression("I have {int} cukes"), "I have 12 cukes"),
           "rename: other usage keeps its parameter")
     }
     check(
@@ -483,28 +544,40 @@ object SelfTest {
         "rename: cucumber expression escapes new special characters")
     equal(
         "the {string} user logs out",
-        stepdefsPlan(ce, "the {string} user logs in", "the \"bob\" user logs in", "the \"bob\" user logs out")
+        stepdefsPlan(
+                ce,
+                "the {string} user logs in",
+                "the \"bob\" user logs in",
+                "the \"bob\" user logs out")
             ?.newPattern,
         "rename: text after a parameter")
     equal(
         "^I own (\\d+) cukes\\.\$",
-        stepdefsPlan(PatternKind.REGEX, "^I have (\\d+) cukes\\.\$", "I have 5 cukes.", "I own 5 cukes.")
+        stepdefsPlan(
+                PatternKind.REGEX, "^I have (\\d+) cukes\\.\$", "I have 5 cukes.", "I own 5 cukes.")
             ?.newPattern,
         "rename: regex literal part keeps anchors and escapes")
     check(
-        stepdefsPlan(PatternKind.REGEX, "^I have (.*) cukes.*\$", "I have 5 cukes", "I own 5 cukes") ==
-            null,
+        stepdefsPlan(
+            PatternKind.REGEX, "^I have (.*) cukes.*\$", "I have 5 cukes", "I own 5 cukes") == null,
         "rename: regex with quantifiers is refused")
     equal(
         "I own {n:d} cukes {{x}}",
-        stepdefsPlan(PatternKind.PARSE_FORMAT, "I have {n:d} cukes {{x}}", "I have 5 cukes {x}", "I own 5 cukes {x}")
+        stepdefsPlan(
+                PatternKind.PARSE_FORMAT,
+                "I have {n:d} cukes {{x}}",
+                "I have 5 cukes {x}",
+                "I own 5 cukes {x}")
             ?.newPattern,
         "rename: parse format")
     equal(
         "a [c]",
         stepdefsPlan(PatternKind.EXACT, "a (b)", "a (b)", "a [c]")?.newPattern,
         "rename: exact text")
-    equal("a plain step", rename.literalText(ce, "a plain step"), "rename: literal text of a plain pattern")
+    equal(
+        "a plain step",
+        rename.literalText(ce, "a plain step"),
+        "rename: literal text of a plain pattern")
     check(rename.literalText(ce, "a {int} step") == null, "rename: no literal text with parameters")
   }
 
@@ -537,7 +610,8 @@ object SelfTest {
         "rename literal: Kotlin escapes quotes")
     equal(
         "@Given(\"pay \\\$ {int}\")\nfun a(n: Int) {}\n",
-        stepdefsRenameDefinition(Language.KOTLIN, "@Given(\"pay {int}\")\nfun a(n: Int) {}\n", "pay 5", "pay $ 5"),
+        stepdefsRenameDefinition(
+            Language.KOTLIN, "@Given(\"pay {int}\")\nfun a(n: Int) {}\n", "pay 5", "pay $ 5"),
         "rename literal: Kotlin escapes \$")
     equal(
         "#[given(regex = r\"^I own (\\d+) cukes$\")]\nasync fn a(w: &mut W, n: i32) {}\n",
@@ -562,15 +636,21 @@ object SelfTest {
         "rename literal: JavaScript regex literal escapes /")
     equal(
         "Given('it\\'s {int}') do |n|\nend\n",
-        stepdefsRenameDefinition(Language.RUBY, "Given('it is {int}') do |n|\nend\n", "it is 1", "it's 1"),
+        stepdefsRenameDefinition(
+            Language.RUBY, "Given('it is {int}') do |n|\nend\n", "it is 1", "it's 1"),
         "rename literal: Ruby single quotes")
     equal(
         "ctx.Step(`^I own (\\d+) cukes$`, f)\n",
-        stepdefsRenameDefinition(Language.GO, "ctx.Step(`^I have (\\d+) cukes$`, f)\n", "I have 5 cukes", "I own 5 cukes"),
+        stepdefsRenameDefinition(
+            Language.GO,
+            "ctx.Step(`^I have (\\d+) cukes$`, f)\n",
+            "I have 5 cukes",
+            "I own 5 cukes"),
         "rename literal: Go raw string")
     equal(
         "[Given(@\"say \"\"hi\"\"\")]\n",
-        stepdefsRenameDefinition(Language.CSHARP, "[Given(@\"say hello\")]\n", "say hello", "say \"hi\""),
+        stepdefsRenameDefinition(
+            Language.CSHARP, "[Given(@\"say hello\")]\n", "say hello", "say \"hi\""),
         "rename literal: C# verbatim string")
     check(
         stepdefsRenameDefinition(
@@ -581,8 +661,10 @@ object SelfTest {
         "rename literal: Java text block is refused")
     check(
         stepdefsRenameDefinition(
-            Language.JAVA, "@Given(\"I have {int} cukes\")\npublic void a(int n) {}\n", "I have 5 cukes", "I have 6 cukes") ==
-            null,
+            Language.JAVA,
+            "@Given(\"I have {int} cukes\")\npublic void a(int n) {}\n",
+            "I have 5 cukes",
+            "I have 6 cukes") == null,
         "rename literal: parameter change is refused")
   }
 
@@ -596,10 +678,17 @@ object SelfTest {
         }
     val cases =
         listOf(
-            Triple(Language.JAVA, "Steps.java", "package com.example.steps;\n\npublic class Steps {\n}\n"),
+            Triple(
+                Language.JAVA,
+                "Steps.java",
+                "package com.example.steps;\n\npublic class Steps {\n}\n"),
             Triple(Language.KOTLIN, "Steps.kt", "package com.example.steps\n\nclass Steps {\n}\n"),
-            Triple(Language.JAVASCRIPT, "steps.js", "const { Given } = require('@cucumber/cucumber');\n"),
-            Triple(Language.JAVASCRIPT, "steps.ts", "import { Given } from '@cucumber/cucumber';\n"),
+            Triple(
+                Language.JAVASCRIPT,
+                "steps.js",
+                "const { Given } = require('@cucumber/cucumber');\n"),
+            Triple(
+                Language.JAVASCRIPT, "steps.ts", "import { Given } from '@cucumber/cucumber';\n"),
             Triple(Language.PYTHON, "steps.py", "from behave import given\n"),
             Triple(Language.PYTHON, "test_steps.py", "from pytest_bdd import given\n"),
             Triple(Language.RUBY, "steps.rb", "Given('x') do\nend\n"))
@@ -608,22 +697,32 @@ object SelfTest {
       check(templates.supports(language), "$what: supported")
       val name = templates.defaultName(language)
       check(templates.isValidName(language, name), "$what: default name is valid")
-      val template = templates.create(language, referenceName, referenceText, name, listOf("given", "then"))
+      val template =
+          templates.create(language, referenceName, referenceText, name, listOf("given", "then"))
       if (template == null) {
         check(false, "$what: template")
         continue
       }
-      equal(referenceName.substringAfterLast('.'), template.fileName.substringAfterLast('.'), "$what: extension")
+      equal(
+          referenceName.substringAfterLast('.'),
+          template.fileName.substringAfterLast('.'),
+          "$what: extension")
       val batch = templates.addSnippets(language, template.text, template.fileName, items)
       equal(2, batch.snippets.size, "$what: duplicate step skipped")
       equal(1, batch.skipped.size, "$what: skipped count")
-      check(batch.text.startsWith(template.text.substringBefore("}")), "$what: template kept:\n${batch.text}")
+      check(
+          batch.text.startsWith(template.text.substringBefore("}")),
+          "$what: template kept:\n${batch.text}")
       val definitions = language.adapter().parse(batch.text)
       for (text in texts) {
-        equal(1, definitions.count { it.matches(text) }, "$what: '$text' defined once in:\n${batch.text}")
+        equal(
+            1,
+            definitions.count { it.matches(text) },
+            "$what: '$text' defined once in:\n${batch.text}")
       }
     }
-    val java = templates.create(Language.JAVA, "Steps.java", "package a.b;\n", "MoreSteps", listOf("when"))
+    val java =
+        templates.create(Language.JAVA, "Steps.java", "package a.b;\n", "MoreSteps", listOf("when"))
     check(
         java != null &&
             java.fileName == "MoreSteps.java" &&
@@ -709,17 +808,31 @@ object SelfTest {
     check(two.matches(TagExpressions.parse("@e1")), "outline: examples tag matches")
     check(!one.matches(TagExpressions.parse("@e1")), "outline: examples tag not inherited")
     check(one.matches(TagExpressions.parse("@f and not @s2")), "outline: feature tag inherited")
-    equal(FeatureOutline.Target(0, "F", true), FeatureOutline.targetAt(outline, 4), "outline: background -> feature")
-    equal(FeatureOutline.Target(0, "F", true), FeatureOutline.targetAt(outline, 2), "outline: feature line")
-    equal(FeatureOutline.Target(6, "One", false), FeatureOutline.targetAt(outline, 7), "outline: step -> scenario")
-    equal(FeatureOutline.Target(10, "Two <n>", false), FeatureOutline.targetAt(outline, 14), "outline: header -> outline")
+    equal(
+        FeatureOutline.Target(0, "F", true),
+        FeatureOutline.targetAt(outline, 4),
+        "outline: background -> feature")
+    equal(
+        FeatureOutline.Target(0, "F", true),
+        FeatureOutline.targetAt(outline, 2),
+        "outline: feature line")
+    equal(
+        FeatureOutline.Target(6, "One", false),
+        FeatureOutline.targetAt(outline, 7),
+        "outline: step -> scenario")
+    equal(
+        FeatureOutline.Target(10, "Two <n>", false),
+        FeatureOutline.targetAt(outline, 14),
+        "outline: header -> outline")
     equal(
         FeatureOutline.Target(15, "Two <n> (example 1)", false),
         FeatureOutline.targetAt(outline, 15),
         "outline: example row")
   }
 
-  /** A hand-written Cucumber Messages stream (background, failure, skip, outline, undefined, hook). */
+  /**
+   * A hand-written Cucumber Messages stream (background, failure, skip, outline, undefined, hook).
+   */
   private val SAMPLE_MESSAGES =
       """
       {"meta":{"protocolVersion":"24.0.0","implementation":{"name":"hand-written"}}}
@@ -778,7 +891,10 @@ object SelfTest {
 
   private fun cucumberMessages() {
     val json = CucumberMessages.Json.parse("""{"a":[1,2.5,true,null,"x\u0041\n"],"b":{}}""")
-    equal(mapOf("a" to listOf(1L, 2.5, true, null, "xA\n"), "b" to mapOf<String, Any?>()), json, "json: values")
+    equal(
+        mapOf("a" to listOf(1L, 2.5, true, null, "xA\n"), "b" to mapOf<String, Any?>()),
+        json,
+        "json: values")
     check(
         try {
           CucumberMessages.Json.parse("{\"a\":}")
@@ -787,8 +903,14 @@ object SelfTest {
           true
         },
         "json: invalid input is rejected")
-    equal("a|'b||c|n|[d|]", CucumberMessages.escape("a'b|c\n[d]"), "messages: service message escaping")
-    equal("C:/x/a.feature" to 12, CucumberMessages.parseLocation("C:/x/a.feature:12"), "messages: location")
+    equal(
+        "a|'b||c|n|[d|]",
+        CucumberMessages.escape("a'b|c\n[d]"),
+        "messages: service message escaping")
+    equal(
+        "C:/x/a.feature" to 12,
+        CucumberMessages.parseLocation("C:/x/a.feature:12"),
+        "messages: location")
 
     val converter = CucumberMessages.Converter("/work")
     val events = ArrayList<CucumberMessages.Event>()
@@ -822,27 +944,46 @@ object SelfTest {
             "suite- Sell 5 (example 2)",
             "suite- Shop",
         )
-    equal(expected.joinToString("\n"), events.joinToString("\n") { describe(it) }, "messages: event sequence")
+    equal(
+        expected.joinToString("\n"),
+        events.joinToString("\n") { describe(it) },
+        "messages: event sequence")
     val failure = events.filterIsInstance<CucumberMessages.TestFailed>().first()
-    equal("java.lang.AssertionError: boom\n\tat Steps.buy(Steps.java:9)", failure.details, "messages: stack trace")
+    equal(
+        "java.lang.AssertionError: boom\n\tat Steps.buy(Steps.java:9)",
+        failure.details,
+        "messages: stack trace")
     val buy = events.filterIsInstance<CucumberMessages.SuiteStarted>()[1]
     val step = events.filterIsInstance<CucumberMessages.TestStarted>()[0]
     equal(events[0].id, buy.parentId, "messages: scenario under feature")
     equal(buy.id, step.parentId, "messages: step under scenario")
-    equal("0", (events[0] as CucumberMessages.SuiteStarted).parentId, "messages: feature under root")
+    equal(
+        "0", (events[0] as CucumberMessages.SuiteStarted).parentId, "messages: feature under root")
     check(
         failure.serviceMessage().startsWith("##teamcity[testFailed name='When I buy 2' nodeId='") &&
-            failure.serviceMessage().contains("details='java.lang.AssertionError: boom|n\tat Steps.buy(Steps.java:9)'"),
+            failure
+                .serviceMessage()
+                .contains("details='java.lang.AssertionError: boom|n\tat Steps.buy(Steps.java:9)'"),
         "messages: testFailed service message: " + failure.serviceMessage())
     check(converter.hasEvents(), "messages: has events")
     equal(
         "/work/features/a.feature",
         CucumberMessages.Converter("/work").path("file:///work/features/a.feature"),
         "messages: file uri")
-    equal("C:/w/a.feature", CucumberMessages.Converter("/x").path("file:///C:/w/a.feature"), "messages: windows file uri")
-    equal("C:/w/a.feature", CucumberMessages.Converter("/x").path("C:\\w\\a.feature"), "messages: windows path")
-    equal("classpath:no/such.feature", CucumberMessages.Converter("/x").path("classpath:no/such.feature"), "messages: classpath")
-    equal(0, CucumberMessages.Converter("/x").accept("not json {").size, "messages: garbage ignored")
+    equal(
+        "C:/w/a.feature",
+        CucumberMessages.Converter("/x").path("file:///C:/w/a.feature"),
+        "messages: windows file uri")
+    equal(
+        "C:/w/a.feature",
+        CucumberMessages.Converter("/x").path("C:\\w\\a.feature"),
+        "messages: windows path")
+    equal(
+        "classpath:no/such.feature",
+        CucumberMessages.Converter("/x").path("classpath:no/such.feature"),
+        "messages: classpath")
+    equal(
+        0, CucumberMessages.Converter("/x").accept("not json {").size, "messages: garbage ignored")
   }
 
   private fun runCommands() {
@@ -869,7 +1010,9 @@ object SelfTest {
             plugin = "message:/x.ndjson",
             debugAddress = "127.0.0.1:5005",
             gradleInitScript = "/i.gradle")
-    val mvn = JvmCommand.build(maven.toString(), listOf(slash(a) + ":3", slash(b) + ":7:9"), options, false)
+    val mvn =
+        JvmCommand.build(
+            maven.toString(), listOf(slash(a) + ":3", slash(b) + ":7:9"), options, false)
     equal(
         listOf(
             "mvn",
@@ -884,7 +1027,9 @@ object SelfTest {
         mvn.argv,
         "jvm: maven argv")
     equal(
-        mapOf("CUCUMBER_FEATURES" to "src/test/resources/f/a.feature:3,src/test/resources/f/b.feature:7:9"),
+        mapOf(
+            "CUCUMBER_FEATURES" to
+                "src/test/resources/f/a.feature:3,src/test/resources/f/b.feature:7:9"),
         mvn.env,
         "jvm: maven env")
     equal(
@@ -893,7 +1038,8 @@ object SelfTest {
         "jvm: single-feature API unchanged")
     equal(
         "-Dcucumber.features=classpath:f/a.feature:3",
-        JvmCommand.build(maven.toString(), listOf("classpath:f/a.feature:3"), JvmCommand.Options(), false)
+        JvmCommand.build(
+                maven.toString(), listOf("classpath:f/a.feature:3"), JvmCommand.Options(), false)
             .argv
             .last(),
         "jvm: classpath feature")
@@ -930,7 +1076,13 @@ object SelfTest {
             "CUCUMBER_JDWP_ADDRESS" to "127.0.0.1:5005"),
         gradleCommand.env,
         "jvm: gradle env")
-    for (needle in listOf("CUCUMBER_FILTER_TAGS", "cucumber.plugin", "systemProperty", "SATISFIES_NONE", "server=n")) {
+    for (needle in
+        listOf(
+            "CUCUMBER_FILTER_TAGS",
+            "cucumber.plugin",
+            "systemProperty",
+            "SATISFIES_NONE",
+            "server=n")) {
       check(JvmCommand.GRADLE_INIT_SCRIPT.contains(needle), "jvm: init script mentions $needle")
     }
     val platformGradle = root.resolve("gradle-platform")
@@ -941,34 +1093,66 @@ object SelfTest {
     val pf = slash(platformGradle.resolve("src/test/resources/p.feature"))
     equal(
         "true",
-        JvmCommand.build(platformGradle.toString(), listOf(pf), options, false).env["CUCUMBER_JETBRAINS_ENGINE_ONLY"],
+        JvmCommand.build(platformGradle.toString(), listOf(pf), options, false)
+            .env["CUCUMBER_JETBRAINS_ENGINE_ONLY"],
         "jvm: gradle + JUnit Platform runner -> Cucumber engine only")
     check(
-        !JvmCommand.build(platformGradle.toString(), listOf(), options, false).env.containsKey(
-            "CUCUMBER_JETBRAINS_ENGINE_ONLY"),
+        !JvmCommand.build(platformGradle.toString(), listOf(), options, false)
+            .env
+            .containsKey("CUCUMBER_JETBRAINS_ENGINE_ONLY"),
         "jvm: gradle, all features -> runner as usual")
-    equal("C:/a/b.feature" to ":3:9", JvmCommand.splitLines("C:/a/b.feature:3:9"), "jvm: split lines")
+    equal(
+        "C:/a/b.feature" to ":3:9", JvmCommand.splitLines("C:/a/b.feature:3:9"), "jvm: split lines")
     equal("C:/a/b.feature" to "", JvmCommand.splitLines("C:/a/b.feature"), "jvm: no lines")
 
     // Other runners: tags and the message formatter.
     val js = root.resolve("js")
     write(js.resolve("package.json"), "{}")
     val jsFeature = slash(js.resolve("features/x.feature")) + ":4"
-    equal(Language.JAVASCRIPT, CucumberCommands.detectLanguage(js.toString(), jsFeature), "commands: detect js")
-    equal(Language.JAVA, CucumberCommands.detectLanguage(maven.toString(), slash(a)), "commands: detect maven")
     equal(
-        listOf("npx", "cucumber-js", "features/x.feature:4", "--tags", "@a", "--format", "message:/m.ndjson"),
+        Language.JAVASCRIPT,
+        CucumberCommands.detectLanguage(js.toString(), jsFeature),
+        "commands: detect js")
+    equal(
+        Language.JAVA,
+        CucumberCommands.detectLanguage(maven.toString(), slash(a)),
+        "commands: detect maven")
+    equal(
+        listOf(
+            "npx",
+            "cucumber-js",
+            "features/x.feature:4",
+            "--tags",
+            "@a",
+            "--format",
+            "message:/m.ndjson"),
         CucumberCommands.build(
                 CucumberCommands.Request(
-                    js.toString(), null, listOf(jsFeature), "@a", messagesFile = "/m.ndjson", windows = false))
+                    js.toString(),
+                    null,
+                    listOf(jsFeature),
+                    "@a",
+                    messagesFile = "/m.ndjson",
+                    windows = false))
             .argv,
         "commands: cucumber-js")
     val ruby = root.resolve("ruby")
     write(ruby.resolve("Gemfile"), "")
     equal(
         listOf(
-            "bundle", "exec", "cucumber", "features/x.feature:4", "--tags", "@a", "--format", "pretty",
-            "--format", "message", "--out", "/m.ndjson", "--strict"),
+            "bundle",
+            "exec",
+            "cucumber",
+            "features/x.feature:4",
+            "--tags",
+            "@a",
+            "--format",
+            "pretty",
+            "--format",
+            "message",
+            "--out",
+            "/m.ndjson",
+            "--strict"),
         CucumberCommands.build(
                 CucumberCommands.Request(
                     ruby.toString(),
@@ -999,13 +1183,22 @@ object SelfTest {
 
   private fun localizedStructure() {
     val zhDialect = GherkinDialects.forCode("zh-CN")!!
-    equal(GherkinKeywordType.SCENARIO, GherkinSyntax.header("场景：x", zhDialect)?.type, "syntax: zh header")
+    equal(
+        GherkinKeywordType.SCENARIO,
+        GherkinSyntax.header("场景：x", zhDialect)?.type,
+        "syntax: zh header")
     equal("x", GherkinSyntax.header("场景：x", zhDialect)?.title, "syntax: zh title")
     equal("abc", GherkinSyntax.step("假如abc", zhDialect)?.text, "syntax: zh step without space")
     check(GherkinSyntax.step("Given x", zhDialect) == null, "syntax: English step in zh file")
-    equal("Given", GherkinSyntax.step("Given x", GherkinDialects.ENGLISH)?.keyword, "syntax: English step")
+    equal(
+        "Given",
+        GherkinSyntax.step("Given x", GherkinDialects.ENGLISH)?.keyword,
+        "syntax: English step")
     equal("and", GherkinSyntax.canonicalStepKeyword("而且"), "syntax: canonical zh keyword")
-    equal("de", GherkinSyntax.dialect(listOf("", "# language: de", "Funktionalität: x")).code, "syntax: dialect of lines")
+    equal(
+        "de",
+        GherkinSyntax.dialect(listOf("", "# language: de", "Funktionalität: x")).code,
+        "syntax: dialect of lines")
 
     val zh =
         listOf(
@@ -1027,24 +1220,36 @@ object SelfTest {
             .joinToString("\n")
     val zhMessy =
         zh.lines().joinToString("\n") { line ->
-          if (line.startsWith("#") || line.isBlank()) line else " " + line.trim().replace("| 2    |", "|2|") + "  "
+          if (line.startsWith("#") || line.isBlank()) line
+          else " " + line.trim().replace("| 2    |", "|2|") + "  "
         }
     equal(zh, GherkinFormatter.format(zhMessy), "format zh-CN")
     equal(zh, GherkinFormatter.format(zh), "format zh-CN idempotent")
 
     val zhScenarios = Outlines.scenarios(zh)
     equal(2, zhScenarios.size, "zh outlines: scenarios")
-    check(zhScenarios[0].isOutline && zhScenarios[0].outlineKeyword, "zh outlines: 场景大纲 is an outline")
+    check(
+        zhScenarios[0].isOutline && zhScenarios[0].outlineKeyword,
+        "zh outlines: 场景大纲 is an outline")
     equal(listOf("n", "n", "left"), zhScenarios[0].params.map { it.name }, "zh outlines: params")
-    equal(listOf("n", "left"), zhScenarios[0].examples.single().header.map { it.text }, "zh outlines: header")
+    equal(
+        listOf("n", "left"),
+        zhScenarios[0].examples.single().header.map { it.text },
+        "zh outlines: header")
     equal("我有1个", zhScenarios[0].substitute("我有<n>个"), "zh outlines: substitution")
     check(!zhScenarios[1].isOutline, "zh outlines: 场景 is plain")
-    equal(listOf<String>(), Outlines.problems(zhScenarios).map { it.message }, "zh outlines: no problems")
+    equal(
+        listOf<String>(),
+        Outlines.problems(zhScenarios).map { it.message },
+        "zh outlines: no problems")
 
     val zhOutline = FeatureOutline.parse(zh)
     equal("购物", zhOutline.featureName, "zh feature outline: name")
     equal(setOf("@f"), zhOutline.featureTags, "zh feature outline: feature tags")
-    equal(listOf("场景大纲", "场景"), zhOutline.scenarios.map { it.keyword }, "zh feature outline: keywords")
+    equal(
+        listOf("场景大纲", "场景"),
+        zhOutline.scenarios.map { it.keyword },
+        "zh feature outline: keywords")
     equal(setOf("@f", "@s"), zhOutline.scenarios[0].tags, "zh feature outline: scenario tags")
     equal(
         listOf(FeatureOutline.ExampleRow(11, 1, setOf("@f", "@s", "@ex"))),
@@ -1054,7 +1259,10 @@ object SelfTest {
         FeatureOutline.Target(11, "买 <n> 个 (example 1)", false),
         FeatureOutline.targetAt(zhOutline, 11),
         "zh feature outline: example target")
-    equal(FeatureOutline.Target(13, "普通", false), FeatureOutline.targetAt(zhOutline, 14), "zh feature outline: step target")
+    equal(
+        FeatureOutline.Target(13, "普通", false),
+        FeatureOutline.targetAt(zhOutline, 14),
+        "zh feature outline: step target")
 
     val zhTree = GherkinOutline.parse(zh)
     equal(
@@ -1079,8 +1287,14 @@ object SelfTest {
     val deScenarios = Outlines.scenarios(de)
     check(deScenarios.single().outlineKeyword, "de outlines: Szenariogrundriss")
     equal(listOf("n", "n", "m"), deScenarios.single().params.map { it.name }, "de outlines: params")
-    equal(listOf("n", "m"), deScenarios.single().examples.single().header.map { it.text }, "de outlines: Beispiele")
-    equal(listOf<String>(), Outlines.problems(deScenarios).map { it.message }, "de outlines: no problems")
+    equal(
+        listOf("n", "m"),
+        deScenarios.single().examples.single().header.map { it.text },
+        "de outlines: Beispiele")
+    equal(
+        listOf<String>(),
+        Outlines.problems(deScenarios).map { it.message },
+        "de outlines: no problems")
     equal(
         FeatureOutline.Target(9, "kaufe <n> (example 1)", false),
         FeatureOutline.targetAt(FeatureOutline.parse(de), 9),
@@ -1096,12 +1310,15 @@ object SelfTest {
     val go = "package steps\n\nfunc init() {\n\tctx.Step(`^I have (\\d+) cukes$`, haveCukes)\n}\n"
     val start = go.indexOf('`')
     val literal = io.github.fangzhengjie.cucumber.core.StepRename.literalAt(Language.GO, go, start)
-    check(literal != null && go.substring(literal.start, literal.end) == "`^I have (\\d+) cukes$`",
+    check(
+        literal != null && go.substring(literal.start, literal.end) == "`^I have (\\d+) cukes$`",
         "ctrlhover: Go literal range")
-    check(literal != null && ranges.leafIsCoarser(0, go.length, literal.start, literal.end),
+    check(
+        literal != null && ranges.leafIsCoarser(0, go.length, literal.start, literal.end),
         "ctrlhover: plain-text leaf is coarser than the literal")
     check(!ranges.leafIsCoarser(10, 30, 10, 30), "ctrlhover: string token equal to the literal")
-    check(!ranges.leafIsCoarser(11, 29, 10, 30), "ctrlhover: token inside the literal (Kotlin entry)")
+    check(
+        !ranges.leafIsCoarser(11, 29, 10, 30), "ctrlhover: token inside the literal (Kotlin entry)")
     check(!ranges.leafIsCoarser(0, 100, 90, 110), "ctrlhover: literal not inside the leaf")
     check(!ranges.leafIsCoarser(0, 100, 5, 5), "ctrlhover: empty literal")
   }
@@ -1110,7 +1327,22 @@ object SelfTest {
   /** StepWords must cover every text an adapter's pre-check accepts (word index pre-filter). */
   private fun stepWordsCoverAdapters(args: Array<String>) {
     val samples = ArrayList<Pair<Language, String>>()
-    val prefixes = listOf("", " ", "\n", "@", ".", "[", ", ", "#[", "this.", "@io.cucumber.java.en.", "x.", "(", "{", "\t@ ")
+    val prefixes =
+        listOf(
+            "",
+            " ",
+            "\n",
+            "@",
+            ".",
+            "[",
+            ", ",
+            "#[",
+            "this.",
+            "@io.cucumber.java.en.",
+            "x.",
+            "(",
+            "{",
+            "\t@ ")
     val suffixes = listOf("(", " (", "<World>(", "Attribute(", "(value = ", " '", " \"x\"", "!(")
     val names = StepWords.of(Language.entries) + listOf("GIVEN", "given", "Step", "StepDefinition")
     for (language in Language.entries) {
@@ -1146,14 +1378,31 @@ object SelfTest {
     val call = Regex("""(?<![\w.@${'$'}])(Given|When|Then|And|But)\s*\(\s*""")
     val callWords = listOf("Given", "When", "Then", "And", "But")
     val tricky =
-        listOf("\$Given(", "_When (", "x.Then(", "@And(", "Given\n\t(", "But  x(", "Given", "(When\u000B(", "éThen(", "AndAnd(")
+        listOf(
+            "\$Given(",
+            "_When (",
+            "x.Then(",
+            "@And(",
+            "Given\n\t(",
+            "But  x(",
+            "Given",
+            "(When\u000B(",
+            "éThen(",
+            "AndAnd(")
     val mismatches =
         (samples.map { it.second } + tricky).filter {
           call.containsMatchIn(it) != StepWords.containsCall(it, callWords, ".@$")
         }
-    check(mismatches.isEmpty(), "StepWords.containsCall differs from the regex: ${mismatches.take(5)}")
-    equal(setOf("Given", "x", "\$y", "GivenAttribute"), StepWords.tokens("@Given(x) \$y [GivenAttribute("), "StepWords.tokens")
-    check(!StepWords.mayContainSteps(Language.JAVA, "class Givens { void given() {} }"), "StepWords: whole words only")
+    check(
+        mismatches.isEmpty(),
+        "StepWords.containsCall differs from the regex: ${mismatches.take(5)}")
+    equal(
+        setOf("Given", "x", "\$y", "GivenAttribute"),
+        StepWords.tokens("@Given(x) \$y [GivenAttribute("),
+        "StepWords.tokens")
+    check(
+        !StepWords.mayContainSteps(Language.JAVA, "class Givens { void given() {} }"),
+        "StepWords: whole words only")
   }
 
   // --- feature: results -----------------------------------------------------
@@ -1191,8 +1440,13 @@ object SelfTest {
     // A retried attempt only counts once it is final; a second stream (another runner) adds to it.
     val retried = RunResults.Collector(CucumberMessages.Converter("/work")::path)
     val firstAttempt =
-        SAMPLE_MESSAGES.lines().takeWhile { !it.contains("\"testCaseStarted\":{\"id\":\"c2\"") }
-            .map { if (it.contains("\"testCaseFinished\"")) it.replace("\"willBeRetried\":false", "\"willBeRetried\":true") else it }
+        SAMPLE_MESSAGES.lines()
+            .takeWhile { !it.contains("\"testCaseStarted\":{\"id\":\"c2\"") }
+            .map {
+              if (it.contains("\"testCaseFinished\""))
+                  it.replace("\"willBeRetried\":false", "\"willBeRetried\":true")
+              else it
+            }
     for (line in firstAttempt) {
       retried.accept(line)
     }
@@ -1201,7 +1455,10 @@ object SelfTest {
     for (line in SAMPLE_MESSAGES.lines()) {
       retried.accept(line)
     }
-    equal("Failed: When I buy 2: boom", retried.results()[path]?.get(7)?.describe(), "results: after restart")
+    equal(
+        "Failed: When I buy 2: boom",
+        retried.results()[path]?.get(7)?.describe(),
+        "results: after restart")
   }
 
   // --- feature: unused -------------------------------------------------------------
@@ -1210,7 +1467,8 @@ object SelfTest {
   private fun stepDefinitionBlocks(args: Array<String>) {
     val blocks = io.github.fangzhengjie.cucumber.core.StepDefinitionBlocks
     val fixture =
-        Path.of(if (args.isNotEmpty()) args[0] else "src/test/resources/testdata/multi-language").resolve("steps")
+        Path.of(if (args.isNotEmpty()) args[0] else "src/test/resources/testdata/multi-language")
+            .resolve("steps")
     // 1-based line ranges of each definition's block, in source order.
     val expectedLines =
         mapOf(
@@ -1229,50 +1487,55 @@ object SelfTest {
             "test_bdd.py" to "3-5 7-9 11-13 15-17")
     val seen = ArrayList<String>()
     val texts = HashMap<String, String>()
-    Files.list(fixture).use { stream -> stream.sorted().toList() }.forEach { file ->
-      val name = file.fileName.toString()
-      val language = Language.forFileName(name) ?: return@forEach
-      seen.add(name)
-      val text = Files.readString(file, StandardCharsets.UTF_8).replace("\r\n", "\n")
-      texts[name] = text
-      val lines = text.split("\n")
-      val definitions = language.adapter().parse(text)
-      val ranges = expectedLines[name]?.split(" ") ?: emptyList()
-      equal(ranges.size, definitions.size, "blocks $name: definitions")
-      val all = ArrayList<io.github.fangzhengjie.cucumber.core.StepDefinitionBlocks.Block>()
-      for ((i, definition) in definitions.withIndex()) {
-        val block = blocks.find(language, text, definition.offset)
-        val range = ranges.getOrNull(i)?.split("-")?.map { it.toInt() } ?: continue
-        val expected = lines.subList(range.first() - 1, range.last()).joinToString("\n").trimStart()
-        equal(expected, block?.text(text), "blocks $name #$i")
-        if (block == null) {
-          continue
+    Files.list(fixture)
+        .use { stream -> stream.sorted().toList() }
+        .forEach { file ->
+          val name = file.fileName.toString()
+          val language = Language.forFileName(name) ?: return@forEach
+          seen.add(name)
+          val text = Files.readString(file, StandardCharsets.UTF_8).replace("\r\n", "\n")
+          texts[name] = text
+          val lines = text.split("\n")
+          val definitions = language.adapter().parse(text)
+          val ranges = expectedLines[name]?.split(" ") ?: emptyList()
+          equal(ranges.size, definitions.size, "blocks $name: definitions")
+          val all = ArrayList<io.github.fangzhengjie.cucumber.core.StepDefinitionBlocks.Block>()
+          for ((i, definition) in definitions.withIndex()) {
+            val block = blocks.find(language, text, definition.offset)
+            val range = ranges.getOrNull(i)?.split("-")?.map { it.toInt() } ?: continue
+            val expected =
+                lines.subList(range.first() - 1, range.last()).joinToString("\n").trimStart()
+            equal(expected, block?.text(text), "blocks $name #$i")
+            if (block == null) {
+              continue
+            }
+            all.add(block)
+            val deleted = blocks.delete(text, listOf(block))
+            equal(
+                definitions.filterIndexed { j, _ -> j != i }.map { it.pattern },
+                language.adapter().parse(deleted).map { it.pattern },
+                "blocks $name #$i: the other definitions remain")
+            equal(
+                block.text(text).trim(),
+                text.substring(block.deleteStart, block.deleteEnd).trim(),
+                "blocks $name #$i: only whitespace deleted besides the block")
+            check(!deleted.contains("\n\n\n"), "blocks $name #$i: no double blank line left")
+          }
+          equal(
+              listOf<String>(),
+              language.adapter().parse(blocks.delete(text, all)).map { it.pattern },
+              "blocks $name: all deleted")
         }
-        all.add(block)
-        val deleted = blocks.delete(text, listOf(block))
-        equal(
-            definitions.filterIndexed { j, _ -> j != i }.map { it.pattern },
-            language.adapter().parse(deleted).map { it.pattern },
-            "blocks $name #$i: the other definitions remain")
-        equal(
-            block.text(text).trim(),
-            text.substring(block.deleteStart, block.deleteEnd).trim(),
-            "blocks $name #$i: only whitespace deleted besides the block")
-        check(!deleted.contains("\n\n\n"), "blocks $name #$i: no double blank line left")
-      }
-      equal(
-          listOf<String>(),
-          language.adapter().parse(blocks.delete(text, all)).map { it.pattern },
-          "blocks $name: all deleted")
-    }
     equal(expectedLines.keys.sorted(), seen.sorted(), "blocks: fixture files")
 
     fun one(language: Language, text: String, pattern: String): String? {
-      val definition = language.adapter().parse(text).firstOrNull { it.pattern == pattern } ?: return null
+      val definition =
+          language.adapter().parse(text).firstOrNull { it.pattern == pattern } ?: return null
       return blocks.find(language, text, definition.offset)?.text(text)
     }
     fun deleteOne(language: Language, text: String, pattern: String): String? {
-      val definition = language.adapter().parse(text).firstOrNull { it.pattern == pattern } ?: return null
+      val definition =
+          language.adapter().parse(text).firstOrNull { it.pattern == pattern } ?: return null
       val block = blocks.find(language, text, definition.offset) ?: return null
       return blocks.delete(text, listOf(block))
     }
@@ -1315,7 +1578,9 @@ object SelfTest {
         goLines.filterIndexed { i, _ -> i != 5 && i != 7 }.joinToString("\n"),
         blocks.delete(
             texts["steps.go"]!!,
-            listOf(goDefinitions[0], goDefinitions[2]).map { blocks.find(Language.GO, texts["steps.go"]!!, it.offset)!! }),
+            listOf(goDefinitions[0], goDefinitions[2]).map {
+              blocks.find(Language.GO, texts["steps.go"]!!, it.offset)!!
+            }),
         "blocks: two go calls deleted")
     equal(null, blocks.find(Language.JAVA, texts["Steps.java"]!!, 0), "blocks: not a definition")
 
@@ -1348,9 +1613,15 @@ object SelfTest {
     equal(null, one(Language.CSHARP, csharpList, "g"), "blocks: c# attribute list (second)")
     equal(
         "[Given(\"h\")]\n    [Scope(Tag = \"x\")]\n    public void H() => Do(\"}\");",
-        one(Language.CSHARP, "class C {\n    [Given(\"h\")]\n    [Scope(Tag = \"x\")]\n    public void H() => Do(\"}\");\n}\n", "h"),
+        one(
+            Language.CSHARP,
+            "class C {\n    [Given(\"h\")]\n    [Scope(Tag = \"x\")]\n    public void H() => Do(\"}\");\n}\n",
+            "h"),
         "blocks: c# expression body")
-    equal("@when(\"b\")", one(Language.PYTHON, "@given(\"a\")\n@when(\"b\")\ndef f():\n    pass\n", "b"), "blocks: python stacked")
+    equal(
+        "@when(\"b\")",
+        one(Language.PYTHON, "@given(\"a\")\n@when(\"b\")\ndef f():\n    pass\n", "b"),
+        "blocks: python stacked")
     val python =
         "import pytest\nfrom pytest_bdd import given, parsers\n\n\n@pytest.mark.slow\n" +
             "@given(parsers.parse(\"h {x:d}\"))\ndef h(\n    x: int,\n) -> None:\n    if x:\n\n        pass  # }\n" +
@@ -1364,18 +1635,34 @@ object SelfTest {
         "import pytest\nfrom pytest_bdd import given, parsers\n\n\ndef other():\n    pass\n",
         deleteOne(Language.PYTHON, python, "h {x:d}"),
         "blocks: python deleted")
-    equal("@given(\"z\")\ndef z(): pass", one(Language.PYTHON, "@given(\"z\")\ndef z(): pass\n", "z"), "blocks: python one-liner")
-    val ruby = "Given('r') do |x|\n  if x\n    foo { }\n  end\nend\n\nGiven('s') { |y| puts '}' }\nGiven('t') do end\n"
-    equal("Given('r') do |x|\n  if x\n    foo { }\n  end\nend", one(Language.RUBY, ruby, "r"), "blocks: ruby nested end")
+    equal(
+        "@given(\"z\")\ndef z(): pass",
+        one(Language.PYTHON, "@given(\"z\")\ndef z(): pass\n", "z"),
+        "blocks: python one-liner")
+    val ruby =
+        "Given('r') do |x|\n  if x\n    foo { }\n  end\nend\n\nGiven('s') { |y| puts '}' }\nGiven('t') do end\n"
+    equal(
+        "Given('r') do |x|\n  if x\n    foo { }\n  end\nend",
+        one(Language.RUBY, ruby, "r"),
+        "blocks: ruby nested end")
     equal("Given('s') { |y| puts '}' }", one(Language.RUBY, ruby, "s"), "blocks: ruby braces")
     equal("Given('t') do end", one(Language.RUBY, ruby, "t"), "blocks: ruby one-liner")
     val rust =
         "#[given(\"a\")]\n#[allow(unused)]\nasync fn a(w: &mut W) -> Result<(), String> {\n    let s = \"}\";\n" +
             "    let c = '}';\n    Ok(())\n}\n\n#[when(\"b\")]\nfn b<'a>(w: &'a mut W) { let _ = '{'; }\n"
-    equal(rust.substring(0, rust.indexOf("\n\n")), one(Language.RUST, rust, "a"), "blocks: rust attributes and literals")
-    equal("#[when(\"b\")]\nfn b<'a>(w: &'a mut W) { let _ = '{'; }", one(Language.RUST, rust, "b"), "blocks: rust lifetimes")
+    equal(
+        rust.substring(0, rust.indexOf("\n\n")),
+        one(Language.RUST, rust, "a"),
+        "blocks: rust attributes and literals")
+    equal(
+        "#[when(\"b\")]\nfn b<'a>(w: &'a mut W) { let _ = '{'; }",
+        one(Language.RUST, rust, "b"),
+        "blocks: rust lifetimes")
     val js = "Given(/^x\\/y\$/, function () {\n  const s = ')';\n  return `}\${1}`;\n});\n"
-    equal(js.trimEnd(), one(Language.JAVASCRIPT, js, "^x\\/y\$"), "blocks: js regex and template literal")
+    equal(
+        js.trimEnd(),
+        one(Language.JAVASCRIPT, js, "^x\\/y\$"),
+        "blocks: js regex and template literal")
     val cpp = "GIVEN(\"^a\$\") {\n  REGEX_PARAM(int, n);\n  if (n) { }\n}\n"
     equal(cpp.trimEnd(), one(Language.CPP, cpp, "^a\$"), "blocks: c++ macro")
     val scala = "Given(\"\"\"x\"\"\") { () =>\n  val s = \"}\"\n}\n"
@@ -1386,7 +1673,9 @@ object SelfTest {
             "public class Steps {\n    // @Given(\"the java commented step\")\n}\n",
         blocks.delete(
             javaText,
-            Language.JAVA.adapter().parse(javaText).map { blocks.find(Language.JAVA, javaText, it.offset)!! }),
+            Language.JAVA.adapter().parse(javaText).map {
+              blocks.find(Language.JAVA, javaText, it.offset)!!
+            }),
         "blocks: all java definitions deleted")
   }
 
@@ -1411,13 +1700,21 @@ object SelfTest {
     if (placeholders != null && template != null) {
       val actual =
           template.placeholders.joinToString(", ") { p ->
-            p.name + "=" + template.defaultValue(p) + (if (p.choices.isEmpty()) "" else p.choices.toString())
+            p.name +
+                "=" +
+                template.defaultValue(p) +
+                (if (p.choices.isEmpty()) "" else p.choices.toString())
           }
       equal(placeholders, actual, "template $pattern: placeholders")
     }
     if (template != null) {
-      val regex = Patterns.toRegex(kind, pattern).let { if (kind == PatternKind.REGEX) Patterns.fullMatch(it) else it }
-      check(Pattern.compile(regex).matcher(template.text).find(), "template $pattern: '${template.text}' matches $regex")
+      val regex =
+          Patterns.toRegex(kind, pattern).let {
+            if (kind == PatternKind.REGEX) Patterns.fullMatch(it) else it
+          }
+      check(
+          Pattern.compile(regex).matcher(template.text).find(),
+          "template $pattern: '${template.text}' matches $regex")
     }
   }
 
@@ -1433,46 +1730,108 @@ object SelfTest {
     val user = StepTextTemplates.render(ce, "the user {string} sends {int} request(s)")!!
     equal(10, user.placeholders[0].start, "string placeholder sits inside the quotes")
     equal(10, user.placeholders[0].end, "string placeholder is empty")
-    equal("0", user.text.substring(user.placeholders[1].start, user.placeholders[1].end), "int placeholder range")
-    templateCase(ce, "the java service is ready", "the java service is ready", "the java service is ready", "")
-    templateCase(ce, "the light is on/off", "the light is on", "the light is on/off", "choice=on[on, off]")
-    templateCase(ce, "I have {float} cucumber(s) in my belly/stomach", "I have 0.0 cucumbers in my belly",
-        "I have <float> cucumber(s) in my belly/stomach", "float=0.0, choice=belly[belly, stomach]")
+    equal(
+        "0",
+        user.text.substring(user.placeholders[1].start, user.placeholders[1].end),
+        "int placeholder range")
+    templateCase(
+        ce,
+        "the java service is ready",
+        "the java service is ready",
+        "the java service is ready",
+        "")
+    templateCase(
+        ce, "the light is on/off", "the light is on", "the light is on/off", "choice=on[on, off]")
+    templateCase(
+        ce,
+        "I have {float} cucumber(s) in my belly/stomach",
+        "I have 0.0 cucumbers in my belly",
+        "I have <float> cucumber(s) in my belly/stomach",
+        "float=0.0, choice=belly[belly, stomach]")
     templateCase(ce, "a/an apple(s)", "a apples", "a/an apple(s)", "choice=a[a, an]")
-    templateCase(ce, "it costs \\{1\\} \\(approx\\) a\\/b", "it costs {1} (approx) a/b", "it costs {1} (approx) a/b", "")
-    templateCase(ce, "the {color} car is {word}", "the color car is word", "the <color> car is <word>", "color=color, word=word")
-    templateCase(ce, "anything {} goes", "anything param goes", "anything <param> goes", "param=param")
-    templateCase(ce, "{biginteger} and {double} and {long}", "0 and 0.0 and 0", "<biginteger> and <double> and <long>")
+    templateCase(
+        ce,
+        "it costs \\{1\\} \\(approx\\) a\\/b",
+        "it costs {1} (approx) a/b",
+        "it costs {1} (approx) a/b",
+        "")
+    templateCase(
+        ce,
+        "the {color} car is {word}",
+        "the color car is word",
+        "the <color> car is <word>",
+        "color=color, word=word")
+    templateCase(
+        ce, "anything {} goes", "anything param goes", "anything <param> goes", "param=param")
+    templateCase(
+        ce,
+        "{biginteger} and {double} and {long}",
+        "0 and 0.0 and 0",
+        "<biginteger> and <double> and <long>")
     templateCase(ce, "{string}", "\"\"", "\"<string>\"", "string=")
     templateCase(ce, "   ", null)
 
-    templateCase(re, "^the java user \"([^\"]*)\" exists$", "the java user \"\" exists",
-        "the java user \"<string>\" exists", "string=")
-    templateCase(re, "the java total is (\\d+)", "the java total is 0", "the java total is <int>", "int=0")
-    templateCase(re, "^I wait (-?\\d+) seconds?$", "I wait 0 seconds", "I wait <int> second(s)", "int=0")
-    templateCase(re, "^I pay (\\d+\\.\\d+) euros$", "I pay 0.0 euros", "I pay <float> euros", "float=0.0")
-    templateCase(re, "^the (?:first|second) item is '(.*)'$", "the first item is ''",
-        "the first/second item is '<string>'", "choice=first[first, second], string=")
-    templateCase(re, "^the light is (on|off)$", "the light is on", "the light is on/off", "choice=on[on, off]")
-    templateCase(re, "^the (?<state>on|off) light$", "the on light", "the on/off light", "state=on[on, off]")
-    templateCase(re, "^I have (?P<count>\\d+) cukes$", "I have 0 cukes", "I have <count> cukes", "count=0")
-    templateCase(re, "^I have (?<name>.+) here$", "I have name here", "I have <name> here", "name=name")
+    templateCase(
+        re,
+        "^the java user \"([^\"]*)\" exists$",
+        "the java user \"\" exists",
+        "the java user \"<string>\" exists",
+        "string=")
+    templateCase(
+        re, "the java total is (\\d+)", "the java total is 0", "the java total is <int>", "int=0")
+    templateCase(
+        re, "^I wait (-?\\d+) seconds?$", "I wait 0 seconds", "I wait <int> second(s)", "int=0")
+    templateCase(
+        re, "^I pay (\\d+\\.\\d+) euros$", "I pay 0.0 euros", "I pay <float> euros", "float=0.0")
+    templateCase(
+        re,
+        "^the (?:first|second) item is '(.*)'$",
+        "the first item is ''",
+        "the first/second item is '<string>'",
+        "choice=first[first, second], string=")
+    templateCase(
+        re,
+        "^the light is (on|off)$",
+        "the light is on",
+        "the light is on/off",
+        "choice=on[on, off]")
+    templateCase(
+        re, "^the (?<state>on|off) light$", "the on light", "the on/off light", "state=on[on, off]")
+    templateCase(
+        re, "^I have (?P<count>\\d+) cukes$", "I have 0 cukes", "I have <count> cukes", "count=0")
+    templateCase(
+        re, "^I have (?<name>.+) here$", "I have name here", "I have <name> here", "name=name")
     templateCase(re, "^I see (.*)$", "I see param", "I see <param>", "param=param")
     templateCase(re, "^I am (?:a )?user$", "I am a user", "I am (a )user", "")
-    templateCase(re, "^the user(?:s)? (?:is|are) (\\w+)$", "the users is word", "the user(s) is/are <word>",
+    templateCase(
+        re,
+        "^the user(?:s)? (?:is|are) (\\w+)$",
+        "the users is word",
+        "the user(s) is/are <word>",
         "choice=is[is, are], word=word")
-    templateCase(re, "^the (?:big red|small blue) box$", "the big red box", "the (big red|small blue) box",
+    templateCase(
+        re,
+        "^the (?:big red|small blue) box$",
+        "the big red box",
+        "the (big red|small blue) box",
         "choice=big red[big red, small blue]")
-    templateCase(re, "\\Athe price is \\$(\\d+)\\z", "the price is $0", "the price is $<int>", "int=0")
-    templateCase(re, "^a\\.b \\(c\\) \\Q[x]\\E\\s+done$", "a.b (c) [x] done", "a.b (c) [x] done", "")
+    templateCase(
+        re, "\\Athe price is \\$(\\d+)\\z", "the price is $0", "the price is $<int>", "int=0")
+    templateCase(
+        re, "^a\\.b \\(c\\) \\Q[x]\\E\\s+done$", "a.b (c) [x] done", "a.b (c) [x] done", "")
     templateCase(re, "^the end\\.$", "the end.", "the end.", "")
     templateCase(re, "^(?i)case insensitive$", "case insensitive", "case insensitive", "")
     templateCase(re, "^\\bword(?=s)s$", "words", "words", "")
     templateCase(re, "^it is [.] and [ ]ok$", "it is . and  ok", "it is . and  ok", "")
     templateCase(re, "^a (literal) group$", "a literal group", "a literal group", "")
-    templateCase(re, "^optional (literal)? group$", "optional literal group", "optional (literal) group", "")
-    templateCase(re, "^(\\d+) (?:cats|dogs) and ([^\"]*) more$", "0 cats and param more",
-        "<int> cats/dogs and <param> more", "int=0, choice=cats[cats, dogs], param=param")
+    templateCase(
+        re, "^optional (literal)? group$", "optional literal group", "optional (literal) group", "")
+    templateCase(
+        re,
+        "^(\\d+) (?:cats|dogs) and ([^\"]*) more$",
+        "0 cats and param more",
+        "<int> cats/dogs and <param> more",
+        "int=0, choice=cats[cats, dogs], param=param")
     templateCase(re, "^I .* something$", null)
     templateCase(re, "^I \\d+ times$", null)
     templateCase(re, "^I [abc] times$", null)
@@ -1482,20 +1841,37 @@ object SelfTest {
     templateCase(re, "^unclosed (group$", null)
     templateCase(re, "^(?:x (\\d+)|y)$", null)
     templateCase(PatternKind.EXACT, "a plain {step}", "a plain {step}", "a plain {step}", "")
-    templateCase(PatternKind.PARSE_FORMAT, "I have {count:d} \"{name}\" and {price:f} {{x}} {}",
-        "I have 0 \"name\" and 0.0 {x} param", "I have <count> \"<name>\" and <price> {x} <param>",
+    templateCase(
+        PatternKind.PARSE_FORMAT,
+        "I have {count:d} \"{name}\" and {price:f} {{x}} {}",
+        "I have 0 \"name\" and 0.0 {x} param",
+        "I have <count> \"<name>\" and <price> {x} <param>",
         "count=0, name=name, price=0.0, param=param")
-    templateCase(re, "^say \"(.+)\" and \"(\\d+)\"$", "say \"string\" and \"0\"", "say \"<string>\" and \"<int>\"",
+    templateCase(
+        re,
+        "^say \"(.+)\" and \"(\\d+)\"$",
+        "say \"string\" and \"0\"",
+        "say \"<string>\" and \"<int>\"",
         "string=string, int=0")
 
     check(StepTextTemplates.startsWith("the java service", "the java "), "startsWith: prefix")
     check(StepTextTemplates.startsWith("The Java service", "the java"), "startsWith: ignores case")
     check(!StepTextTemplates.startsWith("a java service", "the java"), "startsWith: other text")
-    check(StepTextTemplates.matchesWords("the java client sends 0 requests", ""), "words: empty prefix")
-    check(StepTextTemplates.matchesWords("the java client sends 0 requests", "java sends"), "words: in order")
-    check(StepTextTemplates.matchesWords("the java client sends 0 requests", "th ja cl"), "words: word prefixes")
-    check(!StepTextTemplates.matchesWords("the java client sends 0 requests", "sends java"), "words: out of order")
-    check(!StepTextTemplates.matchesWords("the java client sends 0 requests", "kotlin"), "words: missing word")
+    check(
+        StepTextTemplates.matchesWords("the java client sends 0 requests", ""),
+        "words: empty prefix")
+    check(
+        StepTextTemplates.matchesWords("the java client sends 0 requests", "java sends"),
+        "words: in order")
+    check(
+        StepTextTemplates.matchesWords("the java client sends 0 requests", "th ja cl"),
+        "words: word prefixes")
+    check(
+        !StepTextTemplates.matchesWords("the java client sends 0 requests", "sends java"),
+        "words: out of order")
+    check(
+        !StepTextTemplates.matchesWords("the java client sends 0 requests", "kotlin"),
+        "words: missing word")
     check(StepTextTemplates.matchesWords("the java client", "ava cli"), "words: contains")
     check(StepTextTemplates.matchesWords("假如服务已就绪", "服务"), "words: CJK substring")
 
@@ -1511,8 +1887,12 @@ object SelfTest {
           definitions++
           val template = StepTextTemplates.render(info) ?: continue
           rendered++
-          check(info.matches(template.text), "fixture template '${template.text}' matches ${info.pattern}")
-          check(!template.display.contains('\\'), "fixture template display '${template.display}' is readable")
+          check(
+              info.matches(template.text),
+              "fixture template '${template.text}' matches ${info.pattern}")
+          check(
+              !template.display.contains('\\'),
+              "fixture template display '${template.display}' is readable")
         }
       }
     }
@@ -1552,9 +1932,7 @@ object SelfTest {
     equal("plain", value(Literals.javaScript("`plain`", 0)), "js template")
     check(Literals.javaScript("`x \${y}`", 0) == null, "js template with substitution is dynamic")
     equal(
-        "^a\\/b [/] (\\d+)\$",
-        value(Literals.regex("/^a\\/b [/] (\\d+)\$/i", 0)),
-        "regex literal")
+        "^a\\/b [/] (\\d+)\$", value(Literals.regex("/^a\\/b [/] (\\d+)\$/i", 0)), "regex literal")
     equal(
         "^a{2} (\\d+)\$",
         value(Literals.rubyPercentRegex("%r{^a{2} (\\d+)\$}", 0)),
@@ -1676,7 +2054,11 @@ object SelfTest {
           stepText)
     }
     roundTrip(
-        Language.PYTHON, "from pytest_bdd import given, parsers\n", "test_steps.py", request, stepText)
+        Language.PYTHON,
+        "from pytest_bdd import given, parsers\n",
+        "test_steps.py",
+        request,
+        stepText)
     roundTrip(
         Language.PYTHON,
         "from behave import given, use_step_matcher\nuse_step_matcher('re')\n",
@@ -1714,9 +2096,7 @@ object SelfTest {
     val result = snippet.apply(fileText)
     val steps = language.adapter().parse(result)
     val matching = steps.count { it.matches(stepText) }
-    check(
-        matching == 1,
-        "$language ($fileName) snippet round-trip: $matching matches in\n$result")
+    check(matching == 1, "$language ($fileName) snippet round-trip: $matching matches in\n$result")
     val navigation = snippet.navigationOffset()
     check(
         navigation >= 0 && navigation < result.length && !isBlank(result.substring(navigation)),
@@ -1745,7 +2125,12 @@ object SelfTest {
 
   // ---------------------------------------------------------------------------
 
-  private data class FeatureStep(val file: Path, val line: Int, val text: String, val keyword: String)
+  private data class FeatureStep(
+      val file: Path,
+      val line: Int,
+      val text: String,
+      val keyword: String
+  )
 
   /** Every feature step under `root` must match exactly one step definition. */
   private fun resolveProject(root: Path, fixture: Boolean) {

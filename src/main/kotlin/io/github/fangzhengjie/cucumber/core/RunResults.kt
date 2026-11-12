@@ -4,8 +4,8 @@ import java.util.Locale
 
 /**
  * The last run's result per `.feature` line (feature, scenario, outline, example row and step),
- * collected from the Cucumber Messages ndjson of a run. IDE-free; the IDE shows the results in
- * the editor gutter.
+ * collected from the Cucumber Messages ndjson of a run. IDE-free; the IDE shows the results in the
+ * editor gutter.
  */
 object RunResults {
 
@@ -49,8 +49,8 @@ object RunResults {
    *
    * @param message first line of the (worst) failure, undefined, ambiguous or pending message
    * @param step the step (`When I buy 2`) or hook that produced [message], for non-step lines
-   * @param counts executions by status: scenarios for feature / outline / scenario / example
-   *   lines, step runs for step lines (a background or outline step runs several times)
+   * @param counts executions by status: scenarios for feature / outline / scenario / example lines,
+   *   step runs for step lines (a background or outline step runs several times)
    * @param signature [signature] of the source line, so results are dropped once the line changes
    */
   data class LineResult(
@@ -73,7 +73,8 @@ object RunResults {
       }
       return copy(
           status = status.worst(other.status),
-          message = if (worse || message == null && other.status == status) other.message else message,
+          message =
+              if (worse || message == null && other.status == status) other.message else message,
           step = if (worse || step == null && other.status == status) other.step else step,
           counts = counts)
     }
@@ -132,9 +133,9 @@ object RunResults {
   private const val MAX_MESSAGE = 300
 
   /**
-   * Collects line results: feed every ndjson line to [accept] in order ([restart] when a new message
-   * stream starts, e.g. the next runner class). A test case's results are taken when it finishes
-   * (retried attempts are dropped).
+   * Collects line results: feed every ndjson line to [accept] in order ([restart] when a new
+   * message stream starts, e.g. the next runner class). A test case's results are taken when it
+   * finishes (retried attempts are dropped).
    *
    * @param pathOf the absolute file path of a message `uri`
    */
@@ -144,7 +145,11 @@ object RunResults {
 
     private class Scenario(val node: Node, val outline: Boolean)
 
-    private class Pickle(val uri: String, val astNodeIds: List<String>, val steps: Map<String, List<String>>)
+    private class Pickle(
+        val uri: String,
+        val astNodeIds: List<String>,
+        val steps: Map<String, List<String>>
+    )
 
     private class TestCase(val pickleId: String, val steps: Map<String, String?>)
 
@@ -233,8 +238,12 @@ object RunResults {
         for (row in (table as? Map<*, *>)?.get("tableBody") as? List<*> ?: continue) {
           val rowMap = row as? Map<*, *> ?: continue
           val rowId = rowMap["id"] as? String ?: continue
-          val cells = (rowMap["cells"] as? List<*>).orEmpty().map { (it as? Map<*, *>)?.get("value") as? String ?: "" }
-          nodes[rowId] = Node(line(rowMap), signature(cells.joinToString("")), cells.joinToString(" | "))
+          val cells =
+              (rowMap["cells"] as? List<*>).orEmpty().map {
+                (it as? Map<*, *>)?.get("value") as? String ?: ""
+              }
+          nodes[rowId] =
+              Node(line(rowMap), signature(cells.joinToString("")), cells.joinToString(" | "))
         }
       }
     }
@@ -298,8 +307,13 @@ object RunResults {
       val result = body["testStepResult"] as? Map<*, *> ?: emptyMap<Any, Any>()
       val status = Status.of(result["status"] as? String ?: "UNKNOWN")
       val node =
-          pickleStepId?.let { pickles[run.testCase.pickleId]?.steps?.get(it)?.firstOrNull() }?.let { nodes[it] }
-      val name = node?.text ?: if (pickleStepId != null) "Step" else if (run.sawStep) "After hook" else "Before hook"
+          pickleStepId
+              ?.let { pickles[run.testCase.pickleId]?.steps?.get(it)?.firstOrNull() }
+              ?.let { nodes[it] }
+      val name =
+          node?.text
+              ?: if (pickleStepId != null) "Step"
+              else if (run.sawStep) "After hook" else "Before hook"
       val exception = result["exception"] as? Map<*, *>
       val message =
           when (status) {
@@ -314,10 +328,21 @@ object RunResults {
                     ?: (exception?.get("type") as? String)
                     ?: "Failed"
           }
-      if (pickleStepId == null && status != Status.FAILED && status != Status.AMBIGUOUS && status != Status.UNDEFINED) {
+      if (pickleStepId == null &&
+          status != Status.FAILED &&
+          status != Status.AMBIGUOUS &&
+          status != Status.UNDEFINED) {
         return // passed / skipped hooks don't change the scenario's result
       }
-      val stepResult = LineResult(node?.line ?: 0, Kind.STEP, status, message, null, mapOf(status to 1), node?.signature ?: "")
+      val stepResult =
+          LineResult(
+              node?.line ?: 0,
+              Kind.STEP,
+              status,
+              message,
+              null,
+              mapOf(status to 1),
+              node?.signature ?: "")
       if (node != null) {
         run.steps.add(node to stepResult)
       }
@@ -351,13 +376,16 @@ object RunResults {
       }
     }
 
-    /** Merges with the line's result from earlier test cases of this run (unless the line changed). */
+    /**
+     * Merges with the line's result from earlier test cases of this run (unless the line changed).
+     */
     private fun add(path: String, node: Node, kind: Kind, result: LineResult) {
       val fresh = result.copy(line = node.line, kind = kind, signature = node.signature)
       val lines = results.getOrPut(path) { LinkedHashMap() }
       val previous = lines[node.line]
       lines[node.line] =
-          if (previous == null || previous.signature != fresh.signature || previous.kind != kind) fresh
+          if (previous == null || previous.signature != fresh.signature || previous.kind != kind)
+              fresh
           else previous.merge(fresh)
       changed.add(path)
     }

@@ -5,5 +5,6 @@ import javax.swing.Icon
 
 object CucumberIcons {
 
-  @JvmField val CUCUMBER: Icon = IconLoader.getIcon("/icons/cucumber.svg", CucumberIcons::class.java)
+  @JvmField
+  val CUCUMBER: Icon = IconLoader.getIcon("/icons/cucumber.svg", CucumberIcons::class.java)
 }

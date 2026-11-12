@@ -1,9 +1,9 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.core.GherkinDialects
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import io.github.fangzhengjie.cucumber.core.GherkinDialects
 
 /** Completion of `# language:` codes and of the file dialect's keywords at a line start. */
 internal object FeatureKeywordCompletion {

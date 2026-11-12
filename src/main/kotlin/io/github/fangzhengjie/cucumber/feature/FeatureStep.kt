@@ -1,12 +1,12 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.core.Dialect
-import io.github.fangzhengjie.cucumber.core.GherkinDialects
-import io.github.fangzhengjie.cucumber.core.GherkinKeywordType
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiReference
 import com.intellij.psi.tree.IElementType
+import io.github.fangzhengjie.cucumber.core.Dialect
+import io.github.fangzhengjie.cucumber.core.GherkinDialects
+import io.github.fangzhengjie.cucumber.core.GherkinKeywordType
 
 class FeatureStep(node: ASTNode) : ASTWrapperPsiElement(node) {
 
@@ -46,8 +46,8 @@ class FeatureStep(node: ASTNode) : ASTWrapperPsiElement(node) {
   }
 
   /**
-   * Lower-case English `given` / `when` / `then`; `And` / `But` / `*` resolve to the step before
-   * in the same scenario or background (`given` at its start).
+   * Lower-case English `given` / `when` / `then`; `And` / `But` / `*` resolve to the step before in
+   * the same scenario or background (`given` at its start).
    */
   fun effectiveKeyword(): String {
     val dialect = dialect()

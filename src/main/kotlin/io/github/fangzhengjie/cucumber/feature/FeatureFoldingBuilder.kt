@@ -1,6 +1,5 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.core.GherkinOutline
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.FoldingBuilderEx
 import com.intellij.lang.folding.FoldingDescriptor
@@ -8,8 +7,11 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import io.github.fangzhengjie.cucumber.core.GherkinOutline
 
-/** Folds Rule / Background / Scenario / Scenario Outline / Examples bodies, doc strings and tables. */
+/**
+ * Folds Rule / Background / Scenario / Scenario Outline / Examples bodies, doc strings and tables.
+ */
 class FeatureFoldingBuilder : FoldingBuilderEx(), DumbAware {
 
   override fun buildFoldRegions(

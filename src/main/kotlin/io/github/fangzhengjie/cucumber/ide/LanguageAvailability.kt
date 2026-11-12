@@ -3,8 +3,8 @@ package io.github.fangzhengjie.cucumber.ide
 import io.github.fangzhengjie.cucumber.core.Language
 
 /**
- * Decides which languages this plugin handles. A language is skipped while another plugin
- * is enabled. No language-specific plugin is required.
+ * Decides which languages this plugin handles. A language is skipped while another plugin is
+ * enabled. No language-specific plugin is required.
  */
 object LanguageAvailability {
 

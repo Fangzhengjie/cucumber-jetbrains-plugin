@@ -1,21 +1,21 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.core.Dialect
-import io.github.fangzhengjie.cucumber.core.GherkinDialects
 import com.intellij.lexer.LexerBase
 import com.intellij.lexer.RestartableLexer
 import com.intellij.lexer.TokenIterator
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
+import io.github.fangzhengjie.cucumber.core.Dialect
+import io.github.fangzhengjie.cucumber.core.GherkinDialects
 import java.util.regex.Pattern
 
 /**
  * Token-level Gherkin lexer. The lexer works line by line; only the first token of a line carries a
  * line state ([NORMAL], [IN_DOC_QUOTES] or [IN_DOC_BACKTICKS]), every other token reports
  * [MID_LINE]; incremental highlighting restarts only at [NORMAL] line starts. A doc string closes
- * only on the delimiter that opened it. Keywords come from the dialect of the `# language:`
- * header; its index is part of every line state, so changing the header changes the state of the
- * first line and the highlighter re-lexes the rest of the file.
+ * only on the delimiter that opened it. Keywords come from the dialect of the `# language:` header;
+ * its index is part of every line state, so changing the header changes the state of the first line
+ * and the highlighter re-lexes the rest of the file.
  */
 internal class FeatureLexer : LexerBase(), RestartableLexer {
 

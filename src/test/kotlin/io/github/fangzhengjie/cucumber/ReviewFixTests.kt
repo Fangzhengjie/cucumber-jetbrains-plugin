@@ -11,8 +11,8 @@ import io.github.fangzhengjie.cucumber.core.PatternKind
 import io.github.fangzhengjie.cucumber.core.Patterns
 import io.github.fangzhengjie.cucumber.core.StepDefinitionInfo
 import io.github.fangzhengjie.cucumber.core.StepRename
-import io.github.fangzhengjie.cucumber.lang.JavaScriptAdapter
 import io.github.fangzhengjie.cucumber.ide.JvmCommand
+import io.github.fangzhengjie.cucumber.lang.JavaScriptAdapter
 import io.github.fangzhengjie.cucumber.lang.JvmAdapter
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
@@ -50,7 +50,8 @@ internal object ReviewFixTests {
 
   /** Every started node has a unique id and every suite is finished. */
   private fun checkTree(events: List<CucumberMessages.Event>, scenarios: Int, label: String) {
-    val started = events.filter { it is CucumberMessages.SuiteStarted || it is CucumberMessages.TestStarted }
+    val started =
+        events.filter { it is CucumberMessages.SuiteStarted || it is CucumberMessages.TestStarted }
     equal(started.size, started.map { it.id }.toSet().size, "$label: unique node ids")
     equal(
         events.count { it is CucumberMessages.SuiteStarted },
@@ -69,7 +70,10 @@ internal object ReviewFixTests {
     checkTree(events, 2, "messages: two runs in one stream")
     equal(
         listOf("One", "Two"),
-        events.filterIsInstance<CucumberMessages.SuiteStarted>().map { it.name }.filter { it != "A" },
+        events
+            .filterIsInstance<CucumberMessages.SuiteStarted>()
+            .map { it.name }
+            .filter { it != "A" },
         "messages: both runs shown")
   }
 
@@ -85,7 +89,9 @@ internal object ReviewFixTests {
         follower.read({
           restarts++
           events.addAll(converter.restart())
-        }) { line -> events.addAll(converter.accept(line)) }
+        }) { line ->
+          events.addAll(converter.accept(line))
+        }
 
     poll()
     val first = messageRun("One")
@@ -110,7 +116,10 @@ internal object ReviewFixTests {
     checkTree(events, 3, "follower: three runs")
     equal(
         listOf("One", "Second run", "3"),
-        events.filterIsInstance<CucumberMessages.SuiteStarted>().map { it.name }.filter { it != "A" },
+        events
+            .filterIsInstance<CucumberMessages.SuiteStarted>()
+            .map { it.name }
+            .filter { it != "A" },
         "follower: every run read from its start")
     Files.deleteIfExists(file)
   }
@@ -125,31 +134,51 @@ internal object ReviewFixTests {
     write(root.resolve("pom.xml"), "<project/>")
     val app = root.resolve("app")
     write(app.resolve("pom.xml"), "<project/>")
-    write(app.resolve("src/test/java/RunCukesTest.java"), "@RunWith(Cucumber.class)\npublic class RunCukesTest {}\n")
+    write(
+        app.resolve("src/test/java/RunCukesTest.java"),
+        "@RunWith(Cucumber.class)\npublic class RunCukesTest {}\n")
     write(app.resolve("src/test/resources/f/a.feature"), "Feature: A\n")
 
-    val module = JvmCommand.build(root.toString(), listOf(app.toString()), JvmCommand.Options(), false)
+    val module =
+        JvmCommand.build(root.toString(), listOf(app.toString()), JvmCommand.Options(), false)
     equal(
-        listOf("mvn", "test", "-pl", "app", "-am", "-Dtest=RunCukesTest", "-Dsurefire.failIfNoSpecifiedTests=false"),
+        listOf(
+            "mvn",
+            "test",
+            "-pl",
+            "app",
+            "-am",
+            "-Dtest=RunCukesTest",
+            "-Dsurefire.failIfNoSpecifiedTests=false"),
         module.argv,
         "jvm: module directory -> that module, all its features")
     equal(mapOf<String, String>(), module.env, "jvm: module directory -> no CUCUMBER_FEATURES")
     equal(root.toString(), module.workDir, "jvm: module directory -> build root")
 
-    val project = JvmCommand.build(root.toString(), listOf(root.toString()), JvmCommand.Options(), false)
-    check(project.argv.none { it.startsWith("-Dcucumber.features") }, "jvm: project root -> no cucumber.features")
+    val project =
+        JvmCommand.build(root.toString(), listOf(root.toString()), JvmCommand.Options(), false)
+    check(
+        project.argv.none { it.startsWith("-Dcucumber.features") },
+        "jvm: project root -> no cucumber.features")
     check("-pl" !in project.argv, "jvm: project root -> whole build")
 
     val folder = app.resolve("src/test/resources/f")
     equal(
         "-Dcucumber.features=src/test/resources/f",
-        JvmCommand.build(root.toString(), listOf(folder.toString()), JvmCommand.Options(), false).argv.last(),
+        JvmCommand.build(root.toString(), listOf(folder.toString()), JvmCommand.Options(), false)
+            .argv
+            .last(),
         "jvm: feature folder relative to its module")
 
     val gradle = Path.of("build", "selftest-run", "review", "gradle-modules").toAbsolutePath()
     write(gradle.resolve("settings.gradle.kts"), "include(\"lib\")\n")
     write(gradle.resolve("lib/build.gradle.kts"), "")
-    val lib = JvmCommand.build(gradle.toString(), listOf(gradle.resolve("lib").toString()), JvmCommand.Options(), false)
+    val lib =
+        JvmCommand.build(
+            gradle.toString(),
+            listOf(gradle.resolve("lib").toString()),
+            JvmCommand.Options(),
+            false)
     equal(listOf("gradle", ":lib:test"), lib.argv, "jvm: gradle module directory -> its test task")
     equal(mapOf<String, String>(), lib.env, "jvm: gradle module directory -> no CUCUMBER_FEATURES")
   }
@@ -157,32 +186,47 @@ internal object ReviewFixTests {
   private fun jvmRunnerSelection() {
     val module = Path.of("build", "selftest-run", "review", "runners").toAbsolutePath()
     write(module.resolve("pom.xml"), "<project/>")
-    write(module.resolve("src/test/java/com/x/RunXTest.java"), "@RunWith(Cucumber.class)\npublic class RunXTest {}\n")
-    write(module.resolve("src/test/java/com/y/RunYTest.java"), "@RunWith(Cucumber.class)\npublic class RunYTest {}\n")
+    write(
+        module.resolve("src/test/java/com/x/RunXTest.java"),
+        "@RunWith(Cucumber.class)\npublic class RunXTest {}\n")
+    write(
+        module.resolve("src/test/java/com/y/RunYTest.java"),
+        "@RunWith(Cucumber.class)\npublic class RunYTest {}\n")
     val feature = module.resolve("src/test/resources/com/y/b.feature")
     write(feature, "Feature: B\n")
-    val selected = JvmCommand.build(module.toString(), listOf("$feature:2"), JvmCommand.Options(), false)
-    check("-Dtest=RunYTest" in selected.argv, "jvm: one runner, the closest to the feature: " + selected.argv)
+    val selected =
+        JvmCommand.build(module.toString(), listOf("$feature:2"), JvmCommand.Options(), false)
+    check(
+        "-Dtest=RunYTest" in selected.argv,
+        "jvm: one runner, the closest to the feature: " + selected.argv)
     val all = JvmCommand.build(module.toString(), listOf(), JvmCommand.Options(), false)
-    check("-Dtest=RunXTest,RunYTest" in all.argv, "jvm: every runner when running all features: " + all.argv)
+    check(
+        "-Dtest=RunXTest,RunYTest" in all.argv,
+        "jvm: every runner when running all features: " + all.argv)
     val other = module.resolve("src/test/resources/z.feature")
     write(other, "Feature: Z\n")
     check(
-        "-Dtest=RunXTest" in JvmCommand.build(module.toString(), listOf(other.toString()), JvmCommand.Options(), false).argv,
+        "-Dtest=RunXTest" in
+            JvmCommand.build(
+                    module.toString(), listOf(other.toString()), JvmCommand.Options(), false)
+                .argv,
         "jvm: no closer runner -> the first by name")
   }
 
   private fun gradleSelfContained() {
     val gradle = Path.of("build", "selftest-run", "review", "gradle-platform").toAbsolutePath()
     write(gradle.resolve("build.gradle"), "")
-    write(gradle.resolve("src/test/java/RunTest.java"), "@Suite\n@IncludeEngines(\"cucumber\")\npublic class RunTest {}\n")
+    write(
+        gradle.resolve("src/test/java/RunTest.java"),
+        "@Suite\n@IncludeEngines(\"cucumber\")\npublic class RunTest {}\n")
     val feature = gradle.resolve("src/test/resources/p.feature")
     write(feature, "Feature: P\n")
     val command =
         JvmCommand.build(
             gradle.toString(),
             listOf("$feature:3"),
-            JvmCommand.Options(tags = "@a", plugin = "message:/m.ndjson", gradleInitScript = "/i.gradle"),
+            JvmCommand.Options(
+                tags = "@a", plugin = "message:/m.ndjson", gradleInitScript = "/i.gradle"),
             false)
     for (arg in
         listOf(
@@ -193,15 +237,21 @@ internal object ReviewFixTests {
       check(arg in command.argv, "gradle: copied command carries $arg without environment")
     }
     val script = JvmCommand.GRADLE_INIT_SCRIPT
-    check(script.contains("System.getProperty(property)"), "gradle: init script falls back to -D properties")
     check(
-        script.contains("'cucumber.jetbrains.jdwp'") && script.contains("'cucumber.jetbrains.engineOnly'"),
+        script.contains("System.getProperty(property)"),
+        "gradle: init script falls back to -D properties")
+    check(
+        script.contains("'cucumber.jetbrains.jdwp'") &&
+            script.contains("'cucumber.jetbrains.engineOnly'"),
         "gradle: init script reads the plugin's -D properties")
   }
+
   private fun regexMatchSemantics() {
-    val java = JvmAdapter.JAVA.parse("@Given(\"^I have (\\\\d+) cukes\")\nvoid a(int n) {}\n").single()
+    val java =
+        JvmAdapter.JAVA.parse("@Given(\"^I have (\\\\d+) cukes\")\nvoid a(int n) {}\n").single()
     check(java.matches("I have 5 cukes"), "jvm regex: whole step matches")
-    check(!java.matches("I have 5 cukes today"), "jvm regex: Matcher.matches() needs the whole step")
+    check(
+        !java.matches("I have 5 cukes today"), "jvm regex: Matcher.matches() needs the whole step")
     val kotlin = JvmAdapter.KOTLIN.parse("@When(\"cukes (\\\\d+)\$\")\nfun a(n: Int) {}\n").single()
     check(!kotlin.matches("many cukes 5"), "kotlin regex: unanchored start still needs whole step")
     val js = JavaScriptAdapter.parse("Given(/^I have (\\d+) cukes/, () => {});\n").single()
@@ -218,7 +268,10 @@ internal object ReviewFixTests {
             regex,
             "I have <n> cukes in my <where>",
             "I own <n> cukes in my <where>")
-    equal("I own {int} cukes in my {word}", plan?.newPattern, "outline rename: plan from <param> text")
+    equal(
+        "I own {int} cukes in my {word}",
+        plan?.newPattern,
+        "outline rename: plan from <param> text")
     if (plan != null) {
       equal(
           "I own <count> cukes in my <place>",
@@ -252,7 +305,10 @@ internal object ReviewFixTests {
             "I have <n> cukes in my <where>",
             "I own <n> cukes in my <where>",
             "I have 5 cukes in my belly")
-    equal("\"I own {int} cukes in my {word}\"", edit?.replacement, "outline rename: definition rewritten")
+    equal(
+        "\"I own {int} cukes in my {word}\"",
+        edit?.replacement,
+        "outline rename: definition rewritten")
     equal(
         null,
         StepRename.renameDefinition(
@@ -262,7 +318,12 @@ internal object ReviewFixTests {
 
   private fun definition(language: Language, keyword: String, pattern: String): StepDefinitionInfo =
       StepDefinitionInfo.of(
-          language, keyword, PatternKind.EXACT, pattern, Patterns.toRegex(PatternKind.EXACT, pattern), 0)
+          language,
+          keyword,
+          PatternKind.EXACT,
+          pattern,
+          Patterns.toRegex(PatternKind.EXACT, pattern),
+          0)
 
   private fun keywordMatching() {
     val behaveGiven = definition(Language.PYTHON, "given", "x")
@@ -281,7 +342,10 @@ internal object ReviewFixTests {
     check(goGiven.matches("x", "when"), "godog ignores the keyword")
     check(!behaveGiven.matches("y", "given"), "keyword never makes other text match")
 
-    equal("given", GherkinSyntax.effectiveKeyword(GherkinKeywordType.AND, null), "leading And is given")
+    equal(
+        "given",
+        GherkinSyntax.effectiveKeyword(GherkinKeywordType.AND, null),
+        "leading And is given")
     equal("when", GherkinSyntax.effectiveKeyword(GherkinKeywordType.AND, "when"), "And continues")
     equal("then", GherkinSyntax.effectiveKeyword(GherkinKeywordType.BUT, "then"), "But continues")
     equal("then", GherkinSyntax.effectiveKeyword(GherkinKeywordType.THEN, "given"), "Then is then")

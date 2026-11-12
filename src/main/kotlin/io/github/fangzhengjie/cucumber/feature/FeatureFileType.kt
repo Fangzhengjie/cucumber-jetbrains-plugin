@@ -1,7 +1,7 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.CucumberIcons
 import com.intellij.openapi.fileTypes.LanguageFileType
+import io.github.fangzhengjie.cucumber.CucumberIcons
 import javax.swing.Icon
 
 object FeatureFileType : LanguageFileType(FeatureLanguage) {

@@ -14,7 +14,12 @@ object Outlines {
   /** A table cell; `start`/`end` cover the trimmed raw text, `text` is unescaped. */
   data class Cell(val text: String, val start: Int, val end: Int)
 
-  data class Examples(val start: Int, val end: Int, val header: List<Cell>, val rows: List<List<Cell>>)
+  data class Examples(
+      val start: Int,
+      val end: Int,
+      val header: List<Cell>,
+      val rows: List<List<Cell>>
+  )
 
   enum class Severity {
     WARNING,
@@ -26,7 +31,8 @@ object Outlines {
   /**
    * A Scenario / Scenario Outline from its keyword line up to the next block keyword.
    *
-   * @property outlineKeyword written with a Scenario Outline keyword (`Scenario Outline:`, `场景大纲:`, ...)
+   * @property outlineKeyword written with a Scenario Outline keyword (`Scenario Outline:`, `场景大纲:`,
+   *   ...)
    * @property params `<param>` occurrences in the title, steps, doc strings and step tables
    */
   data class Scenario(
@@ -139,7 +145,8 @@ object Outlines {
       if (c == '\\' && i + 1 < cell.length) {
         when (val next = cell[i + 1]) {
           'n' -> out.append('\n')
-          '|', '\\' -> out.append(next)
+          '|',
+          '\\' -> out.append(next)
           else -> out.append(c).append(next)
         }
         i += 2
@@ -171,7 +178,13 @@ object Outlines {
     fun build(end: Int): Scenario {
       closeExamples()
       return Scenario(
-          outlineKeyword, keywordStart, keywordEnd, keywordStart, end, params.toList(), examples.toList())
+          outlineKeyword,
+          keywordStart,
+          keywordEnd,
+          keywordStart,
+          end,
+          params.toList(),
+          examples.toList())
     }
   }
 
@@ -227,7 +240,8 @@ object Outlines {
               result.add(builder.build(s))
             }
             current =
-                if (type == GherkinKeywordType.SCENARIO || type == GherkinKeywordType.SCENARIO_OUTLINE) {
+                if (type == GherkinKeywordType.SCENARIO ||
+                    type == GherkinKeywordType.SCENARIO_OUTLINE) {
                   val keywordEnd = s + header.keywordEnd
                   Builder(type == GherkinKeywordType.SCENARIO_OUTLINE, s, keywordEnd).also {
                     it.params.addAll(params(text, keywordEnd, e))

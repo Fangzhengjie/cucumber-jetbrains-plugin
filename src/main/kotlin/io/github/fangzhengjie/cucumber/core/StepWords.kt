@@ -39,7 +39,8 @@ object StepWords {
 
   /** The words of all `languages`. */
   @JvmStatic
-  fun of(languages: Collection<Language>): Set<String> = languages.flatMapTo(LinkedHashSet()) { of(it) }
+  fun of(languages: Collection<Language>): Set<String> =
+      languages.flatMapTo(LinkedHashSet()) { of(it) }
 
   /**
    * The whole words of `text` the way a word index splits it: maximal runs of Java identifier
@@ -69,8 +70,8 @@ object StepWords {
   }
 
   /**
-   * Whether `text` has a call of one of `words`: the word, not preceded by an ASCII word
-   * character or one of `notAfter`, then optional whitespace and `(`. Same result as finding
+   * Whether `text` has a call of one of `words`: the word, not preceded by an ASCII word character
+   * or one of `notAfter`, then optional whitespace and `(`. Same result as finding
    * `(?<![\w<notAfter>])(word1|word2...)\s*\(`, an order of magnitude faster on large files.
    */
   @JvmStatic

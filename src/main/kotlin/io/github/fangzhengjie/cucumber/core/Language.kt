@@ -13,8 +13,8 @@ import java.util.Locale
 /**
  * A language whose step definitions the plugin understands, and the file extensions it owns.
  *
- * @property keywordSensitive whether the framework binds a `Given` definition to `Given` steps
- *   only (behave, pytest-bdd, Reqnroll / SpecFlow, cucumber-rs). Cucumber-JVM, cucumber-js,
+ * @property keywordSensitive whether the framework binds a `Given` definition to `Given` steps only
+ *   (behave, pytest-bdd, Reqnroll / SpecFlow, cucumber-rs). Cucumber-JVM, cucumber-js,
  *   cucumber-ruby, godog and Cucumber-CPP ignore the keyword when matching.
  */
 enum class Language(

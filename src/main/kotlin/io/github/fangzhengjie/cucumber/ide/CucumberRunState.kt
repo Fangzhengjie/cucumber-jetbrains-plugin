@@ -1,6 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.CucumberMessages
 import com.intellij.execution.DefaultExecutionResult
 import com.intellij.execution.ExecutionException
 import com.intellij.execution.ExecutionResult
@@ -41,6 +40,7 @@ import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.concurrency.AppExecutorUtil
 import com.intellij.util.execution.ParametersListUtil
+import io.github.fangzhengjie.cucumber.core.CucumberMessages
 import java.io.File
 import java.io.IOException
 import java.nio.charset.StandardCharsets
@@ -84,7 +84,8 @@ class CucumberRunState(
     val shown = "> " + ParametersListUtil.join(command.argv) + "\n  (in " + workDir + ")\n"
 
     if (messages == null) {
-      val console = TextConsoleBuilderFactory.getInstance().createBuilder(configuration.project).console
+      val console =
+          TextConsoleBuilderFactory.getInstance().createBuilder(configuration.project).console
       console.print(shown, ConsoleViewContentType.SYSTEM_OUTPUT)
       console.attachToProcess(handler)
       return DefaultExecutionResult(console, handler)
@@ -122,7 +123,9 @@ class CucumberConsoleProperties(
   ): OutputToGeneralTestEventsConverter =
       CucumberEventsConverter(testFrameworkName, consoleProperties, messagesFile, baseDir)
 
-  override fun createRerunFailedTestsAction(consoleView: ConsoleView): AbstractRerunFailedTestsAction =
+  override fun createRerunFailedTestsAction(
+      consoleView: ConsoleView
+  ): AbstractRerunFailedTestsAction =
       CucumberRerunFailedTestsAction(consoleView as ComponentContainer, this)
 }
 
@@ -222,9 +225,11 @@ class CucumberEventsConverter(
       val located =
           when (event) {
             is CucumberMessages.SuiteStarted ->
-                event.copy(location = event.location?.let { CucumberRunResults.canonicalLocation(it) })
+                event.copy(
+                    location = event.location?.let { CucumberRunResults.canonicalLocation(it) })
             is CucumberMessages.TestStarted ->
-                event.copy(location = event.location?.let { CucumberRunResults.canonicalLocation(it) })
+                event.copy(
+                    location = event.location?.let { CucumberRunResults.canonicalLocation(it) })
             else -> event
           }
       processConsistentText(located.serviceMessage() + "\n", ProcessOutputTypes.STDOUT)
@@ -297,7 +302,8 @@ class CucumberRerunFailedTestsAction(
   }
 
   override fun getRunProfile(environment: ExecutionEnvironment): MyRunProfile? {
-    val configuration = myConsoleProperties.configuration as? CucumberRunConfiguration ?: return null
+    val configuration =
+        myConsoleProperties.configuration as? CucumberRunConfiguration ?: return null
     val targets = LinkedHashSet<String>()
     for (test in getFailedTests(configuration.project)) {
       val scenario = scenarioOf(test) ?: continue
@@ -323,8 +329,10 @@ class CucumberRerunFailedTestsAction(
     val copy = configuration.clone() as CucumberRunConfiguration
     copy.rerunFeatures = targets.toList()
     return object : MyRunProfile(copy) {
-      override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState =
-          copy.getState(executor, environment)
+      override fun getState(
+          executor: Executor,
+          environment: ExecutionEnvironment
+      ): RunProfileState = copy.getState(executor, environment)
     }
   }
 

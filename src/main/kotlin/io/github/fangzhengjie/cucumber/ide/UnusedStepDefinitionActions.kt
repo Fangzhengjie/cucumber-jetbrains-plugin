@@ -1,7 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.Language
-import io.github.fangzhengjie.cucumber.feature.FeatureFile
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
@@ -9,6 +7,8 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.text.StringUtil
+import io.github.fangzhengjie.cucumber.core.Language
+import io.github.fangzhengjie.cucumber.feature.FeatureFile
 
 /** Lists the project's unused step definitions in the Find tool window. */
 class FindUnusedStepDefinitionsAction : AnAction(), DumbAware {
@@ -24,7 +24,9 @@ class FindUnusedStepDefinitionsAction : AnAction(), DumbAware {
   }
 }
 
-/** Deletes the step definition at the caret (annotations and method, or call) if no step uses it. */
+/**
+ * Deletes the step definition at the caret (annotations and method, or call) if no step uses it.
+ */
 class DeleteUnusedStepDefinitionAction : AnAction(), DumbAware {
 
   override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
@@ -56,10 +58,12 @@ class DeleteUnusedStepDefinitionAction : AnAction(), DumbAware {
     val (definition, used) = found
     if (used > 0) {
       HintManager.getInstance()
-          .showInformationHint(editor, "This step definition is used by $used " + StringUtil.pluralize("step", used))
+          .showInformationHint(
+              editor, "This step definition is used by $used " + StringUtil.pluralize("step", used))
       return
     }
     UnusedStepDefinitions.delete(
-        project, listOf(UnusedStepDefinitions.Target(file.viewProvider.virtualFile, definition.info.offset)))
+        project,
+        listOf(UnusedStepDefinitions.Target(file.viewProvider.virtualFile, definition.info.offset)))
   }
 }

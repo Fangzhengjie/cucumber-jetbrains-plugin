@@ -1,8 +1,5 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.core.Tags
-import io.github.fangzhengjie.cucumber.ide.StepTarget
-import io.github.fangzhengjie.cucumber.ide.StepUsageIndex
 import com.intellij.codeInsight.navigation.actions.GotoDeclarationHandler
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -13,6 +10,9 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
+import io.github.fangzhengjie.cucumber.core.Tags
+import io.github.fangzhengjie.cucumber.ide.StepTarget
+import io.github.fangzhengjie.cucumber.ide.StepUsageIndex
 
 /**
  * Ctrl+click / Ctrl+B on a `<param>` opens its Examples column; on an Examples column header it
@@ -35,7 +35,8 @@ class OutlineGotoDeclarationHandler : GotoDeclarationHandler {
     if (param != null) {
       return targets(
           scenario.headerCells(param.name).map { cell ->
-            StepTarget(file, cell.start, "Examples column '" + cell.text + "'" + line(file, cell.start))
+            StepTarget(
+                file, cell.start, "Examples column '" + cell.text + "'" + line(file, cell.start))
           })
     }
     val cell = scenario.headerCellAt(offset)
@@ -66,7 +67,11 @@ class OutlineGotoDeclarationHandler : GotoDeclarationHandler {
       if (targets.isEmpty()) null else targets.toTypedArray()
 
   private fun line(file: PsiFile, offset: Int): String =
-      "  (" + file.name + ":" + (StringUtil.offsetToLineNumber(file.viewProvider.contents, offset) + 1) + ")"
+      "  (" +
+          file.name +
+          ":" +
+          (StringUtil.offsetToLineNumber(file.viewProvider.contents, offset) + 1) +
+          ")"
 
   companion object {
 

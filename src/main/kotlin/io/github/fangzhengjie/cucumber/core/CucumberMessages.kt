@@ -11,8 +11,8 @@ import java.util.Locale
 
 /**
  * Converts Cucumber Messages (the ndjson written by the `message` formatter of Cucumber-JVM,
- * cucumber-js and cucumber-ruby) into test-tree events: Feature (suite) -> Scenario (suite) ->
- * Step (test). IDE-free; the IDE renders the events as TeamCity service messages.
+ * cucumber-js and cucumber-ruby) into test-tree events: Feature (suite) -> Scenario (suite) -> Step
+ * (test). IDE-free; the IDE renders the events as TeamCity service messages.
  */
 object CucumberMessages {
 
@@ -160,7 +160,12 @@ object CucumberMessages {
       val details: String,
   ) : Event {
     override fun serviceMessage(): String =
-        message("testFailed", "name" to name, "nodeId" to id, "message" to message, "details" to details)
+        message(
+            "testFailed",
+            "name" to name,
+            "nodeId" to id,
+            "message" to message,
+            "details" to details)
   }
 
   data class TestIgnored(override val id: String, override val name: String, val message: String) :
@@ -169,8 +174,11 @@ object CucumberMessages {
         message("testIgnored", "name" to name, "nodeId" to id, "message" to message)
   }
 
-  data class TestFinished(override val id: String, override val name: String, val durationMs: Long) :
-      Event {
+  data class TestFinished(
+      override val id: String,
+      override val name: String,
+      val durationMs: Long
+  ) : Event {
     override fun serviceMessage(): String =
         message("testFinished", "name" to name, "nodeId" to id, "duration" to durationMs.toString())
   }
@@ -340,7 +348,10 @@ object CucumberMessages {
       val uri = body["uri"] as? String ?: return
       val feature = body["feature"] as? Map<*, *> ?: return
       features[uri] =
-          AstNode(line(feature), feature["keyword"] as? String ?: "Feature", feature["name"] as? String ?: "")
+          AstNode(
+              line(feature),
+              feature["keyword"] as? String ?: "Feature",
+              feature["name"] as? String ?: "")
       children(feature["children"])
     }
 
@@ -356,7 +367,10 @@ object CucumberMessages {
     private fun scenario(scenario: Map<*, *>) {
       val id = scenario["id"] as? String ?: return
       nodes[id] =
-          AstNode(line(scenario), scenario["keyword"] as? String ?: "Scenario", scenario["name"] as? String ?: "")
+          AstNode(
+              line(scenario),
+              scenario["keyword"] as? String ?: "Scenario",
+              scenario["name"] as? String ?: "")
       steps(scenario["steps"])
       for (examples in scenario["examples"] as? List<*> ?: emptyList<Any>()) {
         val body = (examples as? Map<*, *>)?.get("tableBody") as? List<*> ?: continue
@@ -372,7 +386,8 @@ object CucumberMessages {
       for (step in list as? List<*> ?: return) {
         val map = step as? Map<*, *> ?: continue
         val id = map["id"] as? String ?: continue
-        nodes[id] = AstNode(line(map), map["keyword"] as? String ?: "", map["text"] as? String ?: "")
+        nodes[id] =
+            AstNode(line(map), map["keyword"] as? String ?: "", map["text"] as? String ?: "")
       }
     }
 
@@ -385,7 +400,11 @@ object CucumberMessages {
         steps[stepId] = PickleStep(map["text"] as? String ?: "", strings(map["astNodeIds"]))
       }
       pickles[id] =
-          Pickle(body["uri"] as? String ?: "", body["name"] as? String ?: "", strings(body["astNodeIds"]), steps)
+          Pickle(
+              body["uri"] as? String ?: "",
+              body["name"] as? String ?: "",
+              strings(body["astNodeIds"]),
+              steps)
     }
 
     private fun testCase(body: Map<*, *>) {
@@ -413,13 +432,19 @@ object CucumberMessages {
         openFeatures[uri] = 0
         val feature = features[uri]
         events.add(
-            SuiteStarted(featureId(uri), "0", featureName(uri), feature?.let { location(path(uri), it.line) }))
+            SuiteStarted(
+                featureId(uri),
+                "0",
+                featureName(uri),
+                feature?.let { location(path(uri), it.line) }))
       }
       openFeatures[uri] = (openFeatures[uri] ?: 0) + 1
       lastFeature = uri
       val run = Running(id, testCase, pickle)
       running[id] = run
-      events.add(SuiteStarted(scenarioId(id), featureId(uri), scenarioName(pickle), scenarioLocation(pickle)))
+      events.add(
+          SuiteStarted(
+              scenarioId(id), featureId(uri), scenarioName(pickle), scenarioLocation(pickle)))
     }
 
     private fun testStepStarted(body: Map<*, *>, events: MutableList<Event>) {
@@ -468,7 +493,8 @@ object CucumberMessages {
           val headline = (if (newline < 0) full else full.substring(0, newline)).trim()
           val stackTrace = exception?.get("stackTrace") as? String
           val details =
-              stackTrace?.trimEnd() ?: if (newline < 0) "" else full.substring(newline + 1).trimEnd()
+              stackTrace?.trimEnd()
+                  ?: if (newline < 0) "" else full.substring(newline + 1).trimEnd()
           events.add(TestFailed(nodeId, name, headline, details))
         }
       }
@@ -525,7 +551,8 @@ object CucumberMessages {
 
     private fun featureId(uri: String): String = prefix() + "feature:$uri"
 
-    private fun scenarioId(testCaseStartedId: String): String = prefix() + "scenario:$testCaseStartedId"
+    private fun scenarioId(testCaseStartedId: String): String =
+        prefix() + "scenario:$testCaseStartedId"
 
     private fun stepNodeId(testCaseStartedId: String, stepId: String): String =
         prefix() + "step:$testCaseStartedId:$stepId"
@@ -548,7 +575,8 @@ object CucumberMessages {
         return classpath(normalized.removePrefix("classpath:").trimStart('/'))
       }
       val absolute =
-          normalized.startsWith("/") || (normalized.length > 1 && normalized[1] == ':') ||
+          normalized.startsWith("/") ||
+              (normalized.length > 1 && normalized[1] == ':') ||
               normalized.contains(":") && !normalized.startsWith(".")
       if (absolute || baseDir == null) {
         return normalized
@@ -557,8 +585,8 @@ object CucumberMessages {
     }
 
     /**
-     * A `classpath:` resource: the first `src/<set>/resources` (or `java`) file under [baseDir]
-     * and its direct subdirectories, else `classpath:<resource>` for the IDE to search.
+     * A `classpath:` resource: the first `src/<set>/resources` (or `java`) file under [baseDir] and
+     * its direct subdirectories, else `classpath:<resource>` for the IDE to search.
      */
     private fun classpath(resource: String): String {
       val base = baseDir ?: return "classpath:$resource"
@@ -566,7 +594,10 @@ object CucumberMessages {
         val roots = ArrayList<java.io.File>()
         val baseFile = java.io.File(base)
         roots.add(baseFile)
-        baseFile.listFiles()?.filter { it.isDirectory && !it.name.startsWith(".") }?.let { roots.addAll(it) }
+        baseFile
+            .listFiles()
+            ?.filter { it.isDirectory && !it.name.startsWith(".") }
+            ?.let { roots.addAll(it) }
         for (root in roots) {
           for (set in listOf("test", "main")) {
             for (kind in listOf("resources", "java", "kotlin")) {
@@ -707,7 +738,9 @@ object CucumberMessages {
                 throw IllegalArgumentException("Unterminated escape")
               }
               when (val e = text[position++]) {
-                '"', '\\', '/' -> result.append(e)
+                '"',
+                '\\',
+                '/' -> result.append(e)
                 'b' -> result.append('\b')
                 'f' -> result.append('\u000C')
                 'n' -> result.append('\n')

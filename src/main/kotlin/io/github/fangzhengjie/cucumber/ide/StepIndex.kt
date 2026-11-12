@@ -1,10 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.IgnoredPaths
-import io.github.fangzhengjie.cucumber.core.Language
-import io.github.fangzhengjie.cucumber.core.StepDefinitionInfo
-import io.github.fangzhengjie.cucumber.feature.FeatureOutlines
-import io.github.fangzhengjie.cucumber.feature.FeatureStep
 import com.intellij.openapi.diagnostic.ControlFlowException
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.fileEditor.FileDocumentManager
@@ -26,6 +21,11 @@ import com.intellij.psi.PsiManager
 import com.intellij.psi.util.CachedValue
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
+import io.github.fangzhengjie.cucumber.core.IgnoredPaths
+import io.github.fangzhengjie.cucumber.core.Language
+import io.github.fangzhengjie.cucumber.core.StepDefinitionInfo
+import io.github.fangzhengjie.cucumber.feature.FeatureOutlines
+import io.github.fangzhengjie.cucumber.feature.FeatureStep
 import java.util.concurrent.CancellationException
 import java.util.concurrent.ConcurrentHashMap
 import org.jetbrains.annotations.TestOnly
@@ -34,14 +34,14 @@ import org.jetbrains.annotations.TestOnly
  * Project-wide step definitions. Files are read as text, so languages the IDE has no plugin for
  * work too. This index is independent of any language-specific IDE plugin.
  *
- * Three cache levels keep this cheap: the candidate files (recomputed only when files are
- * added, removed or renamed, project roots change or settings change), each file's parsed steps
- * (re-read only when that file's modification stamp changes), and the indexed definitions
- * (rebuilt only when a file in a step definition language changes, see
- * [CucumberModificationTrackers]). Building the index never builds PSI trees: a definition's
- * [Definition.target] is looked up when it is used. In smart mode, files the IDE's word index
- * proves free of step keywords are not read at all (see [StepWordFilter]); in dumb mode every
- * candidate is read, and the index is rebuilt (mostly from the parse cache) once indexing ends.
+ * Three cache levels keep this cheap: the candidate files (recomputed only when files are added,
+ * removed or renamed, project roots change or settings change), each file's parsed steps (re-read
+ * only when that file's modification stamp changes), and the indexed definitions (rebuilt only when
+ * a file in a step definition language changes, see [CucumberModificationTrackers]). Building the
+ * index never builds PSI trees: a definition's [Definition.target] is looked up when it is used. In
+ * smart mode, files the IDE's word index proves free of step keywords are not read at all (see
+ * [StepWordFilter]); in dumb mode every candidate is read, and the index is rebuilt (mostly from
+ * the parse cache) once indexing ends.
  */
 object StepIndex {
 
@@ -68,7 +68,9 @@ object StepIndex {
     fun matching(stepText: String, stepKeyword: String? = null): List<Definition> =
         definitions.filter { definition -> definition.info.matches(stepText, stepKeyword) }
 
-    /** The definitions matching a feature step (Outline parameters substituted, keyword checked). */
+    /**
+     * The definitions matching a feature step (Outline parameters substituted, keyword checked).
+     */
     fun matching(step: FeatureStep): List<Definition> =
         matching(FeatureOutlines.matchText(step), step.effectiveKeyword())
   }
@@ -86,8 +88,8 @@ object StepIndex {
   private const val MAX_FILE_SIZE = 2_000_000L
 
   /**
-   * Every file of the project: content roots first, then files under the project directory that
-   * no module covers (e.g. a stale or missing module setup). Excluded directories and the ones
+   * Every file of the project: content roots first, then files under the project directory that no
+   * module covers (e.g. a stale or missing module setup). Excluded directories and the ones
    * [IgnoredPaths] skips (judged relative to their root, never by the project's own location) are
    * left out. Must be called in a read action.
    */
@@ -284,8 +286,8 @@ object StepIndex {
   }
 
   /**
-   * The PSI leaf starting at the pattern literal when the IDE understands the language;
-   * otherwise a target that navigates to the exact offset.
+   * The PSI leaf starting at the pattern literal when the IDE understands the language; otherwise a
+   * target that navigates to the exact offset.
    */
   private fun target(file: PsiFile, step: StepDefinitionInfo): PsiElement {
     val leaf = if (file.isValid) file.findElementAt(step.offset) else null

@@ -4,9 +4,9 @@ import java.util.Locale
 
 /**
  * Renders step definition patterns as step text with parameter placeholders, for step completion:
- * `the user {string} sends {int} request(s)` becomes the text `the user "" sends 0 requests`
- * (shown as `the user "<string>" sends <int> request(s)`) with a placeholder inside the quotes and
- * one on `0`.
+ * `the user {string} sends {int} request(s)` becomes the text `the user "" sends 0 requests` (shown
+ * as `the user "<string>" sends <int> request(s)`) with a placeholder inside the quotes and one on
+ * `0`.
  */
 object StepTextTemplates {
 
@@ -28,8 +28,8 @@ object StepTextTemplates {
   }
 
   /**
-   * A piece of rendered text; a placeholder when [placeholder] is set ([insert] is then the
-   * default value, or null to choose one from the name and the surrounding quotes).
+   * A piece of rendered text; a placeholder when [placeholder] is set ([insert] is then the default
+   * value, or null to choose one from the name and the surrounding quotes).
    */
   private class Piece(
       val insert: String?,
@@ -105,8 +105,14 @@ object StepTextTemplates {
 
   private fun expressionParameter(type: String): List<Piece> =
       when (type) {
-        "int", "byte", "short", "long", "biginteger" -> listOf(parameter(type, "0"))
-        "float", "double", "bigdecimal" -> listOf(parameter(type, "0.0"))
+        "int",
+        "byte",
+        "short",
+        "long",
+        "biginteger" -> listOf(parameter(type, "0"))
+        "float",
+        "double",
+        "bigdecimal" -> listOf(parameter(type, "0.0"))
         "word" -> listOf(parameter(type, "word"))
         "string" -> listOf(literal("\""), parameter(type, ""), literal("\""))
         "" -> listOf(parameter(null, null))
@@ -133,8 +139,12 @@ object StepTextTemplates {
             pieces.addAll(alternative)
           }
         } else {
-          val texts = alternatives.map { alternative -> alternative.joinToString("") { it.insert!! } }
-          val display = alternatives.joinToString("/") { alternative -> alternative.joinToString("") { it.display } }
+          val texts =
+              alternatives.map { alternative -> alternative.joinToString("") { it.insert!! } }
+          val display =
+              alternatives.joinToString("/") { alternative ->
+                alternative.joinToString("") { it.display }
+              }
           pieces.add(choice(null, texts, display))
         }
         alternatives.clear()
@@ -195,9 +205,20 @@ object StepTextTemplates {
         val type = if (colon < 0) "" else field.substring(colon + 1)
         pieces.add(
             when (type.lastOrNull()) {
-              'd', 'n', 'b', 'o' -> parameter(name ?: "int", "0")
-              'f', 'F', 'e', 'E', 'g', 'G', '%' -> parameter(name ?: "float", "0.0")
-              'w', 'S', 'l' -> parameter(name ?: "word", name ?: "word")
+              'd',
+              'n',
+              'b',
+              'o' -> parameter(name ?: "int", "0")
+              'f',
+              'F',
+              'e',
+              'E',
+              'g',
+              'G',
+              '%' -> parameter(name ?: "float", "0.0")
+              'w',
+              'S',
+              'l' -> parameter(name ?: "word", name ?: "word")
               else -> parameter(name, null, mayBeEmpty = false)
             })
         i = close + 1
@@ -221,7 +242,8 @@ object StepTextTemplates {
     }
     if (end > start && pattern.endsWith("$") && !escaped(pattern, end - 1)) {
       end--
-    } else if (end - 2 >= start && (pattern.endsWith("\\z") || pattern.endsWith("\\Z")) &&
+    } else if (end - 2 >= start &&
+        (pattern.endsWith("\\z") || pattern.endsWith("\\Z")) &&
         !escaped(pattern, end - 2)) {
       end -= 2
     }
@@ -284,7 +306,9 @@ object StepTextTemplates {
           '\\' -> if (!escape(pieces)) return null
           '(' -> if (!group(pieces)) return null
           '[' -> pieces.add(characterClass() ?: return null)
-          '?', '*', '+' -> {
+          '?',
+          '*',
+          '+' -> {
             i++
             skipLazy()
             val last = pieces.removeLastOrNull() ?: return null
@@ -298,7 +322,9 @@ object StepTextTemplates {
             pieces.add(literal("{"))
             i++
           }
-          '.', '^', '$' -> return null
+          '.',
+          '^',
+          '$' -> return null
           else -> {
             pieces.add(literal(c.toString()))
             i++
@@ -333,7 +359,9 @@ object StepTextTemplates {
       i += 2
       when (n) {
         's' -> pieces.add(literal(" "))
-        'b', 'B', 'G' -> {}
+        'b',
+        'B',
+        'G' -> {}
         'Q' -> {
           val end = p.indexOf("\\E", i).let { if (it < 0) p.length else it }
           for (ch in p.substring(i, end)) {
@@ -373,7 +401,8 @@ object StepTextTemplates {
       i = close + 1
       return when {
         body.length == 1 && body != "^" -> literal(body)
-        body.length == 2 && body[0] == '\\' && !body[1].isLetterOrDigit() -> literal(body.substring(1))
+        body.length == 2 && body[0] == '\\' && !body[1].isLetterOrDigit() ->
+            literal(body.substring(1))
         else -> null
       }
     }
@@ -445,7 +474,9 @@ object StepTextTemplates {
             capturing = false
             bodyStart += 2
           }
-          rest.startsWith("?=") || rest.startsWith("?!") || rest.startsWith("?<=") ||
+          rest.startsWith("?=") ||
+              rest.startsWith("?!") ||
+              rest.startsWith("?<=") ||
               rest.startsWith("?<!") -> {
             i = close + 1
             skipQuantifier()
@@ -471,7 +502,8 @@ object StepTextTemplates {
       val literalAlternatives =
           alternatives?.takeIf { all -> all.all { alternative -> alternative.all { it.literal } } }
       if (capturing) {
-        val texts = literalAlternatives?.map { alternative -> alternative.joinToString("") { it.insert!! } }
+        val texts =
+            literalAlternatives?.map { alternative -> alternative.joinToString("") { it.insert!! } }
         if (texts != null && texts.size > 1 && texts.all { it.isNotEmpty() }) {
           pieces.add(choice(name, texts, choiceDisplay(literalAlternatives)))
         } else if (texts != null && texts.size == 1 && texts[0].isNotEmpty()) {
@@ -499,7 +531,8 @@ object StepTextTemplates {
       val texts = nonEmpty.map { alternative -> alternative.joinToString("") { it.insert!! } }
       when {
         texts.isEmpty() -> {}
-        texts.size == 1 && (quantifier == '?' || quantifier == '*' || nonEmpty.size < literalAlternatives.size) ->
+        texts.size == 1 &&
+            (quantifier == '?' || quantifier == '*' || nonEmpty.size < literalAlternatives.size) ->
             pieces.add(optional(texts[0]))
         texts.size == 1 -> nonEmpty[0].forEach { pieces.add(it) }
         else -> pieces.add(choice(null, texts, choiceDisplay(nonEmpty)))
@@ -509,7 +542,8 @@ object StepTextTemplates {
 
     private fun choiceDisplay(alternatives: List<List<Piece>>): String {
       val texts = alternatives.map { alternative -> alternative.joinToString("") { it.display } }
-      return if (texts.any { text -> text.any { it.isWhitespace() } }) texts.joinToString("|", "(", ")")
+      return if (texts.any { text -> text.any { it.isWhitespace() } })
+          texts.joinToString("|", "(", ")")
       else texts.joinToString("/")
     }
 
@@ -531,8 +565,8 @@ object StepTextTemplates {
       candidate.lowercase(Locale.ROOT).startsWith(prefix.trimStart().lowercase(Locale.ROOT))
 
   /**
-   * Whether every word typed in `prefix` starts a word of `candidate`, in order (ignoring case),
-   * or `candidate` contains `prefix`.
+   * Whether every word typed in `prefix` starts a word of `candidate`, in order (ignoring case), or
+   * `candidate` contains `prefix`.
    */
   @JvmStatic
   fun matchesWords(candidate: String, prefix: String): Boolean {

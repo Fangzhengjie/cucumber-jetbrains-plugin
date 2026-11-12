@@ -1,24 +1,26 @@
 package io.github.fangzhengjie.cucumber.core
 
 /**
- * The source of a whole step definition, for deleting it: the annotated method / function
- * (Java, Kotlin, Groovy, Scala, C#, Rust, Python, with all its annotations) or the registration
- * call statement with its block (JavaScript / TypeScript, Ruby, Go, C++ macros, java8 / Kotlin /
- * Groovy / Scala lambdas). Pure text; anything that cannot be delimited safely yields null.
+ * The source of a whole step definition, for deleting it: the annotated method / function (Java,
+ * Kotlin, Groovy, Scala, C#, Rust, Python, with all its annotations) or the registration call
+ * statement with its block (JavaScript / TypeScript, Ruby, Go, C++ macros, java8 / Kotlin / Groovy
+ * / Scala lambdas). Pure text; anything that cannot be delimited safely yields null.
  */
 object StepDefinitionBlocks {
 
   /**
    * `[start, end)` is the definition's source; `[deleteStart, deleteEnd)` is what to remove: whole
-   * lines when the definition has its lines to itself, plus one blank line that would otherwise
-   * be doubled.
+   * lines when the definition has its lines to itself, plus one blank line that would otherwise be
+   * doubled.
    */
   data class Block(val start: Int, val end: Int, val deleteStart: Int, val deleteEnd: Int) {
     fun text(source: String): String = source.substring(start, end)
   }
 
   private enum class Form {
-    /** `@Given("...")` / `[Given("...")]` / `#[given("...")]` / `@given('...')` on a declaration. */
+    /**
+     * `@Given("...")` / `[Given("...")]` / `#[given("...")]` / `@given('...')` on a declaration.
+     */
     ANNOTATION,
     /** `Given("...", ...)` statement, possibly followed by a block. */
     CALL,
@@ -114,10 +116,13 @@ object StepDefinitionBlocks {
     val range =
         when (form) {
           Form.CALL -> call(scanner, head.range.first, literal.end, depth)
-          Form.ANNOTATION -> annotated(scanner, head.range.first, literal.end, depth, definitions, offset)
+          Form.ANNOTATION ->
+              annotated(scanner, head.range.first, literal.end, depth, definitions, offset)
         } ?: return null
     // Never take another definition along.
-    if (definitions.any { it.offset != offset && it.offset >= range.first && it.offset < range.second }) {
+    if (definitions.any {
+      it.offset != offset && it.offset >= range.first && it.offset < range.second
+    }) {
       return null
     }
     return block(text, range.first, range.second)
@@ -248,7 +253,9 @@ object StepDefinitionBlocks {
       }
       declaration = Literals.skipWhitespace(text, end)
     }
-    if (definitions.any { it.offset != offset && it.offset >= runStart && it.offset < declaration }) {
+    if (definitions.any {
+      it.offset != offset && it.offset >= runStart && it.offset < declaration
+    }) {
       // The declaration has other step definitions: remove only this annotation.
       return start to annotationEnd
     }
@@ -266,7 +273,8 @@ object StepDefinitionBlocks {
     }
     return when (scanner.language) {
       Language.CSHARP ->
-          if (text[position] == '[') scanner.close(position + 1, '[', ']', 1).let { if (it < 0) -1 else it + 1 }
+          if (text[position] == '[')
+              scanner.close(position + 1, '[', ']', 1).let { if (it < 0) -1 else it + 1 }
           else -1
       Language.RUST ->
           if (text.startsWith("#[", position)) {
@@ -420,7 +428,8 @@ object StepDefinitionBlocks {
     val previousBlank = deleteStart > 0 && isBlankLine(text, lineStart(text, deleteStart - 1))
     val nextBlank = deleteEnd < text.length && isBlankLine(text, deleteEnd)
     val previousOpens =
-        deleteStart == 0 || text.substring(lineStart(text, deleteStart - 1), deleteStart).trimEnd().endsWith("{")
+        deleteStart == 0 ||
+            text.substring(lineStart(text, deleteStart - 1), deleteStart).trimEnd().endsWith("{")
     if (nextBlank && (previousBlank || previousOpens)) {
       while (deleteEnd < text.length && isBlankLine(text, deleteEnd)) {
         deleteEnd = minOf(lineEnd(text, deleteEnd) + 1, text.length)
@@ -544,7 +553,10 @@ object StepDefinitionBlocks {
         }
         return text.length
       }
-      if (language == Language.RUST && c == 'r' && (next == '"' || next == '#') && (i == 0 || !isWord(text, i - 1))) {
+      if (language == Language.RUST &&
+          c == 'r' &&
+          (next == '"' || next == '#') &&
+          (i == 0 || !isWord(text, i - 1))) {
         var j = i + 1
         while (j < text.length && text[j] == '#') {
           j++
@@ -611,5 +623,11 @@ object StepDefinitionBlocks {
   }
 
   private val TRIPLE_QUOTES =
-      setOf(Language.JAVA, Language.KOTLIN, Language.SCALA, Language.GROOVY, Language.PYTHON, Language.CSHARP)
+      setOf(
+          Language.JAVA,
+          Language.KOTLIN,
+          Language.SCALA,
+          Language.GROOVY,
+          Language.PYTHON,
+          Language.CSHARP)
 }

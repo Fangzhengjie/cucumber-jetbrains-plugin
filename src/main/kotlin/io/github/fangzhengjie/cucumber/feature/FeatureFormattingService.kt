@@ -1,16 +1,17 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.core.GherkinFormatter
 import com.intellij.formatting.FormattingContext
 import com.intellij.formatting.service.AbstractDocumentFormattingService
 import com.intellij.formatting.service.FormattingService
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
+import io.github.fangzhengjie.cucumber.core.GherkinFormatter
 
 /**
- * Code | Reformat Code for `.feature` files, backed by the IDE-free [GherkinFormatter]. The formatter
- * keeps the line count, so only changed lines that intersect the requested ranges are replaced.
+ * Code | Reformat Code for `.feature` files, backed by the IDE-free [GherkinFormatter]. The
+ * formatter keeps the line count, so only changed lines that intersect the requested ranges are
+ * replaced.
  */
 class FeatureFormattingService : AbstractDocumentFormattingService() {
 

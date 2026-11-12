@@ -65,9 +65,8 @@ object Literals {
           i += 2
         } else if (text[i] == '\\' && !verbatim && i + 1 < offset) {
           i += 2
-        } else if (
-            if (quoteLength == 3) text.startsWith(quote.toString().repeat(3), i)
-            else text[i] == quote) {
+        } else if (if (quoteLength == 3) text.startsWith(quote.toString().repeat(3), i)
+        else text[i] == quote) {
           i += quoteLength
           quote = NO_QUOTE
           quoteLength = 0

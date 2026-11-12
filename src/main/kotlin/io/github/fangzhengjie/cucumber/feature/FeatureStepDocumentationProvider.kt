@@ -1,7 +1,5 @@
 package io.github.fangzhengjie.cucumber.feature
 
-import io.github.fangzhengjie.cucumber.core.StepArguments
-import io.github.fangzhengjie.cucumber.ide.StepIndex
 import com.intellij.lang.documentation.AbstractDocumentationProvider
 import com.intellij.lang.documentation.DocumentationMarkup
 import com.intellij.openapi.editor.Editor
@@ -9,10 +7,12 @@ import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
+import io.github.fangzhengjie.cucumber.core.StepArguments
+import io.github.fangzhengjie.cucumber.ide.StepIndex
 
 /**
- * Quick documentation (Ctrl+Q / hover) on a step: the matching step definitions with their
- * location and the argument values the step passes.
+ * Quick documentation (Ctrl+Q / hover) on a step: the matching step definitions with their location
+ * and the argument values the step passes.
  */
 class FeatureStepDocumentationProvider : AbstractDocumentationProvider() {
 
@@ -34,12 +34,16 @@ class FeatureStepDocumentationProvider : AbstractDocumentationProvider() {
     val index = StepIndex.get(step.project)
     val definitions = index.matching(step)
     val html = StringBuilder()
-    html.append(DocumentationMarkup.DEFINITION_START)
+    html
+        .append(DocumentationMarkup.DEFINITION_START)
         .append(escape(step.keyword() + " " + step.stepText()))
         .append(DocumentationMarkup.DEFINITION_END)
     html.append(DocumentationMarkup.CONTENT_START)
     if (text != step.stepText()) {
-      html.append("<p>With the first Examples row: <code>").append(escape(text)).append("</code></p>")
+      html
+          .append("<p>With the first Examples row: <code>")
+          .append(escape(text))
+          .append("</code></p>")
     }
     if (definitions.isEmpty()) {
       val keyword = step.effectiveKeyword()
@@ -71,9 +75,14 @@ class FeatureStepDocumentationProvider : AbstractDocumentationProvider() {
         for (argument in arguments) {
           if (list.isNotEmpty()) list.append("<br>")
           val label =
-              if (argument.type.isEmpty() || argument.type == "{" + argument.name + "}") argument.name
+              if (argument.type.isEmpty() || argument.type == "{" + argument.name + "}")
+                  argument.name
               else argument.name + " " + argument.type
-          list.append(escape(label)).append(" = <code>").append(escape(argument.value ?: "")).append("</code>")
+          list
+              .append(escape(label))
+              .append(" = <code>")
+              .append(escape(argument.value ?: ""))
+              .append("</code>")
         }
         section(html, "Arguments:", list.toString())
       }
@@ -83,7 +92,8 @@ class FeatureStepDocumentationProvider : AbstractDocumentationProvider() {
   }
 
   private fun section(html: StringBuilder, header: String, content: String) {
-    html.append(DocumentationMarkup.SECTION_HEADER_START)
+    html
+        .append(DocumentationMarkup.SECTION_HEADER_START)
         .append(header)
         .append(DocumentationMarkup.SECTION_SEPARATOR)
         .append(content)

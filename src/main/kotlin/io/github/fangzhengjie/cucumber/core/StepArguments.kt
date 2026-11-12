@@ -31,8 +31,7 @@ object StepArguments {
   }
 
   /** The typed parameters of a Cucumber Expression or parse format, in group order. */
-  @JvmStatic
-  fun types(info: StepDefinitionInfo): List<String> = parameters(info).map { it.type }
+  @JvmStatic fun types(info: StepDefinitionInfo): List<String> = parameters(info).map { it.type }
 
   /**
    * The definition's regex with every typed parameter widened to "anything", or null when the
@@ -98,7 +97,10 @@ object StepArguments {
   private fun literalLength(info: StepDefinitionInfo): Int {
     var length = info.pattern.count { !Character.isWhitespace(it) }
     for (parameter in parameters(info)) {
-      length -= info.pattern.substring(parameter.start, parameter.end).count { !Character.isWhitespace(it) }
+      length -=
+          info.pattern.substring(parameter.start, parameter.end).count {
+            !Character.isWhitespace(it)
+          }
     }
     return length
   }

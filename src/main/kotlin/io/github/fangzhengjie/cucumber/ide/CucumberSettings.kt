@@ -1,11 +1,11 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.Language
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.openapi.util.ModificationTracker
+import io.github.fangzhengjie.cucumber.core.Language
 import java.util.TreeMap
 
 /** Per-language on/off overrides; languages without one follow [LanguageAvailability]. */

@@ -10,9 +10,9 @@ import com.intellij.psi.impl.FakePsiElement
 import java.util.Objects
 
 /**
- * Navigation target at an exact offset, for files the IDE has no fine-grained PSI for (e.g. a
- * `.go` file in RustRover is one plain-text element, which would navigate to line 1).
- * Never serialized (the `Serializable` comes from the PSI base class).
+ * Navigation target at an exact offset, for files the IDE has no fine-grained PSI for (e.g. a `.go`
+ * file in RustRover is one plain-text element, which would navigate to line 1). Never serialized
+ * (the `Serializable` comes from the PSI base class).
  */
 internal class StepTarget(
     private val file: PsiFile,

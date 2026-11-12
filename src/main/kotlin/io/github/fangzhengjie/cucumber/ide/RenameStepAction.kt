@@ -1,7 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.StepRename
-import io.github.fangzhengjie.cucumber.feature.FeatureOutlines
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.codeInsight.intention.IntentionAction
 import com.intellij.codeInsight.intention.preview.IntentionPreviewInfo
@@ -14,6 +12,8 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
+import io.github.fangzhengjie.cucumber.core.StepRename
+import io.github.fangzhengjie.cucumber.feature.FeatureOutlines
 
 /**
  * The step text to rename at the caret, the concrete text it stands for (Scenario Outline values
@@ -34,7 +34,9 @@ private fun renameTarget(editor: Editor, file: PsiFile): RenameTarget? {
     }
     // Resolve with the step's keyword and Outline values; several matches stay unresolved.
     return RenameTarget(
-        text, StepIndex.get(file.project).matching(step).singleOrNull(), FeatureOutlines.matchText(step))
+        text,
+        StepIndex.get(file.project).matching(step).singleOrNull(),
+        FeatureOutlines.matchText(step))
   }
   val usages = StepUsageIndex.get(file.project)
   val definition = StepAtCaret.definition(editor, file, usages) ?: return null
@@ -58,7 +60,10 @@ class RenameStepAction : AnAction(), DumbAware {
     val editor = event.getData(CommonDataKeys.EDITOR)
     val file = event.getData(CommonDataKeys.PSI_FILE)
     event.presentation.isEnabledAndVisible =
-        event.project != null && editor != null && file != null && StepAtCaret.mayHaveStep(editor, file)
+        event.project != null &&
+            editor != null &&
+            file != null &&
+            StepAtCaret.mayHaveStep(editor, file)
   }
 
   override fun actionPerformed(event: AnActionEvent) {
@@ -83,7 +88,9 @@ class RenameStepIntention : IntentionAction {
   override fun getFamilyName(): String = "Rename Cucumber step everywhere"
 
   override fun isAvailable(project: Project, editor: Editor?, file: PsiFile?): Boolean =
-      editor != null && file != null && StepAtCaret.featureStep(editor, file)?.stepText()?.isNotBlank() == true
+      editor != null &&
+          file != null &&
+          StepAtCaret.featureStep(editor, file)?.stepText()?.isNotBlank() == true
 
   override fun invoke(project: Project, editor: Editor?, file: PsiFile?) {
     if (editor == null || file == null) {
@@ -97,6 +104,9 @@ class RenameStepIntention : IntentionAction {
 
   override fun startInWriteAction(): Boolean = false
 
-  override fun generatePreview(project: Project, editor: Editor, file: PsiFile): IntentionPreviewInfo =
-      IntentionPreviewInfo.EMPTY
+  override fun generatePreview(
+      project: Project,
+      editor: Editor,
+      file: PsiFile
+  ): IntentionPreviewInfo = IntentionPreviewInfo.EMPTY
 }

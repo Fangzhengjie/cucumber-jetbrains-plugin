@@ -1,7 +1,5 @@
 package io.github.fangzhengjie.cucumber.ide
 
-import io.github.fangzhengjie.cucumber.core.CucumberMessages
-import io.github.fangzhengjie.cucumber.core.RunResults
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.PersistentStateComponent
@@ -17,6 +15,8 @@ import com.intellij.psi.PsiManager
 import com.intellij.util.xmlb.annotations.Attribute
 import com.intellij.util.xmlb.annotations.Tag
 import com.intellij.util.xmlb.annotations.XCollection
+import io.github.fangzhengjie.cucumber.core.CucumberMessages
+import io.github.fangzhengjie.cucumber.core.RunResults
 import java.nio.file.Path
 import java.util.Locale
 import java.util.concurrent.ConcurrentHashMap
@@ -79,18 +79,19 @@ class CucumberRunResults(private val project: Project) :
   }
 
   private fun refresh(keys: Set<String>) {
-    ApplicationManager.getApplication().invokeLater(
-        {
-          val psiManager = PsiManager.getInstance(project)
-          for (file in project.getService(FileEditorManager::class.java).openFiles) {
-            if (key(file.path) in keys) {
-              psiManager.findFile(file)?.let {
-                DaemonCodeAnalyzer.getInstance(project).restart(it, "Cucumber run results")
+    ApplicationManager.getApplication()
+        .invokeLater(
+            {
+              val psiManager = PsiManager.getInstance(project)
+              for (file in project.getService(FileEditorManager::class.java).openFiles) {
+                if (key(file.path) in keys) {
+                  psiManager.findFile(file)?.let {
+                    DaemonCodeAnalyzer.getInstance(project).restart(it, "Cucumber run results")
+                  }
+                }
               }
-            }
-          }
-        },
-        project.disposed)
+            },
+            project.disposed)
   }
 
   override fun getState(): Saved {
@@ -125,12 +126,20 @@ class CucumberRunResults(private val project: Project) :
       }
       loaded.getOrPut(entry.path) { HashMap() }[entry.line] =
           RunResults.LineResult(
-              entry.line, kind, RunResults.Status.of(entry.status), entry.message, entry.step, counts, entry.signature)
+              entry.line,
+              kind,
+              RunResults.Status.of(entry.status),
+              entry.message,
+              entry.step,
+              counts,
+              entry.signature)
     }
     files.putAll(loaded)
   }
 
-  /** Collects the results of one run from its Cucumber Messages and publishes them while it runs. */
+  /**
+   * Collects the results of one run from its Cucumber Messages and publishes them while it runs.
+   */
   class Feed(private val project: Project, converter: CucumberMessages.Converter) {
 
     private val collector = RunResults.Collector { uri -> canonicalPath(converter.path(uri)) }
@@ -140,7 +149,10 @@ class CucumberRunResults(private val project: Project) :
 
     fun restart() = collector.restart()
 
-    /** Hands new results to the project's [CucumberRunResults], at most once a second unless [force]. */
+    /**
+     * Hands new results to the project's [CucumberRunResults], at most once a second unless
+     * [force].
+     */
     fun publish(force: Boolean) {
       val now = System.currentTimeMillis()
       if (!force && now - published < 1000 || project.isDisposed) {
@@ -156,13 +168,15 @@ class CucumberRunResults(private val project: Project) :
   }
 
   companion object {
-    fun getInstance(project: Project): CucumberRunResults = project.getService(CucumberRunResults::class.java)
+    fun getInstance(project: Project): CucumberRunResults =
+        project.getService(CucumberRunResults::class.java)
 
     private val canonical = ConcurrentHashMap<String, String>()
 
     private fun key(path: String): String {
       val normalized = RunResults.normalizePath(path)
-      return if (SystemInfoRt.isFileSystemCaseSensitive) normalized else normalized.lowercase(Locale.ROOT)
+      return if (SystemInfoRt.isFileSystemCaseSensitive) normalized
+      else normalized.lowercase(Locale.ROOT)
     }
 
     /** The path as the file system spells it (the IDE's file paths), `/`-separated. */
@@ -192,7 +206,8 @@ class CucumberRunResults(private val project: Project) :
       if (!location.startsWith(prefix)) {
         return location
       }
-      val (path, line) = CucumberMessages.parseLocation(location.substring(prefix.length)) ?: return location
+      val (path, line) =
+          CucumberMessages.parseLocation(location.substring(prefix.length)) ?: return location
       return CucumberMessages.location(canonicalPath(path), line)
     }
   }
