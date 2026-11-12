@@ -5,15 +5,21 @@ import com.github.cucumber.jetbrains.plugin.core.LiteralRanges
 import com.github.cucumber.jetbrains.plugin.core.StepRename
 import com.github.cucumber.jetbrains.plugin.feature.FeatureFile
 import com.github.cucumber.jetbrains.plugin.feature.FeatureStep
+import com.intellij.model.Pointer
 import com.intellij.model.Symbol
 import com.intellij.model.psi.ImplicitReferenceProvider
 import com.intellij.model.psi.PsiSymbolReference
-import com.intellij.model.psi.PsiSymbolService
+import com.intellij.navigation.NavigatableSymbol
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
+import com.intellij.platform.backend.navigation.NavigationRequest
+import com.intellij.platform.backend.navigation.NavigationTarget
+import com.intellij.platform.backend.presentation.TargetPresentation
+import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
+import com.intellij.psi.SmartPointerManager
 import com.intellij.psi.util.PsiTreeUtil
 
 /**
@@ -53,10 +59,45 @@ class StepDefinitionImplicitReferenceProvider : ImplicitReferenceProvider {
 
     override fun getRangeInElement(): TextRange = range
 
-    override fun resolveReference(): Collection<Symbol> {
-      val symbols = PsiSymbolService.getInstance()
-      return StepDefinitionLiteral.featureSteps(element.project, definition).map(symbols::asSymbol)
+    override fun resolveReference(): Collection<Symbol> =
+        StepDefinitionLiteral.featureSteps(element.project, definition).map(::FeatureStepSymbol)
+  }
+
+  /** A feature step as a symbol, so Ctrl+click navigates to it (PsiSymbolService is internal API). */
+  private class FeatureStepSymbol(private val step: PsiElement) : NavigatableSymbol {
+
+    override fun createPointer(): Pointer<FeatureStepSymbol> =
+        Pointer.delegatingPointer(SmartPointerManager.createPointer(step), ::FeatureStepSymbol)
+
+    override fun getNavigationTargets(project: Project): Collection<NavigationTarget> =
+        listOf(FeatureStepTarget(step))
+
+    override fun equals(other: Any?): Boolean = other is FeatureStepSymbol && other.step == step
+
+    override fun hashCode(): Int = step.hashCode()
+  }
+
+  private class FeatureStepTarget(private val step: PsiElement) : NavigationTarget {
+
+    override fun createPointer(): Pointer<FeatureStepTarget> =
+        Pointer.delegatingPointer(SmartPointerManager.createPointer(step), ::FeatureStepTarget)
+
+    override fun computePresentation(): TargetPresentation {
+      val file = step.containingFile
+      val document = PsiDocumentManager.getInstance(step.project).getDocument(file)
+      val line = document?.getLineNumber(step.textOffset)?.plus(1)
+      return TargetPresentation.builder(step.text.trim().lineSequence().first())
+          .icon(file.getIcon(0))
+          .locationText(if (line == null) file.name else "${file.name}:$line")
+          .presentation()
     }
+
+    override fun navigationRequest(): NavigationRequest? =
+        NavigationRequest.sourceNavigationRequest(step.containingFile, step.textRange)
+
+    override fun equals(other: Any?): Boolean = other is FeatureStepTarget && other.step == step
+
+    override fun hashCode(): Int = step.hashCode()
   }
 }
 

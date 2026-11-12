@@ -9,8 +9,6 @@ import com.github.cucumber.jetbrains.plugin.feature.FeatureTokenTypes
 import com.intellij.execution.TestStateStorage
 import com.intellij.execution.lineMarker.ExecutorAction
 import com.intellij.execution.lineMarker.RunLineMarkerContributor
-import com.intellij.execution.testframework.TestIconMapper
-import com.intellij.execution.testframework.sm.runner.states.TestStateInfo
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.TextRange
@@ -82,12 +80,11 @@ class CucumberRunLineMarkerContributor : RunLineMarkerContributor() {
         TestStateStorage.getInstance(element.project).getState(CucumberMessages.location(virtualFile.path, line))
             ?: return null
     val status =
-        when (TestIconMapper.getMagnitude(record.magnitude)) {
-          TestStateInfo.Magnitude.PASSED_INDEX,
-          TestStateInfo.Magnitude.COMPLETE_INDEX -> RunResults.Status.PASSED
-          TestStateInfo.Magnitude.FAILED_INDEX,
-          TestStateInfo.Magnitude.ERROR_INDEX -> RunResults.Status.FAILED
-          TestStateInfo.Magnitude.IGNORED_INDEX -> RunResults.Status.SKIPPED
+        when (record.magnitude) {
+          MAGNITUDE_PASSED -> RunResults.Status.PASSED
+          MAGNITUDE_FAILED,
+          MAGNITUDE_ERROR -> RunResults.Status.FAILED
+          MAGNITUDE_IGNORED -> RunResults.Status.SKIPPED
           else -> return null
         }
     val text = StringBuilder("Last run: ").append(status.label)
@@ -108,6 +105,13 @@ class CucumberRunLineMarkerContributor : RunLineMarkerContributor() {
   }
 
   companion object {
+    // TestStateStorage.Record.magnitude values. They are part of the stored test state format; the
+    // enum that names them (TestStateInfo.Magnitude) is internal API.
+    private const val MAGNITUDE_PASSED = 1
+    private const val MAGNITUDE_IGNORED = 5
+    private const val MAGNITUDE_FAILED = 6
+    private const val MAGNITUDE_ERROR = 8
+
     /** The icon of a last result: green, red, or yellow for skipped / pending / undefined. */
     fun icon(status: RunResults.Status): Icon =
         when (status) {
