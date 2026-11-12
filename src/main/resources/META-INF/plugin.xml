@@ -29,29 +29,29 @@
         id="Cucumber"
         anchor="right"
         icon="/icons/cucumber.svg"
-        factoryClass="com.github.cucumber.jetbrains.plugin.ide.CucumberToolWindowFactory" />
+        factoryClass="io.github.fangzhengjie.cucumber.ide.CucumberToolWindowFactory" />
     <fileType
         name="Cucumber Feature"
         language="Cucumber Feature"
-        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureFileType"
+        implementationClass="io.github.fangzhengjie.cucumber.feature.FeatureFileType"
         fieldName="INSTANCE"
         extensions="feature" />
     <lang.parserDefinition
         language="Cucumber Feature"
-        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureParserDefinition" />
+        implementationClass="io.github.fangzhengjie.cucumber.feature.FeatureParserDefinition" />
     <lang.syntaxHighlighterFactory
         language="Cucumber Feature"
-        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureSyntaxHighlighterFactory" />
+        implementationClass="io.github.fangzhengjie.cucumber.feature.FeatureSyntaxHighlighterFactory" />
     <colorSettingsPage
-        implementation="com.github.cucumber.jetbrains.plugin.feature.FeatureColorSettingsPage" />
+        implementation="io.github.fangzhengjie.cucumber.feature.FeatureColorSettingsPage" />
     <completion.contributor
         language="Cucumber Feature"
-        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureCompletionContributor" />
+        implementationClass="io.github.fangzhengjie.cucumber.feature.FeatureCompletionContributor" />
     <gotoDeclarationHandler
-        implementation="com.github.cucumber.jetbrains.plugin.feature.FeatureGotoDeclarationHandler" />
+        implementation="io.github.fangzhengjie.cucumber.feature.FeatureGotoDeclarationHandler" />
     <codeInsight.lineMarkerProvider
         language="Cucumber Feature"
-        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureStepLineMarkerProvider" />
+        implementationClass="io.github.fangzhengjie.cucumber.feature.FeatureStepLineMarkerProvider" />
     <localInspection
         language="Cucumber Feature"
         shortName="CucumberStepResolution"
@@ -59,25 +59,25 @@
         groupName="Cucumber"
         enabledByDefault="true"
         level="WARNING"
-        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureStepInspection" />
-    <applicationService serviceImplementation="com.github.cucumber.jetbrains.plugin.ide.CucumberSettings" />
+        implementationClass="io.github.fangzhengjie.cucumber.feature.FeatureStepInspection" />
+    <applicationService serviceImplementation="io.github.fangzhengjie.cucumber.ide.CucumberSettings" />
     <applicationConfigurable
         parentId="tools"
         id="cucumber.jetbrains.plugin"
         displayName="Cucumber"
-        instance="com.github.cucumber.jetbrains.plugin.ide.CucumberConfigurable" />
+        instance="io.github.fangzhengjie.cucumber.ide.CucumberConfigurable" />
     <!-- feature: editor -->
     <formattingService
-        implementation="com.github.cucumber.jetbrains.plugin.feature.FeatureFormattingService" />
+        implementation="io.github.fangzhengjie.cucumber.feature.FeatureFormattingService" />
     <lang.psiStructureViewFactory
         language="Cucumber Feature"
-        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureStructureViewFactory" />
+        implementationClass="io.github.fangzhengjie.cucumber.feature.FeatureStructureViewFactory" />
     <lang.foldingBuilder
         language="Cucumber Feature"
-        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureFoldingBuilder" />
+        implementationClass="io.github.fangzhengjie.cucumber.feature.FeatureFoldingBuilder" />
     <lang.commenter
         language="Cucumber Feature"
-        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureCommenter" />
+        implementationClass="io.github.fangzhengjie.cucumber.feature.FeatureCommenter" />
     <!-- feature: outline -->
     <localInspection
         language="Cucumber Feature"
@@ -86,65 +86,65 @@
         groupName="Cucumber"
         enabledByDefault="true"
         level="WARNING"
-        implementationClass="com.github.cucumber.jetbrains.plugin.feature.OutlineInspection" />
+        implementationClass="io.github.fangzhengjie.cucumber.feature.OutlineInspection" />
     <gotoDeclarationHandler
         order="first"
-        implementation="com.github.cucumber.jetbrains.plugin.feature.OutlineGotoDeclarationHandler" />
+        implementation="io.github.fangzhengjie.cucumber.feature.OutlineGotoDeclarationHandler" />
     <highlightUsagesHandlerFactory
-        implementation="com.github.cucumber.jetbrains.plugin.feature.OutlineHighlightUsagesHandlerFactory" />
+        implementation="io.github.fangzhengjie.cucumber.feature.OutlineHighlightUsagesHandlerFactory" />
     <completion.contributor
         language="Cucumber Feature"
-        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureTagCompletionContributor" />
-    <typedHandler implementation="com.github.cucumber.jetbrains.plugin.feature.FeatureTagTypedHandler" />
+        implementationClass="io.github.fangzhengjie.cucumber.feature.FeatureTagCompletionContributor" />
+    <typedHandler implementation="io.github.fangzhengjie.cucumber.feature.FeatureTagTypedHandler" />
     <lang.documentationProvider
         language="Cucumber Feature"
-        implementationClass="com.github.cucumber.jetbrains.plugin.feature.FeatureStepDocumentationProvider" />
+        implementationClass="io.github.fangzhengjie.cucumber.feature.FeatureStepDocumentationProvider" />
     <!-- feature: stepdefs -->
-    <postStartupActivity implementation="com.github.cucumber.jetbrains.plugin.ide.StepIndexWarmUp" />
+    <postStartupActivity implementation="io.github.fangzhengjie.cucumber.ide.StepIndexWarmUp" />
     <gotoDeclarationHandler
         order="first"
-        implementation="com.github.cucumber.jetbrains.plugin.ide.StepDefinitionGotoDeclarationHandler" />
+        implementation="io.github.fangzhengjie.cucumber.ide.StepDefinitionGotoDeclarationHandler" />
     <codeInsight.lineMarkerProvider
         language=""
-        implementationClass="com.github.cucumber.jetbrains.plugin.ide.StepDefinitionLineMarkerProvider" />
+        implementationClass="io.github.fangzhengjie.cucumber.ide.StepDefinitionLineMarkerProvider" />
     <intentionAction>
       <language>Cucumber Feature</language>
-      <className>com.github.cucumber.jetbrains.plugin.ide.RenameStepIntention</className>
+      <className>io.github.fangzhengjie.cucumber.ide.RenameStepIntention</className>
       <category>Cucumber</category>
     </intentionAction>
     <intentionAction>
       <language>Cucumber Feature</language>
-      <className>com.github.cucumber.jetbrains.plugin.ide.CreateAllUndefinedStepsIntention</className>
+      <className>io.github.fangzhengjie.cucumber.ide.CreateAllUndefinedStepsIntention</className>
       <category>Cucumber</category>
     </intentionAction>
     <notificationGroup id="Cucumber Step Definitions" displayType="BALLOON" />
     <!-- feature: run -->
     <notificationGroup id="Cucumber Run" displayType="BALLOON" />
-    <configurationType implementation="com.github.cucumber.jetbrains.plugin.ide.CucumberRunConfigurationType" />
-    <runConfigurationProducer implementation="com.github.cucumber.jetbrains.plugin.ide.CucumberRunConfigurationProducer" />
+    <configurationType implementation="io.github.fangzhengjie.cucumber.ide.CucumberRunConfigurationType" />
+    <runConfigurationProducer implementation="io.github.fangzhengjie.cucumber.ide.CucumberRunConfigurationProducer" />
     <runLineMarkerContributor
         language="Cucumber Feature"
-        implementationClass="com.github.cucumber.jetbrains.plugin.ide.CucumberRunLineMarkerContributor" />
+        implementationClass="io.github.fangzhengjie.cucumber.ide.CucumberRunLineMarkerContributor" />
     <!-- feature: ctrlhover -->
     <psi.implicitReferenceProvider
-        implementation="com.github.cucumber.jetbrains.plugin.ide.StepDefinitionImplicitReferenceProvider" />
+        implementation="io.github.fangzhengjie.cucumber.ide.StepDefinitionImplicitReferenceProvider" />
     <!-- feature: results -->
     <codeInsight.lineMarkerProvider
         language="Cucumber Feature"
-        implementationClass="com.github.cucumber.jetbrains.plugin.ide.CucumberStepResultLineMarkerProvider" />
+        implementationClass="io.github.fangzhengjie.cucumber.ide.CucumberStepResultLineMarkerProvider" />
   </extensions>
   <!-- feature: stepdefs -->
   <actions>
     <action
         id="Cucumber.FindStepUsages"
-        class="com.github.cucumber.jetbrains.plugin.ide.FindStepUsagesAction"
+        class="io.github.fangzhengjie.cucumber.ide.FindStepUsagesAction"
         text="Find Step Usages"
         description="Show the feature steps using the Cucumber step definition at the caret">
       <add-to-group group-id="EditorPopupMenu" anchor="last" />
     </action>
     <action
         id="Cucumber.RenameStep"
-        class="com.github.cucumber.jetbrains.plugin.ide.RenameStepAction"
+        class="io.github.fangzhengjie.cucumber.ide.RenameStepAction"
         text="Rename Step..."
         description="Rename the Cucumber step at the caret in all feature files and its step definition">
       <add-to-group group-id="EditorPopupMenu" anchor="last" />
@@ -154,14 +154,14 @@
   <actions>
     <action
         id="Cucumber.FindUnusedStepDefinitions"
-        class="com.github.cucumber.jetbrains.plugin.ide.FindUnusedStepDefinitionsAction"
+        class="io.github.fangzhengjie.cucumber.ide.FindUnusedStepDefinitionsAction"
         text="Find Unused Step Definitions"
         description="List the Cucumber step definitions no feature step uses">
       <add-to-group group-id="ToolsMenu" anchor="last" />
     </action>
     <action
         id="Cucumber.DeleteUnusedStepDefinition"
-        class="com.github.cucumber.jetbrains.plugin.ide.DeleteUnusedStepDefinitionAction"
+        class="io.github.fangzhengjie.cucumber.ide.DeleteUnusedStepDefinitionAction"
         text="Delete Unused Step Definition"
         description="Delete the Cucumber step definition at the caret if no feature step uses it">
       <add-to-group group-id="EditorPopupMenu" anchor="last" />

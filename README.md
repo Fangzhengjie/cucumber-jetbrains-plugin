@@ -278,7 +278,7 @@ The Gherkin keyword tables (`core/GherkinDialectData.kt`) are generated from
 ## Layout
 
 ```
-src/main/kotlin/com/github/cucumber/jetbrains/plugin/
+src/main/kotlin/io/github/fangzhengjie/cucumber/
   core/     IDE-free logic: languages, patterns, literal readers, snippets, Gherkin dialects and line
             classification (GherkinSyntax), formatter, outlines, tags, run commands
   feature/  standalone feature file type, lexer/parser, PSI, highlighting, completion, inspections,

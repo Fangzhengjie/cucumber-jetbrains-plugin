@@ -1,9 +1,9 @@
 package verify;
 
-import com.github.cucumber.jetbrains.plugin.ide.CucumberModificationTrackers;
-import com.github.cucumber.jetbrains.plugin.ide.StepDefinitionLineMarkerProvider;
-import com.github.cucumber.jetbrains.plugin.ide.StepIndex;
-import com.github.cucumber.jetbrains.plugin.ide.StepUsageIndex;
+import io.github.fangzhengjie.cucumber.ide.CucumberModificationTrackers;
+import io.github.fangzhengjie.cucumber.ide.StepDefinitionLineMarkerProvider;
+import io.github.fangzhengjie.cucumber.ide.StepIndex;
+import io.github.fangzhengjie.cucumber.ide.StepUsageIndex;
 import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.codeInsight.daemon.LineMarkerProvider;
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
@@ -383,10 +383,10 @@ public final class NavigationProbe implements ApplicationStarter {
               ReadAction.compute(() -> GotoDeclarationOrUsageHandler2.testGTDUOutcome(editor, file, offset));
           CtrlMouseData data = ReadAction.compute(() -> GotoDeclarationOrUsageHandler2.getCtrlMouseData(editor, file, offset));
           String literal = ReadAction.compute(() -> {
-            com.github.cucumber.jetbrains.plugin.core.Language lang =
-                com.github.cucumber.jetbrains.plugin.core.Language.Companion.forExtension(vf.getExtension());
-            com.github.cucumber.jetbrains.plugin.core.Literals.Literal lit = lang == null ? null
-                : com.github.cucumber.jetbrains.plugin.core.StepRename.literalAt(lang, document.getText(), start);
+            io.github.fangzhengjie.cucumber.core.Language lang =
+                io.github.fangzhengjie.cucumber.core.Language.Companion.forExtension(vf.getExtension());
+            io.github.fangzhengjie.cucumber.core.Literals.Literal lit = lang == null ? null
+                : io.github.fangzhengjie.cucumber.core.StepRename.literalAt(lang, document.getText(), start);
             PsiElement leaf = file.findElementAt(offset);
             return (lit == null ? "null" : "(" + lit.getStart() + "," + lit.getEnd() + ")")
                 + " leafParent=" + (leaf == null || leaf.getParent() == null ? null : leaf.getParent().getClass().getSimpleName());

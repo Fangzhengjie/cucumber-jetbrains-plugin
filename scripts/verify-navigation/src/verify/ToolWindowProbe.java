@@ -1,8 +1,8 @@
 package verify;
 
-import com.github.cucumber.jetbrains.plugin.ide.CucumberRunConfiguration;
-import com.github.cucumber.jetbrains.plugin.ide.CucumberRunConfigurationType;
-import com.github.cucumber.jetbrains.plugin.ide.CucumberToolWindowFactory;
+import io.github.fangzhengjie.cucumber.ide.CucumberRunConfiguration;
+import io.github.fangzhengjie.cucumber.ide.CucumberRunConfigurationType;
+import io.github.fangzhengjie.cucumber.ide.CucumberToolWindowFactory;
 import com.intellij.execution.ExecutionListener;
 import com.intellij.execution.ExecutionManager;
 import com.intellij.execution.RunManager;
