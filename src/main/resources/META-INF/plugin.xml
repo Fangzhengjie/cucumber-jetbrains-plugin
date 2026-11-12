@@ -1,5 +1,5 @@
 <idea-plugin>
-  <id>com.github.cucumber.jetbrains.plugin</id>
+  <id>io.github.fangzhengjie.cucumber</id>
   <name>Cucumber</name>
   <version>${project.version}</version>
   <vendor>Fangzhengjie</vendor>
